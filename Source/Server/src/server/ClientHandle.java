@@ -417,8 +417,14 @@ public class ClientHandle implements Runnable{
                case "ListNhanVien":
                    NhanVienBLL nv = new NhanVienBLL();
                    sendMessage(String.valueOf(nv.getList()));
+                
+                   break; 
+                case "NhanVien":
+                    NhanVienBLL nvBLL2 = new NhanVienBLL();
+                    String MaNV = json.getString("MaNV");
+                    sendMessage(String.valueOf(nvBLL2.getNhanVien(MaNV)));
+                    break;   
                    
-                   break;       
                 case "PUTNV":
                     NhanVienBLL nvBLL3 = new NhanVienBLL();
                      try {
