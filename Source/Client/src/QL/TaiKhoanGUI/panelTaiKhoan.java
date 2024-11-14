@@ -26,7 +26,7 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
      */
     private String MaDT ="0";
     private static Client client1;
-
+    private static TimKiem timkiem = new TimKiem();
     
     public panelTaiKhoan(Client client) {
         initComponents();
@@ -35,6 +35,8 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         bui.setNorthPane(null);
         client1=client;
         setUp();
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên tài khoản...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
      private ArrayList<TaiKhoanDTO> getList(String yeucau)
@@ -85,6 +87,29 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         }
     } 
     
+    private void timKiem() 
+    {        
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jTableTK.getModel();
+        model.setRowCount(0); 
+
+        ArrayList<TaiKhoanDTO> allAccount = getList("ListTaiKhoan");
+
+        for (TaiKhoanDTO taikhoan : allAccount) {
+            if (taikhoan.getTrangThai() == 1) {
+                String maTK = timkiem.KhongLayDau(taikhoan.getMaTK().toLowerCase());
+                String tenTK = timkiem.KhongLayDau(taikhoan.getTenTK().toLowerCase());
+                
+                if (maTK.contains(searchText) || tenTK.contains(searchText)){
+                    model.addRow(new Object[]{taikhoan.getMaTK(), taikhoan.getTenTK(), taikhoan.getMatKhauTK()});
+                }
+            }
+        }
+
+        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
+            // xu li thong bao khi khong tim thay
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -103,7 +128,8 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        timKiemField = new javax.swing.JTextField();
+        nutLamMoi = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTK = new javax.swing.JTable();
@@ -203,24 +229,38 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setText("Tìm kiếm....");
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.setText("Tìm kiếm....");
+        timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
+
+        nutLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icondoimk.png"))); // NOI18N
+        nutLamMoi.setBorder(null);
+        nutLamMoi.setMaximumSize(new java.awt.Dimension(40, 40));
+        nutLamMoi.setMinimumSize(new java.awt.Dimension(40, 40));
+        nutLamMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nutLamMoiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(174, 174, 174)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(104, 104, 104)
+                .addComponent(nutLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(nutLamMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(timKiemField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -345,6 +385,10 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         System.out.println("Đối tượng đã chọn với Mã: " + MaDT);
     }//GEN-LAST:event_jTableTKMouseClicked
 
+    private void nutLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutLamMoiActionPerformed
+        setUp();
+    }//GEN-LAST:event_nutLamMoiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ChiTietTK;
@@ -359,6 +403,7 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableTK;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton nutLamMoi;
+    private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,6 +6,7 @@ package QL.NhanVienGUI;
 
 import Client.Client;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
@@ -274,16 +275,64 @@ public class suaNhanVien extends javax.swing.JFrame {
         // TODO add your handling code here:
         String tenNV = TenNV.getText();
         String maNV = MaNV.getText();
-        String diaChiNV = DiaChi.getText();
-        String emailNV = Email.getText();
-        String sdtNV = soDienThoai.getText();
+        String diaChiNV = DiaChi.getText().trim();
+        String emailNV = Email.getText().trim();
+        String sdtNV = soDienThoai.getText().trim();
         String vaitro = MaVT.getSelectedItem().toString();
         Date layngaySinh = NgaySinh.getDate();  // Định dạng "yyyy-MM-dd"
+        if (layngaySinh == null) {
+        JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày sinh!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String ngaySinh = sdf.format(layngaySinh);
         String gioiTinh = GioiTinh.getSelectedItem().toString(); 
         String maTK = MaTK.getText();
         JSONObject json = new JSONObject();
+        
+            // Kiểm tra số điện thoại
+        if (!sdtNV.matches("^0\\d{9}$")) {
+            JOptionPane.showMessageDialog(this, "Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra email
+        if (!emailNV.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra địa chỉ
+        if (diaChiNV.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+            // Kiểm tra ngày sinh không quá xa hoặc gần
+        Calendar currentDate = Calendar.getInstance();
+        Calendar birthDate = Calendar.getInstance();
+        birthDate.setTime(layngaySinh);
+
+        // Kiểm tra không được dưới 18 tuổi (tính theo ngày)
+        birthDate.add(Calendar.YEAR, 18); // Thêm 18 năm vào ngày sinh
+        if (birthDate.after(currentDate)) {
+            JOptionPane.showMessageDialog(this, "Ngày sinh phải ít nhất là 18 tuổi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra không được quá 70 tuổi (tính theo ngày)
+        Calendar maxBirthDate = Calendar.getInstance();
+        maxBirthDate.add(Calendar.YEAR, -70); // Trừ đi 70 năm từ ngày hiện tại
+        if (birthDate.before(maxBirthDate)) {
+            JOptionPane.showMessageDialog(this, "Ngày sinh không thể quá 70 tuổi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Kiểm tra không được lớn hơn ngày hiện tại
+        if (layngaySinh.after(new Date())) {
+            JOptionPane.showMessageDialog(this, "Ngày sinh không thể lớn hơn ngày hiện tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         json.put("method","UPDATENV");
         json.put("MaNV", maNV);
