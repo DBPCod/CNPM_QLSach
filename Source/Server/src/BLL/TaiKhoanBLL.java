@@ -91,14 +91,14 @@ public class TaiKhoanBLL {
         json.put("ketqua",tkDAO.suaTK(tk));
         return json.toString();
     }
-//    
-//    //ham xoa tai khoan va tra ve trang thai
-//    public String xoaTK(TaiKhoanDTO tk)
-//    {
-//        TaiKhoanDAO tkDAO = new TaiKhoanDAO();
-//        JSONObject json = new JSONObject();
-//        json.put("Trangthai", "true");
-//        json.put("ketqua",tkDAO.xoaTK(tk));
-//        return json.toString();
-//    }
+    
+    //ham xoa tai khoan va tra ve trang thai
+    public String xoaTK(TaiKhoanDTO tk)
+    {
+        TaiKhoanDAO tkDAO = new TaiKhoanDAO();
+        JSONObject json = new JSONObject();
+        json.put("Trangthai", "true");
+        json.put("ketqua",tkDAO.xoaTK(tk));
+        return json.toString();
+    }
 }

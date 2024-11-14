@@ -111,4 +111,26 @@ public String themTK(TaiKhoanDTO tk) {
         return "false";
         
     }
+    
+    //ham cap nhat doi tuong len csdl
+    public String xoaTK(TaiKhoanDTO tk)
+    {
+        java.sql.Connection conn;
+        String query = "UPDATE taikhoan SET Trangthai=? WHERE MaTK=?";
+        conn = database.connect();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1,tk.getTrangThai());
+            pstmt.setString(2,tk.getMaTK());
+// 
+            if(pstmt.executeUpdate() > 0)
+            {
+                return "true";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TaiKhoanDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "false";
+        
+    }
 }

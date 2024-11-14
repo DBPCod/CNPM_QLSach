@@ -28,6 +28,8 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
     /**
      * Creates new form panelNhanVien
      */
+    //dung de xoa tai khoan
+    private String MaTK="0";
     private String MaDT = "0";
 //    private static TimKiem timkiem = new TimKiem();
     
@@ -95,6 +97,7 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
                 String ngaySinh = formatter.format(nhanvien.getNgaySinh());
                 model.addRow(new Object[] {nhanvien.getMaNV(),nhanvien.getHoVaTen(),ngaySinh,nhanvien.getGioiTinh(),nhanvien.getDiaChi(),nhanvien.getEmail()});
             }
+            
         }
     }
     /**
@@ -458,10 +461,22 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
         int index = jTableNV.getSelectedRow();
         String value = table.getValueAt(index, 0).toString();
         MaDT = value;
+        getMaTK();
     }//GEN-LAST:event_jTableNVMouseClicked
 
+    private void getMaTK()
+    {
+        for(NhanVienDTO x : getList("ListNhanVien"))
+        {
+            if(x.getMaNV().equals(MaDT))
+            {
+                MaTK=x.getMaTK();
+            }
+        }
+    }
     private void XoaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_XoaButtonMouseClicked
         // TODO add your handling code here:
+        System.out.println(MaDT);
         if(MaDT.equals("0"))
         {
             JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
@@ -471,8 +486,14 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
         json.put("method","DELETENV");
         json.put("MaNV",MaDT);
         JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+        
+        JSONObject json2= new JSONObject();
+        json2.put("method","DELETETK");
+        json2.put("MaTK",MaTK);
+        System.out.println(MaTK);
         if(json1.getString("ketqua").equals("true"))
         {
+            client1.xoaDT(json2.toString());
             JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             setUp();
             
