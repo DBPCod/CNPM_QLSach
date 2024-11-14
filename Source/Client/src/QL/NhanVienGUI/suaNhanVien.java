@@ -147,7 +147,7 @@ public class suaNhanVien extends javax.swing.JFrame {
         GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nam", "nữ" }));
         GioiTinh.setEnabled(false);
 
-        MaVT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nhân viên bán hàng", "Nhân viên nhập kho" }));
+        MaVT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Nhập kho", "Bán hàng" }));
 
         MaTK.setEditable(false);
         MaTK.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -294,7 +294,7 @@ public class suaNhanVien extends javax.swing.JFrame {
         json.put("Email", emailNV);
         json.put("DiaChi", diaChiNV);
         json.put("MaTK", maTK);
-        json.put("MaVT", vaitro);
+        json.put("MaVT", getMaVT(vaitro));
         
         System.out.println(json);
         //tao json de lay ket qua xu li cap nhat doi tuong
@@ -309,11 +309,27 @@ public class suaNhanVien extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Sửa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private String getMaVT(String tenVT)
+    {
+        JSONObject json = new JSONObject(client1.getList("ListVaiTro"));
+        JSONArray jsonArray = json.getJSONArray("list");
+        System.out.println(jsonArray);
+        for(int i=0;i<jsonArray.length();i++)
+        {
+            
+            JSONObject nvObject = jsonArray.getJSONObject(i);
+              String chuoi = nvObject.getString("tenVT");
+            if(chuoi.equalsIgnoreCase(tenVT))
+            {
+                return nvObject.getString("maVT");
+            }
+        }
+        return "";
+    }
+    
+    
     private void MaTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaTKActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MaTKActionPerformed
