@@ -48,6 +48,7 @@ create table KhuyenMai(
 	NgayKetThuc Date,
 	MaloaiKM varchar(10),
 	Trangthai int,
+	PhanTramGiam int,
 	primary key (MaKM)
 );
 
@@ -55,7 +56,8 @@ create table LoaiKhuyenMai(
 	MaloaiKM varchar(10),
 	TenloaiKM varchar(50),
 	Phantramgiam int,
-
+	Trangthai int(11),
+	
 	primary key (MaloaiKM)
 );
 

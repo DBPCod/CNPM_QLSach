@@ -12,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
@@ -57,8 +58,10 @@ public class panelTacGia extends javax.swing.JInternalFrame {
                         String Butdanh = tacGiaObject.getString("butDanh");
                         String GioiTinh = tacGiaObject.getString("gioiTinh");
                         String QuocTich = tacGiaObject.getString("quocTich");
+                        int Trangthai = tacGiaObject.getInt("trangThai");
                     // Thêm vào ArrayList
-                    list.add(new TacGiaDTO(MaTG, Hovaten, Butdanh, GioiTinh, QuocTich));
+                    //xem lai trang thai
+                    list.add(new TacGiaDTO(MaTG, Hovaten, Butdanh, GioiTinh, QuocTich,Trangthai));
         }
                     
                     return list;
@@ -69,13 +72,19 @@ public class panelTacGia extends javax.swing.JInternalFrame {
         return new ArrayList<>();
     }
     //ham thiet lap bang danh sach
-    private void setUp()
+    public void setUp()
     {
+        
         DefaultTableModel model = (DefaultTableModel) jTableTG.getModel();
+        model.setRowCount(0);
         for(TacGiaDTO tacgia : getList("ListTacGia"))
         {
             //them tung doi tuong vao bang
-            model.addRow(new Object[] {tacgia.getMaTG(),tacgia.getHoVaTen(),tacgia.getButDanh(),tacgia.getQuocTich()});
+            if(tacgia.getTrangThai()==1)
+            {
+                System.out.println(tacgia.getHoVaTen());
+                model.addRow(new Object[] {tacgia.getMaTG(),tacgia.getHoVaTen(),tacgia.getButDanh(),tacgia.getQuocTich()});
+            }
         }
     }
     
@@ -188,6 +197,11 @@ public class panelTacGia extends javax.swing.JInternalFrame {
         );
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconxoa.jpg"))); // NOI18N
@@ -387,23 +401,31 @@ public class panelTacGia extends javax.swing.JInternalFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        themTacGia tttg = new themTacGia(client1);
+        themTacGia tttg = new themTacGia(client1,this);
         tttg.setDefaultCloseOperation(tttg.DISPOSE_ON_CLOSE); 
         tttg.setVisible(true);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        // TODO add your handling code here:
-        suaTacGia stg = new suaTacGia();
+        
+        //neu nhu chua chon doi tuong thi khong co 
+        if(MaDT.equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        suaTacGia stg = new suaTacGia(MaDT,client1,this);
         stg.setDefaultCloseOperation(stg.DISPOSE_ON_CLOSE);
         stg.setVisible(true);
+        
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         // TODO add your handling code here:
         if(MaDT.equals("0"))
         {
-            
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
         else
         {
@@ -423,6 +445,30 @@ public class panelTacGia extends javax.swing.JInternalFrame {
         
 
     }//GEN-LAST:event_jTableTGMouseClicked
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        // TODO add your handling code here:
+        if(MaDT.equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        JSONObject json = new JSONObject();
+        json.put("method","DELETETG");
+        json.put("MaDT",MaDT);
+        json.put("Trangthai",0);
+        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+        if(json1.getString("ketqua").equals("true"))
+        {
+            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
+            
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jPanel10MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -444,7 +490,7 @@ public class panelTacGia extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTableTG;
+    public javax.swing.JTable jTableTG;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,12 +12,13 @@ public class LoaiKhuyenMaiDTO {
     private String maLoaiKM;      // Mã Loại Khuyến Mãi (Varchar)
     private String tenLoaiKM;     // Tên Loại Khuyến Mãi (Nvarchar)
     private int phanTramGiam;     // Phần trăm giảm giá (INT)
-
+    private int Trangthai;
     // Constructor
-    public LoaiKhuyenMaiDTO(String maLoaiKM, String tenLoaiKM, int phanTramGiam) {
+    public LoaiKhuyenMaiDTO(String maLoaiKM, String tenLoaiKM, int phanTramGiam,int Trangthai) {
         this.maLoaiKM = maLoaiKM;
         this.tenLoaiKM = tenLoaiKM;
         this.phanTramGiam = phanTramGiam;
+        this.Trangthai = Trangthai;
     }
 
     // Getters và Setters
@@ -45,6 +46,14 @@ public class LoaiKhuyenMaiDTO {
         this.phanTramGiam = phanTramGiam;
     }
 
+    public int getTrangThai() {
+        return Trangthai;
+    }
+
+    public void setTrangthai(int Trangthai) {
+        this.Trangthai = Trangthai;
+    }
+    
     // Phương thức toString để in đối tượng dễ dàng
     @Override
     public String toString() {

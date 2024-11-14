@@ -9,28 +9,29 @@ package DTO;
  * @author PC
  */
 public class TacGiaDTO {
-    private String MaTG;        // Mã Tác Giả (Varchar)
+    private String maTG;        // Mã Tác Giả (Varchar)
     private String hoVaTen;     // Họ và tên (Nvarchar)
     private String butDanh;     // Bút danh (Nvarchar)
     private String gioiTinh;    // Giới tính (Nvarchar)
     private String quocTich;    // Quốc tịch (Nvarchar)
-
+    private int trangThai;
     // Constructor
-    public TacGiaDTO(String MaTG, String hoVaTen, String butDanh, String gioiTinh, String quocTich) {
-        this.MaTG = MaTG;
+    public TacGiaDTO(String maTG, String hoVaTen, String butDanh, String gioiTinh, String quocTich,int trangThai) {
+        this.maTG = maTG;
         this.hoVaTen = hoVaTen;
         this.butDanh = butDanh;
         this.gioiTinh = gioiTinh;
         this.quocTich = quocTich;
+        this.trangThai=trangThai;
     }
 
     // Getters và Setters
     public String getMaTG() {
-        return MaTG;
+        return maTG;
     }
 
     public void setMaTG(String maTG) {
-        this.MaTG = maTG;
+        this.maTG = maTG;
     }
 
     public String getHoVaTen() {
@@ -64,12 +65,19 @@ public class TacGiaDTO {
     public void setQuocTich(String quocTich) {
         this.quocTich = quocTich;
     }
-
+    
+    public void setTrangThai(int trangThai)
+    {
+        this.trangThai=trangThai;
+    }
+    public int getTrangThai() {
+        return trangThai;
+    }
     // Phương thức toString để in đối tượng dễ dàng
     @Override
     public String toString() {
         return "TacGiaDTO{" +
-               "maTG='" + MaTG + '\'' +
+               "maTG='" + maTG + '\'' +
                ", hoVaTen='" + hoVaTen + '\'' +
                ", butDanh='" + butDanh + '\'' +
                ", gioiTinh='" + gioiTinh + '\'' +

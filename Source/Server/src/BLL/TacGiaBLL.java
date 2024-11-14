@@ -43,16 +43,35 @@ public class TacGiaBLL {
                 break;
             }
         }
-        
         return json.toString();
     }
-    
+    //ham them tac gia va tra ve trang thai
     public String themTG(TacGiaDTO tg)
     {
         TacGiaDAO tgDAO = new TacGiaDAO();
         JSONObject json = new JSONObject();
         json.put("Trangthai", "true");
         json.put("ketqua",tgDAO.themDT(tg));
+        return json.toString();
+    }
+    
+    //ham sua tac gia va tra ve trang thai
+    public String suaTG(TacGiaDTO tg)
+    {
+        TacGiaDAO tgDAO = new TacGiaDAO();
+        JSONObject json = new JSONObject();
+        json.put("Trangthai", "true");
+        json.put("ketqua",tgDAO.suaTG(tg));
+        return json.toString();
+    }
+    
+    //ham xoa tac gia va tra ve trang thai
+    public String xoaTG(TacGiaDTO tg)
+    {
+        TacGiaDAO tgDAO = new TacGiaDAO();
+        JSONObject json = new JSONObject();
+        json.put("Trangthai", "true");
+        json.put("ketqua",tgDAO.xoaTG(tg));
         return json.toString();
     }
 }

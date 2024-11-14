@@ -5,7 +5,7 @@
 package GUI;
 
 import QL.NhanVienGUI.panelNhanVien;
-import BH.HoaDonGUI.panelHoaDon;
+import QL.HoaDonGUI.panelHoaDon;
 import Client.Client;
 import DTO.TacGiaDTO;
 import QL.NhaXuatBanGUI.panelNhaXuatBan;
@@ -727,7 +727,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelSanPham sp = new panelSanPham();
+        panelSanPham sp = new panelSanPham(client1);
         panelChange.removeAll();
         panelChange.add(sp).setVisible(true);
         
@@ -806,7 +806,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelTheLoai tl = new panelTheLoai();
+        panelTheLoai tl = new panelTheLoai(client1);
         panelChange.removeAll();
         panelChange.add(tl).setVisible(true);
     }//GEN-LAST:event_panel4MouseClicked
@@ -826,7 +826,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelNhaXuatBan nxb = new panelNhaXuatBan();
+        panelNhaXuatBan nxb = new panelNhaXuatBan(client1);
         panelChange.removeAll();
         panelChange.add(nxb).setVisible(true);
     }//GEN-LAST:event_panel5MouseClicked
@@ -846,7 +846,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelKho kho = new panelKho();
+        panelKho kho = new panelKho(client1,tenNV.getText());
         panelChange.removeAll();
         panelChange.add(kho).setVisible(true);
     }//GEN-LAST:event_panel6MouseClicked
@@ -866,7 +866,8 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelKhuyenMai km = new panelKhuyenMai();
+        
+        panelKhuyenMai km = new panelKhuyenMai(client1);
         panelChange.removeAll();
         panelChange.add(km).setVisible(true);
     }//GEN-LAST:event_panel7MouseClicked
@@ -886,7 +887,8 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelHoaDon hd = new panelHoaDon();
+        
+        panelHoaDon hd = new panelHoaDon(client1,tenNV.getText());
         panelChange.removeAll();
         panelChange.add(hd).setVisible(true);
     }//GEN-LAST:event_panel8MouseClicked
@@ -906,7 +908,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelTaiKhoan tk = new panelTaiKhoan();
+        panelTaiKhoan tk = new panelTaiKhoan(client1);
         panelChange.removeAll();
         panelChange.add(tk).setVisible(true);
     }//GEN-LAST:event_panel9MouseClicked
@@ -926,7 +928,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelNhanVien nv = new panelNhanVien();
+        panelNhanVien nv = new panelNhanVien(client1);
         panelChange.removeAll();
         panelChange.add(nv).setVisible(true);
         

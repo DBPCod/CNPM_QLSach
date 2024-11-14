@@ -14,14 +14,15 @@ public class TacGiaDTO {
     private String butDanh;     // Bút danh (Nvarchar)
     private String gioiTinh;    // Giới tính (Nvarchar)
     private String quocTich;    // Quốc tịch (Nvarchar)
-
+    private int trangThai;
     // Constructor
-    public TacGiaDTO(String maTG, String hoVaTen, String butDanh, String gioiTinh, String quocTich) {
+    public TacGiaDTO(String maTG, String hoVaTen, String butDanh, String gioiTinh, String quocTich,int trangThai) {
         this.maTG = maTG;
         this.hoVaTen = hoVaTen;
         this.butDanh = butDanh;
         this.gioiTinh = gioiTinh;
         this.quocTich = quocTich;
+        this.trangThai=trangThai;
     }
 
     // Getters và Setters
@@ -64,7 +65,14 @@ public class TacGiaDTO {
     public void setQuocTich(String quocTich) {
         this.quocTich = quocTich;
     }
-
+    
+    public void setTrangThai(int trangThai)
+    {
+        this.trangThai=trangThai;
+    }
+    public int getTrangThai() {
+        return trangThai;
+    }
     // Phương thức toString để in đối tượng dễ dàng
     @Override
     public String toString() {

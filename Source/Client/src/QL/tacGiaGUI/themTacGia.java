@@ -7,6 +7,7 @@ package QL.tacGiaGUI;
 import Client.Client;
 import com.formdev.flatlaf.FlatLightLaf;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,11 +20,13 @@ public class themTacGia extends javax.swing.JFrame {
     /**
      * Creates new form themTacGia
      */
+    private static panelTacGia panelTacGia1;
     private static Client client1;
-    public themTacGia(Client client) {
+    public themTacGia(Client client,panelTacGia panelTacGia) {
         initComponents();
         this.setLocationRelativeTo(null);
         client1=client;
+        panelTacGia1=panelTacGia;
         setMaTG();
     }
 
@@ -45,6 +48,9 @@ public class themTacGia extends javax.swing.JFrame {
         }
         maTG.setText("TG_"+ String.valueOf(max+1));
     }
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -220,11 +226,14 @@ public class themTacGia extends javax.swing.JFrame {
         json.put("QuocTich", quoctich);
         json.put("GioiTinh",gioitinh);
         json.put("ButDanh", butdanh);
-        System.out.println(client1.themDT(json.toString()));
+        
         this.setVisible(false);
         if(client1.themDT(json.toString()).equals("thanhcong"))
         {
             JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            
+            panelTacGia1.setUp();
+            
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButton1MouseClicked
@@ -261,7 +270,7 @@ public class themTacGia extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
              
-                new themTacGia(client1).setVisible(true);
+                new themTacGia(client1,panelTacGia1).setVisible(true);
             }
         });
     }

@@ -1,18 +1,19 @@
-
+package DTO;
 public class NhaXuatBanDTO {
     private String maNXB;          // Mã NXB, khóa chính
     private String tenNXB;      // Tên nhà xuất bản
     private String diaChi;      // Địa chỉ nhà xuất bản
     private String soDienThoai; // Số điện thoại
     private String email;       // Email nhà xuất bản
-
+    private int trangThai;
     // Constructor
-    public NhaXuatBanDTO(String maNXB, String tenNXB, String diaChi, String soDienThoai, String email) {
+    public NhaXuatBanDTO(String maNXB, String tenNXB, String diaChi, String soDienThoai, String email,int trangThai) {
         this.maNXB = maNXB;
         this.tenNXB = tenNXB;
         this.diaChi = diaChi;
         this.soDienThoai = soDienThoai;
         this.email = email;
+        this.trangThai=trangThai;
     }
 
     // Getters và Setters
@@ -56,6 +57,13 @@ public class NhaXuatBanDTO {
         this.email = email;
     }
 
+    public void setTrangThai(int trangThai)
+    {
+        this.trangThai=trangThai;
+    }
+    public int getTrangThai() {
+        return trangThai;
+    }
     // Phương thức toString để in đối tượng dễ dàng
     @Override
     public String toString() {

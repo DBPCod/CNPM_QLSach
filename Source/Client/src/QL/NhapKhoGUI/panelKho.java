@@ -4,8 +4,21 @@
  */
 package QL.NhapKhoGUI;
 
+import Client.Client;
+import DTO.NhaXuatBanDTO;
+import DTO.PhieuNhapDTO;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -16,12 +29,18 @@ public class panelKho extends javax.swing.JInternalFrame {
     /**
      * Creates new form panelKho
      */
-    public panelKho() {
+    private String MaDT = "0";
+    private static Client client1;
+    private String nguoiNhap1;
+    public panelKho(Client client,String nguoiNhap) {
         
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
+        client1=client;
+        nguoiNhap1=nguoiNhap;
+        setUp();
     }
 
     /**
@@ -53,7 +72,7 @@ public class panelKho extends javax.swing.JInternalFrame {
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTablePN = new javax.swing.JTable();
         jLabel11 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
@@ -108,6 +127,11 @@ public class panelKho extends javax.swing.JInternalFrame {
         );
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconxoa.jpg"))); // NOI18N
@@ -240,6 +264,11 @@ public class panelKho extends javax.swing.JInternalFrame {
         jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
 
         jButton1.setText("Làm mới");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -266,8 +295,8 @@ public class panelKho extends javax.swing.JInternalFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePN.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTablePN.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"TG01", "ádsad", "ádasd", "ád"},
                 {null, null, null, null},
@@ -286,11 +315,16 @@ public class panelKho extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setFocusable(false);
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jTable1.setSelectionBackground(new java.awt.Color(0, 102, 255));
-        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
+        jTablePN.setFocusable(false);
+        jTablePN.setGridColor(new java.awt.Color(0, 0, 0));
+        jTablePN.setSelectionBackground(new java.awt.Color(0, 102, 255));
+        jTablePN.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jTablePN.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTablePNMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTablePN);
 
         jLabel11.setText("Nhân viên nhập");
 
@@ -404,23 +438,186 @@ public class panelKho extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //ham lay danh sach
+    private ArrayList<PhieuNhapDTO> getList(String yeucau)
+    {
+        JSONObject json;
+        
+        switch (yeucau) {
+            case "ListPhieuNhap": 
+                    ArrayList<PhieuNhapDTO> list = new ArrayList<PhieuNhapDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    System.out.println(jsonArray);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                        String MaPN = tacGiaObject.getString("maPN");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        Date NgayNhap;
+                        try {
+                            NgayNhap = formatter.parse((tacGiaObject.getString("ngayNhap")).toString() );
+                            Double Thanhtien = tacGiaObject.getDouble("thanhTien");
+                            int Trangthai = tacGiaObject.getInt("trangThai");
+                            String MaTK = tacGiaObject.getString("maTK");
+                            String MaNXB=tacGiaObject.getString("maNXB");;
+                            for(NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan"))
+                            {
+                                if(MaNXB.equals(nxb.getMaNXB()))
+                                {
+                                    list.add(new PhieuNhapDTO(MaPN, NgayNhap, Thanhtien, Trangthai, MaTK, nxb.getTenNXB()));
+                                }
+                            }
+                            
+                        } catch (ParseException ex) {
+                            Logger.getLogger(panelKho.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    // Thêm vào ArrayList
+                    //xem lai trang thai
+                   
+        }
+                    
+                    return list;
+                   
+        }
+                
+                    
+        return new ArrayList<>();
+    }
+    //ham thiet lap bang danh sach
+    public void setUp()
+    {
+        
+        DefaultTableModel model = (DefaultTableModel) jTablePN.getModel();
+        model.setRowCount(0);
+        for(PhieuNhapDTO phieunhap : getList("ListPhieuNhap"))
+        {
+            //them tung doi tuong vao bang
+            if(phieunhap.getTrangThai()==1)
+            {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String ngayNhap = formatter.format(phieunhap.getNgayNhap());
+                System.out.println(phieunhap.getMaPN());
+                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaNXB()});
+            }
+        }
+    }
+    
+    //ham thiet lap bang danh sach
+    public void setUpDelete()
+    {
+        
+        DefaultTableModel model = (DefaultTableModel) jTablePN.getModel();
+        model.setRowCount(0);
+        for(PhieuNhapDTO phieunhap : getList("ListPhieuNhap"))
+        {
+            //them tung doi tuong vao bang
+            if(phieunhap.getTrangThai()==0)
+            {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String ngayNhap = formatter.format(phieunhap.getNgayNhap());
+                System.out.println(phieunhap.getMaPN());
+                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaNXB()});
+            }
+        }
+    }
+    
+    // ham lay danh sach
+    private ArrayList<NhaXuatBanDTO> getListNXB(String yeucau) 
+    {
+        JSONObject json;
+        
+        switch (yeucau) 
+        {
+            case "ListNhaXuatBan":
+                ArrayList<NhaXuatBanDTO> list = new ArrayList<>();
+                json = new JSONObject(client1.getList(yeucau));
+                
+                // chuyen mang chuoi sang mang jsonArray
+                JSONArray jsonArray = json.getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); i++) 
+                {
+                    JSONObject nxbObject = jsonArray.getJSONObject(i);
+                    String MaNXB = nxbObject.getString("maNXB");
+                    String TenNXB = nxbObject.getString("tenNXB");
+                    String DiaChi = nxbObject.getString("diaChi");
+                    String SoDienThoai = nxbObject.getString("soDienThoai");
+                    String Email = nxbObject.getString("email");
+                    int Trangthai = nxbObject.getInt("trangThai");
+                    // them vao arraylist
+                    // xem lai trang thai
+                    list.add(new NhaXuatBanDTO(MaNXB, TenNXB, DiaChi, SoDienThoai, Email, Trangthai));
+                }
+                return list;
+        }
+                
+        return new ArrayList<>();
+    }
+    
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        themPhieuNhap tpn = new themPhieuNhap();
+        themPhieuNhap tpn = new themPhieuNhap(client1,nguoiNhap1,this);
         tpn.setDefaultCloseOperation(tpn.DISPOSE_ON_CLOSE);
         tpn.setVisible(true);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         // TODO add your handling code here:
-        thongTinPhieuNhap ttpn = new thongTinPhieuNhap();
-        ttpn.setDefaultCloseOperation(ttpn.DISPOSE_ON_CLOSE);
-        ttpn.setVisible(true);
+        
+        if (MaDT.equals("0")) {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } else {
+            thongTinPhieuNhap ttpn = new thongTinPhieuNhap(MaDT,client1);
+            ttpn.setDefaultCloseOperation(ttpn.DISPOSE_ON_CLOSE);
+            ttpn.setVisible(true);
+        }
+
     }//GEN-LAST:event_jPanel11MouseClicked
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
-        // TODO add your handling code here:
+        // hien thi danh sach phieu nhap da xoa
+        
+        setUpDelete();
     }//GEN-LAST:event_jPanel12MouseClicked
+
+    private void jTablePNMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePNMouseClicked
+        // TODO add your handling code here:
+         DefaultTableModel table = (DefaultTableModel) jTablePN.getModel();
+        int index = jTablePN.getSelectedRow();
+        String value = table.getValueAt(index, 0).toString();
+        MaDT=value;
+    }//GEN-LAST:event_jTablePNMouseClicked
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        // TODO add your handling code here:
+        
+        if(MaDT.equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        JSONObject json = new JSONObject();
+        json.put("method","DELETEPN");
+        json.put("MaPN", MaDT);
+        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+        if(json1.getString("ketqua").equals("true"))
+        {
+            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jPanel10MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        setUp();
+    }//GEN-LAST:event_jButton1MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -455,7 +652,7 @@ public class panelKho extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTablePN;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

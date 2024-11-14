@@ -14,9 +14,9 @@ public class SanPhamDTO {
     private int soLuong;          // Số lượng (Int)
     private double giaNhap;       // Giá nhập (Double)
     private String maTG;          // Mã Tác Giả (Varchar)
-
+    private int trangThai;
     // Constructor
-    public SanPhamDTO(String maSP, String tenSP, int soTrang, String ngonNgu, double giaBia, byte[] anhBia, int soLuong, double giaNhap, String maTG) {
+    public SanPhamDTO(String maSP, String tenSP, int soTrang, String ngonNgu, double giaBia, byte[] anhBia, int soLuong, double giaNhap, String maTG,int trangThai) {
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.soTrang = soTrang;
@@ -26,6 +26,7 @@ public class SanPhamDTO {
         this.soLuong = soLuong;
         this.giaNhap = giaNhap;
         this.maTG = maTG;
+        this.trangThai=trangThai;
     }
 
     // Getters và Setters
@@ -101,6 +102,13 @@ public class SanPhamDTO {
         this.maTG = maTG;
     }
 
+    public void setTrangThai(int trangThai)
+    {
+        this.trangThai=trangThai;
+    }
+    public int getTrangThai() {
+        return trangThai;
+    }
     // Phương thức toString để in đối tượng dễ dàng
     @Override
     public String toString() {

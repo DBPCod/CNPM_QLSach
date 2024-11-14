@@ -4,7 +4,18 @@
  */
 package QL.NhanVienGUI;
 
+import Client.Client;
+import DTO.NhanVienDTO;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -15,13 +26,72 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
     /**
      * Creates new form panelNhanVien
      */
-    public panelNhanVien() {
+    private static Client client1;
+    public panelNhanVien(Client client) {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
+        client1=client;
+        setUp();
     }
 
+    //ham lay danh sách
+    private ArrayList<NhanVienDTO> getList(String yeucau)
+    {
+        JSONObject json;
+        
+        switch (yeucau) {
+            case "ListNhanVien": 
+                
+                    ArrayList<NhanVienDTO> list = new ArrayList<NhanVienDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject nvObject = jsonArray.getJSONObject(i);
+                        String MaNV = nvObject.getString("maNV");
+                        String HoVaTen = nvObject.getString("hoVaTen");
+                        String NgaySinh = nvObject.getString("ngaySinh");
+                        String GioiTinh = nvObject.getString("gioiTinh");
+                        String SoDienThoai = nvObject.getString("soDienThoai");
+                        String Email = nvObject.getString("email");
+                        String DiaChi = nvObject.getString("diaChi");
+                        String MaTK = nvObject.getString("maTK");
+                        String MaVT = nvObject.getString("maVT");
+                        int Trangthai = nvObject.getInt("trangThai");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");       
+            try {
+                Date ngaySinh = formatter.parse(NgaySinh);
+                // Thêm vào ArrayList
+                //xem lai trang thai
+                list.add(new NhanVienDTO(MaNV,  HoVaTen,  ngaySinh,  GioiTinh,  SoDienThoai, Email, DiaChi, MaTK, MaVT, Trangthai));
+            } catch (ParseException ex) {
+                Logger.getLogger(panelNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                    return list;
+                   
+        }    
+        return new ArrayList<>();
+    }
+    
+    //ham thiet lap bang danh sach
+    public void setUp()
+    {
+        DefaultTableModel model = (DefaultTableModel) jTableNV.getModel();
+        model.setRowCount(0);
+        for(NhanVienDTO nhanvien : getList("ListNhanVien"))
+        {
+            //them tung doi tuong vao bang
+            if(nhanvien.getTrangThai()==1)
+            {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String ngaySinh = formatter.format(nhanvien.getNgaySinh());
+                model.addRow(new Object[] {nhanvien.getMaNV(),nhanvien.getHoVaTen(),ngaySinh,nhanvien.getGioiTinh(),nhanvien.getDiaChi(),nhanvien.getEmail()});
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +120,7 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
         cbxType = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableNV = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -247,8 +317,8 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableNV.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTableNV.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"NV01", "ng van a", "1/1/1", "nam", "12 ng trãi"},
                 {null, null, null, null, null},
@@ -267,11 +337,11 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setFocusable(false);
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jTable1.setSelectionBackground(new java.awt.Color(0, 102, 255));
-        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
+        jTableNV.setFocusable(false);
+        jTableNV.setGridColor(new java.awt.Color(0, 0, 0));
+        jTableNV.setSelectionBackground(new java.awt.Color(0, 102, 255));
+        jTableNV.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setViewportView(jTableNV);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -326,13 +396,15 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        themNhanVien tnv = new themNhanVien();
+        System.out.println("A");
+        themNhanVien tnv = new themNhanVien(client1, this);
         tnv.setDefaultCloseOperation(tnv.DISPOSE_ON_CLOSE);
         tnv.setVisible(true);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
         // TODO add your handling code here:
+        System.out.println("B");
         suaNhanVien snv = new suaNhanVien();
         snv.setDefaultCloseOperation(snv.DISPOSE_ON_CLOSE);
         snv.setVisible(true);
@@ -365,7 +437,7 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableNV;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

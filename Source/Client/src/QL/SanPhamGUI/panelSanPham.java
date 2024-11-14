@@ -4,7 +4,17 @@
  */
 package QL.SanPhamGUI;
 
+
+
+import Client.Client;
+import DTO.SanPhamDTO;
+import DTO.TacGiaDTO;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import javax.swing.table.DefaultTableModel;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  *
@@ -15,11 +25,67 @@ public class panelSanPham extends javax.swing.JInternalFrame {
     /**
      * Creates new form panelSanPham
      */
-    public panelSanPham() {
+    private static String MaDT = "0";
+    private static Client client1;
+    public panelSanPham(Client client) {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
+        client1=client;
+        setUp();
+    }
+    //ham lay danh sach
+    private ArrayList<SanPhamDTO> getList(String yeucau)
+    {
+        JSONObject json;
+        ArrayList<SanPhamDTO> list = new ArrayList<SanPhamDTO>();
+        switch (yeucau) {
+            case "ListSanPham": 
+
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                          JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                          String MaSP = tacGiaObject.getString("maSP");
+                          String TenSP = tacGiaObject.getString("tenSP");
+                          int SoTrang =  tacGiaObject.getInt("soTrang");
+                          String NgonNgu = tacGiaObject.getString("ngonNgu");
+                          Double GiaBia = tacGiaObject.getDouble("giaBia");
+                          int SoLuong = tacGiaObject.getInt("soLuong");
+                          int Trangthai = tacGiaObject.getInt("trangThai");
+                          Double giaNhap = tacGiaObject.getDouble("giaNhap");
+                          String maTG = tacGiaObject.getString("maTG");
+                          list.add(new SanPhamDTO(MaSP,  TenSP,  SoTrang,  NgonNgu,  GiaBia, null, SoLuong, giaNhap, maTG,Trangthai));
+                }
+                 return list;
+        }
+                    
+                   
+                   return new ArrayList<>();
+        }
+                
+                    
+        
+    
+    
+    //ham thiet lap bang danh sach
+    public void setUp()
+    {
+        
+        DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
+        model.setRowCount(0);
+        
+        for(SanPhamDTO sanpham : getList("ListSanPham"))
+        {
+            System.out.println(sanpham.getTrangThai());
+            //them tung doi tuong vao bang
+            if(sanpham.getTrangThai()==1)
+            {
+                model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoTrang()),sanpham.getNgonNgu(),String.valueOf(sanpham.getGiaBia()),String.valueOf(sanpham.getSoLuong())});
+            }
+        }
     }
 
     /**
@@ -50,7 +116,7 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         cbxType = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTableSP = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -131,6 +197,11 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         );
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel10MouseClicked(evt);
+            }
+        });
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconxoa.jpg"))); // NOI18N
@@ -249,8 +320,8 @@ public class panelSanPham extends javax.swing.JInternalFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTableSP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"SP1", "ádsad", "ádasd", "ád", "12222", "10"},
                 {null, null, null, null, null, null},
@@ -269,11 +340,16 @@ public class panelSanPham extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setFocusable(false);
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jTable1.setSelectionBackground(new java.awt.Color(0, 102, 255));
-        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(jTable1);
+        jTableSP.setFocusable(false);
+        jTableSP.setGridColor(new java.awt.Color(0, 0, 0));
+        jTableSP.setSelectionBackground(new java.awt.Color(0, 102, 255));
+        jTableSP.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        jTableSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableSPMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableSP);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -329,24 +405,66 @@ public class panelSanPham extends javax.swing.JInternalFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        themSanPham tsp = new themSanPham();
+        themSanPham tsp = new themSanPham(client1,this);
         tsp.setDefaultCloseOperation(tsp.DISPOSE_ON_CLOSE);
         tsp.setVisible(true);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        // TODO add your handling code here:
-        suaSanPham ssp = new suaSanPham();
+        // TODO add your handling code here:        
+        suaSanPham ssp = new suaSanPham(client1,this,MaDT);
         ssp.setDefaultCloseOperation(ssp.DISPOSE_ON_CLOSE);
         ssp.setVisible(true);
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
         // TODO add your handling code here:
-        thongTinSanPham ttsp = new thongTinSanPham();
-        ttsp.setDefaultCloseOperation(ttsp.DISPOSE_ON_CLOSE);
-        ttsp.setVisible(true);
+        
+        
+        if(MaDT.equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            thongTinSanPhamQL ttsp = new thongTinSanPhamQL(MaDT,client1);
+            ttsp.setDefaultCloseOperation(ttsp.DISPOSE_ON_CLOSE);
+            ttsp.setVisible(true);
+        }
     }//GEN-LAST:event_jPanel11MouseClicked
+
+    private void jTableSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSPMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) jTableSP.getModel();
+        int index = jTableSP.getSelectedRow();
+        String value = table.getValueAt(index, 0).toString();
+        MaDT = value;
+        System.out.println(MaDT);
+    }//GEN-LAST:event_jTableSPMouseClicked
+
+    private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
+        // TODO add your handling code here:
+        if(MaDT.equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        JSONObject json = new JSONObject();
+        json.put("method","DELETESP");
+        json.put("MaSP",MaDT);
+        json.put("Trangthai",0);
+        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+        if(json1.getString("ketqua").equals("true"))
+        {
+            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
+            
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jPanel10MouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -368,7 +486,7 @@ public class panelSanPham extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTableSP;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

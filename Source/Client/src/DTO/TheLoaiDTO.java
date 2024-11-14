@@ -11,11 +11,12 @@ package DTO;
 public class TheLoaiDTO {
     private String maTL;     // Mã Thể Loại (Varchar)
     private String tenTL;    // Tên Thể Loại (Nvarchar)
-
+    private int trangThai;
     // Constructor
-    public TheLoaiDTO(String maTL, String tenTL) {
+    public TheLoaiDTO(String maTL, String tenTL,int trangThai) {
         this.maTL = maTL;
         this.tenTL = tenTL;
+        this.trangThai=trangThai;
     }
 
     // Getters và Setters
@@ -35,6 +36,13 @@ public class TheLoaiDTO {
         this.tenTL = tenTL;
     }
 
+    public void setTrangThai(int trangThai)
+    {
+        this.trangThai=trangThai;
+    }
+    public int getTrangThai() {
+        return trangThai;
+    }
     // Phương thức toString để in đối tượng dễ dàng
     @Override
     public String toString() {

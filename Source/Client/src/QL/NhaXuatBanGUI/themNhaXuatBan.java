@@ -4,6 +4,11 @@
  */
 package QL.NhaXuatBanGUI;
 
+import Client.Client;
+import javax.swing.JOptionPane;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  *
  * @author luuis
@@ -13,9 +18,34 @@ public class themNhaXuatBan extends javax.swing.JFrame {
     /**
      * Creates new form themNhaXuatBan
      */
-    public themNhaXuatBan() {
+    private static panelNhaXuatBan panelNhaXuatBan1;
+    private static Client client1;
+    
+    public themNhaXuatBan(Client client, panelNhaXuatBan panelNhaXuatBan) {
         initComponents();
         this.setLocationRelativeTo(null);
+        client1 = client;
+        panelNhaXuatBan1 = panelNhaXuatBan;
+        setMaNXB();
+    }
+
+    private void setMaNXB()
+    {
+     
+        JSONObject json = new JSONObject(client1.getList("ListNhaXuatBan"));
+        JSONArray jsonArray = json.getJSONArray("list");
+        int max=0;
+        for(int i=0;i<jsonArray.length();i++)
+        {
+            JSONObject nxbObject = jsonArray.getJSONObject(i);
+            String chuoi = nxbObject.getString("maNXB");
+            if(Integer.parseInt(chuoi.substring(4)) > max)
+            {
+                max = Integer.parseInt(chuoi.substring(4));
+            }
+            
+        }
+        MaNXB.setText("NXB_"+ String.valueOf(max+1));
     }
 
     /**
@@ -31,15 +61,17 @@ public class themNhaXuatBan extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        MaNXB = new javax.swing.JTextField();
+        DiaChiNXB = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
+        TenNXB = new javax.swing.JTextField();
+        SdtNXB = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        nutThem = new javax.swing.JButton();
+        nutHuy = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        EmailNXB = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,46 +98,51 @@ public class themNhaXuatBan extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
-        jLabel2.setText("Tên nhà xuất bản:");
+        jLabel2.setText("Mã nhà xuất bản");
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        MaNXB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        MaNXB.setEnabled(false);
 
-        jTextField2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        DiaChiNXB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel3.setText("Số điện thoại:");
+        jLabel3.setText("Địa chỉ");
 
-        jLabel5.setText("Địa chỉ:");
+        jLabel5.setText("Tên nhà xuất bản");
 
-        jTextField4.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        TenNXB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jTextField5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        SdtNXB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel6.setText("Email:");
+        jLabel6.setText("Số điện thoại");
 
-        jButton1.setBackground(new java.awt.Color(102, 255, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jButton1.setText("Thêm");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        nutThem.setBackground(new java.awt.Color(102, 255, 102));
+        nutThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        nutThem.setText("Thêm");
+        nutThem.setBorder(null);
+        nutThem.setBorderPainted(false);
+        nutThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                nutThemActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(255, 12, 12));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jButton5.setText("Hủy");
-        jButton5.setBorder(null);
-        jButton5.setMaximumSize(new java.awt.Dimension(43, 22));
-        jButton5.setMinimumSize(new java.awt.Dimension(43, 22));
-        jButton5.setOpaque(true);
-        jButton5.setPreferredSize(new java.awt.Dimension(43, 22));
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        nutHuy.setBackground(new java.awt.Color(255, 12, 12));
+        nutHuy.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        nutHuy.setText("Hủy");
+        nutHuy.setBorder(null);
+        nutHuy.setMaximumSize(new java.awt.Dimension(43, 22));
+        nutHuy.setMinimumSize(new java.awt.Dimension(43, 22));
+        nutHuy.setOpaque(true);
+        nutHuy.setPreferredSize(new java.awt.Dimension(43, 22));
+        nutHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                nutHuyActionPerformed(evt);
             }
         });
+
+        jLabel4.setText("Email");
+
+        EmailNXB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,19 +152,23 @@ public class themNhaXuatBan extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(166, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel5)
-                        .addComponent(jTextField4)
-                        .addComponent(jLabel6)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel4)
+                    .addComponent(EmailNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nutThem, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(MaNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(DiaChiNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(59, 59, 59)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(nutHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel5)
+                                .addComponent(TenNXB)
+                                .addComponent(jLabel6)
+                                .addComponent(SdtNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(166, 166, 166))
         );
         jPanel1Layout.setVerticalGroup(
@@ -139,49 +180,129 @@ public class themNhaXuatBan extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(MaNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(TenNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(DiaChiNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(46, 46, 46)
+                        .addComponent(SdtNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(14, 14, 14)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(EmailNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(34, Short.MAX_VALUE))
+                    .addComponent(nutThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nutHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void nutThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutThemActionPerformed
+        String tenNXB = TenNXB.getText().trim();
+        String maNXB = MaNXB.getText();
+        String diaChiNXB = DiaChiNXB.getText().trim();
+        String sdtNXB = SdtNXB.getText().trim();
+        String emailNXB = EmailNXB.getText().trim();
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // kiem tra ten
+        if (tenNXB.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tên nhà xuất bản không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (tenNXB.matches(".*\\d.*")) {
+            JOptionPane.showMessageDialog(null, "Tên nhà xuất bản không được chứa số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // kiem tra so dien thoai
+        if (!sdtNXB.matches("^0\\d{9}$")) {
+            JOptionPane.showMessageDialog(null, "Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // kiem tra dia chi
+        if (diaChiNXB.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // kiem tra email
+        if (!emailNXB.matches("^[^@]+@[^@]+$")) {
+            JOptionPane.showMessageDialog(null, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // kiem tra trung lap
+        if (kiemtraTrungNXB(tenNXB, sdtNXB, emailNXB)) {
+            JOptionPane.showMessageDialog(null, "Tên nhà xuất bản, số điện thoại hoặc email đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Prepare the JSON object to send to the server
+        JSONObject json = new JSONObject();
+        json.put("method", "PUTNXB");
+        json.put("MaNXB", maNXB);
+        json.put("TenNXB", tenNXB);
+        json.put("Diachi", diaChiNXB);
+        json.put("Sodienthoai", sdtNXB);
+        json.put("Email", emailNXB);
+
+        this.setVisible(false);
+        // Send the request to add the publisher and handle the response
+        if (client1.themDT(json.toString()).equals("thanhcong")) {
+            JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            panelNhaXuatBan1.setUp();
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_nutThemActionPerformed
+
+    private boolean kiemtraTrungNXB(String tenNXB, String sdtNXB, String emailNXB) {
+        JSONObject json = new JSONObject(client1.getList("ListNhaXuatBan"));
+        JSONArray jsonArray = json.getJSONArray("list");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject nxbObject = jsonArray.getJSONObject(i);
+            String existingName = nxbObject.getString("tenNXB").trim().toLowerCase();
+            String existingPhone = nxbObject.getString("soDienThoai").trim();
+            String existingEmail = nxbObject.getString("email").trim().toLowerCase();
+
+            if (existingName.equals(tenNXB.toLowerCase()) || existingPhone.equals(sdtNXB) || existingEmail.equals(emailNXB.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private void nutHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutHuyActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+        this.setVisible(false);
+    }//GEN-LAST:event_nutHuyActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,26 +334,26 @@ public class themNhaXuatBan extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new themNhaXuatBan().setVisible(true);
+                new themNhaXuatBan(client1, panelNhaXuatBan1).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JTextField DiaChiNXB;
+    private javax.swing.JTextField EmailNXB;
+    private javax.swing.JTextField MaNXB;
+    private javax.swing.JTextField SdtNXB;
+    private javax.swing.JTextField TenNXB;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton nutHuy;
+    private javax.swing.JButton nutThem;
     // End of variables declaration//GEN-END:variables
 }

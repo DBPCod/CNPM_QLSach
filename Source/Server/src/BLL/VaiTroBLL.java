@@ -31,4 +31,15 @@ public class VaiTroBLL {
         json1.put("trangthai","false");
         return json1.toString(0);
     }
+    
+    public String getList()
+    {
+        VaiTroDAO vtDAO = new VaiTroDAO();
+        JSONObject json = new JSONObject();
+        json.put("Trangthai","true");
+//        JSONArray jsonArray = new JSONArray(tgDAO.getList());
+        json.put("list", vtDAO.getAll());
+        return json.toString();
+    }
+   
 }
