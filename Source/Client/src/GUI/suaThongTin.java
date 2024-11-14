@@ -77,7 +77,6 @@ public class suaThongTin extends javax.swing.JFrame {
         jTextField1.setEnabled(false);
 
         jTextField2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField2.setEnabled(false);
 
         jLabel3.setText("Ngày sinh");
 
@@ -90,6 +89,7 @@ public class suaThongTin extends javax.swing.JFrame {
         jLabel6.setText("Giới tính");
 
         jTextField6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jTextField6.setEnabled(false);
         jTextField6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField6ActionPerformed(evt);

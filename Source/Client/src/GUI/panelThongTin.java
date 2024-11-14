@@ -4,7 +4,9 @@
  */
 package GUI;
 
+import Client.Client;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
+import org.json.JSONObject;
 
 /**
  *
@@ -15,13 +17,31 @@ public class panelThongTin extends javax.swing.JInternalFrame {
     /**
      * Creates new form panelThongTin
      */
-    public panelThongTin() {
+    private Client client1;
+    private String MaTK1;
+    public panelThongTin(String MaTK,Client client) {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
+        MaTK1=MaTK;
+        client1=client;
+        setUp();
     }
 
+    private void setUp()
+    {
+        JSONObject json = new JSONObject(client1.getNhanVien(MaTK1));
+        JSONObject json1 = new JSONObject(client1.getVaiTro(json.getString("MaVT")));
+        hovaten.setText(json.getString("Hovaten"));
+        ngaysinh.setText(json.getString("NgaySinh"));
+        sdt.setText(json.getString("Sodienthoai"));
+        diachi.setText(json.getString("Diachi"));
+        gioitinh.setText(json.getString("Gioitinh"));
+        email.setText(json.getString("Email"));
+        vaitro.setText(json1.getString("TenVT"));
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -42,19 +62,19 @@ public class panelThongTin extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
-        jTextField8 = new javax.swing.JTextField();
+        hovaten = new javax.swing.JTextField();
+        ngaysinh = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField9 = new javax.swing.JTextField();
+        sdt = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        jTextField10 = new javax.swing.JTextField();
+        diachi = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
+        gioitinh = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        jTextField12 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
-        jTextField13 = new javax.swing.JTextField();
+        vaitro = new javax.swing.JTextField();
 
         setPreferredSize(new java.awt.Dimension(962, 606));
 
@@ -158,26 +178,26 @@ public class panelThongTin extends javax.swing.JInternalFrame {
 
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/iconuser.jpg"))); // NOI18N
 
-        jTextField7.setEditable(false);
-        jTextField7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField7.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField7.setEnabled(false);
-        jTextField7.setRequestFocusEnabled(false);
-        jTextField7.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
+        hovaten.setEditable(false);
+        hovaten.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        hovaten.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        hovaten.setEnabled(false);
+        hovaten.setRequestFocusEnabled(false);
+        hovaten.setSelectionColor(new java.awt.Color(0, 0, 0));
+        hovaten.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
+                hovatenActionPerformed(evt);
             }
         });
 
-        jTextField8.setEditable(false);
-        jTextField8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField8.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField8.setEnabled(false);
-        jTextField8.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        ngaysinh.setEditable(false);
+        ngaysinh.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        ngaysinh.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        ngaysinh.setEnabled(false);
+        ngaysinh.setSelectionColor(new java.awt.Color(0, 0, 0));
+        ngaysinh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                ngaysinhActionPerformed(evt);
             }
         });
 
@@ -185,67 +205,67 @@ public class panelThongTin extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Số điện thoại:");
 
-        jTextField9.setEditable(false);
-        jTextField9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField9.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField9.setEnabled(false);
-        jTextField9.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        sdt.setEditable(false);
+        sdt.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        sdt.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        sdt.setEnabled(false);
+        sdt.setSelectionColor(new java.awt.Color(0, 0, 0));
+        sdt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                sdtActionPerformed(evt);
             }
         });
 
         jLabel14.setText("Địa chỉ:");
 
-        jTextField10.setEditable(false);
-        jTextField10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField10.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField10.setEnabled(false);
-        jTextField10.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jTextField10.addActionListener(new java.awt.event.ActionListener() {
+        diachi.setEditable(false);
+        diachi.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        diachi.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        diachi.setEnabled(false);
+        diachi.setSelectionColor(new java.awt.Color(0, 0, 0));
+        diachi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField10ActionPerformed(evt);
+                diachiActionPerformed(evt);
             }
         });
 
         jLabel15.setText("Giới tính:");
 
-        jTextField11.setEditable(false);
-        jTextField11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField11.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField11.setEnabled(false);
-        jTextField11.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jTextField11.addActionListener(new java.awt.event.ActionListener() {
+        gioitinh.setEditable(false);
+        gioitinh.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        gioitinh.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        gioitinh.setEnabled(false);
+        gioitinh.setSelectionColor(new java.awt.Color(0, 0, 0));
+        gioitinh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField11ActionPerformed(evt);
+                gioitinhActionPerformed(evt);
             }
         });
 
         jLabel16.setText("Email:");
 
-        jTextField12.setEditable(false);
-        jTextField12.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField12.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField12.setEnabled(false);
-        jTextField12.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jTextField12.addActionListener(new java.awt.event.ActionListener() {
+        email.setEditable(false);
+        email.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        email.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        email.setEnabled(false);
+        email.setSelectionColor(new java.awt.Color(0, 0, 0));
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField12ActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
 
         jLabel17.setText("Vai trò:");
 
-        jTextField13.setEditable(false);
-        jTextField13.setText("Quản lý");
-        jTextField13.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField13.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jTextField13.setEnabled(false);
-        jTextField13.setSelectionColor(new java.awt.Color(0, 0, 0));
-        jTextField13.addActionListener(new java.awt.event.ActionListener() {
+        vaitro.setEditable(false);
+        vaitro.setText("Quản lý");
+        vaitro.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        vaitro.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        vaitro.setEnabled(false);
+        vaitro.setSelectionColor(new java.awt.Color(0, 0, 0));
+        vaitro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField13ActionPerformed(evt);
+                vaitroActionPerformed(evt);
             }
         });
 
@@ -254,37 +274,32 @@ public class panelThongTin extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(137, Short.MAX_VALUE)
+                .addGap(147, 147, 147)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(vaitro, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel17))
                         .addGap(91, 91, 91)))
                 .addGap(81, 81, 81)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField8, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField10, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField9)
-                            .addComponent(jTextField12, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField11)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGap(147, 147, 147)))
-                        .addGap(126, 126, 126))
+                    .addComponent(ngaysinh, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+                    .addComponent(diachi)
+                    .addComponent(sdt, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(email)
+                    .addComponent(gioitinh, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(hovaten)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14)
                             .addComponent(jLabel11)
-                            .addComponent(jLabel12)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jLabel12))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGap(126, 126, 126))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,29 +314,29 @@ public class panelThongTin extends javax.swing.JInternalFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(hovaten, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sdt, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(diachi, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(gioitinh, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField12, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField13, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(vaitro, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -370,36 +385,40 @@ public class panelThongTin extends javax.swing.JInternalFrame {
         dmk.setVisible(true);
     }//GEN-LAST:event_jPanel9MouseClicked
 
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
+    private void hovatenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hovatenActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
+    }//GEN-LAST:event_hovatenActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void ngaysinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ngaysinhActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_ngaysinhActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void sdtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sdtActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_sdtActionPerformed
 
-    private void jTextField10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField10ActionPerformed
+    private void diachiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_diachiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField10ActionPerformed
+    }//GEN-LAST:event_diachiActionPerformed
 
-    private void jTextField11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField11ActionPerformed
+    private void gioitinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gioitinhActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField11ActionPerformed
+    }//GEN-LAST:event_gioitinhActionPerformed
 
-    private void jTextField12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField12ActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField12ActionPerformed
+    }//GEN-LAST:event_emailActionPerformed
 
-    private void jTextField13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField13ActionPerformed
+    private void vaitroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vaitroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField13ActionPerformed
+    }//GEN-LAST:event_vaitroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField diachi;
+    private javax.swing.JTextField email;
+    private javax.swing.JTextField gioitinh;
+    private javax.swing.JTextField hovaten;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -417,12 +436,8 @@ public class panelThongTin extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JTextField jTextField10;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField12;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
-    private javax.swing.JTextField jTextField9;
+    private javax.swing.JTextField ngaysinh;
+    private javax.swing.JTextField sdt;
+    private javax.swing.JTextField vaitro;
     // End of variables declaration//GEN-END:variables
 }

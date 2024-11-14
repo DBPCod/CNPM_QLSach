@@ -966,7 +966,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel9.setBackground(Color.WHITE);
         panel10.setBackground(Color.WHITE);
         panel12.setBackground(Color.WHITE);
-        panelThongTin tt = new panelThongTin();
+        panelThongTin tt = new panelThongTin(MaTK1,client1);
         panelChange.removeAll();
         panelChange.add(tt).setVisible(true);
     }//GEN-LAST:event_panelTTMouseClicked
