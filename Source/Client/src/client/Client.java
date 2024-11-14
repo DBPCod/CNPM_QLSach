@@ -336,7 +336,38 @@ public class Client {
                 return guiSuaSTL(data);
             case "UPDATELKM":
                 return guiSuaLKM(data);
+            case "UPDATETK":
+                return guiSuaTK(data);
         }
+        return "";
+    }
+    
+    private String guiSuaTK(String data)
+    {
+        JSONObject json = new JSONObject(data);
+        String yeucau = json.getString("method");
+        try {
+             ClientListener client = new ClientListener(socket);
+             Thread thread = new Thread(client);
+             json.put("method",yeucau);
+             json.put("MaTK",json.getString("MaTK"));
+             json.put("TenTK",json.getString("TenTK"));
+             json.put("MatkhauTK",json.getString("MatkhauTK"));
+             OutputStream output;
+             output = socket.getOutputStream();
+             output.write((json.toString()).getBytes());
+             output.flush();
+             thread.start();
+             thread.join();
+             return client.result;
+         } 
+         catch (InterruptedException ex) {
+                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         catch (IOException ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
         return "";
     }
     
@@ -1134,10 +1165,38 @@ public class Client {
                 return xuLiGetAnhBia("AnhBia",maDT);
             case "HoaDon":
                 return xuLiGetHoaDon("HoaDon", maDT);
-              
+            case "TaiKhoan":
+                return xuLiGetTK("TaiKhoan", maDT);
+                
       }
        return "";
        
+   }
+   
+     public String xuLiGetTK(String yeucau,String maDT)
+   {
+       try {
+            ClientListener client = new ClientListener(socket);
+            Thread thread = new Thread(client);
+            JSONObject json = new JSONObject();
+            json.put("method",yeucau);
+            json.put("MaTK",maDT);
+            OutputStream output;
+            output = socket.getOutputStream();
+            output.write((json.toString()).getBytes());
+            output.flush();
+            thread.start();
+            thread.join();
+            return client.result;
+        } 
+        catch (InterruptedException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+       return "";
    }
    
    //ham chuyen yeu cau lay du lieu sang server

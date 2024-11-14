@@ -517,6 +517,22 @@ public class ClientHandle implements Runnable{
                     break;
                     
                     
+            //Xu ly tai khoan
+//            case "ListTaiKhoan":
+//                    TaiKhoanBLL tkBLL3 = new TaiKhoanBLL();
+//                    sendMessage(String.valueOf(tkBLL3.getList()));
+//                    break;
+            case "UPDATETK":
+                    TaiKhoanBLL tkBLL4 = new TaiKhoanBLL();
+                    TaiKhoanDTO tkDTO = new TaiKhoanDTO(json.getString("MaTK"),json.getString("TenTK"),json.getString("MatkhauTK"),1);
+                    sendMessage(String.valueOf(tkBLL4.suaTK(tkDTO)));
+                    break;
+            case "TaiKhoan":
+                    TaiKhoanBLL tkBLL5 = new TaiKhoanBLL();
+                    String MaTK = json.getString("MaTK");
+                    sendMessage(String.valueOf(tkBLL5.getTaiKhoan(MaTK)));
+                    break;
+                    
         }
     }
 }
