@@ -92,7 +92,67 @@ public class Client {
                 return guiXoaPN(data);
             case "DELETEHD":
                 return guiXoaHD(data);
+            case "DELETENV":
+                return guiXoaNV(data);
+            case "DELETETK":
+                return guiXoaTK(data);
         }
+        return "";
+    }
+    
+    //ham gui yeu cau xoa doi tuong hoa don qua server
+    private String guiXoaTK(String data)
+    {
+        JSONObject json = new JSONObject(data);
+        String yeucau = json.getString("method");
+        try {
+             ClientListener client = new ClientListener(socket);
+             Thread thread = new Thread(client);
+             json.put("method",yeucau);
+             json.put("MaTK",json.getString("MaTK"));
+             OutputStream output;
+             output = socket.getOutputStream();
+             output.write((json.toString()).getBytes());
+             output.flush();
+             thread.start();
+             thread.join();
+             return client.result;
+         } 
+         catch (InterruptedException ex) {
+                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         catch (IOException ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
+        return "";
+    }
+    
+    //ham gui yeu cau xoa doi tuong hoa don qua server
+    private String guiXoaNV(String data)
+    {
+        JSONObject json = new JSONObject(data);
+        String yeucau = json.getString("method");
+        try {
+             ClientListener client = new ClientListener(socket);
+             Thread thread = new Thread(client);
+             json.put("method",yeucau);
+             json.put("MaNV",json.getString("MaNV"));
+             OutputStream output;
+             output = socket.getOutputStream();
+             output.write((json.toString()).getBytes());
+             output.flush();
+             thread.start();
+             thread.join();
+             return client.result;
+         } 
+         catch (InterruptedException ex) {
+                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         catch (IOException ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
         return "";
     }
     
@@ -338,9 +398,46 @@ public class Client {
                 return guiSuaLKM(data);
             case "UPDATETK":
                 return guiSuaTK(data);
+            case "UPDATENV":
+                return guiSuaNV(data);
         }
         return "";
     }
+    
+    private String guiSuaNV(String data)
+     {
+         JSONObject json = new JSONObject(data);
+        String yeucau = json.getString("method");
+        try {
+             ClientListener client = new ClientListener(socket);
+             Thread thread = new Thread(client);
+             json.put("method",yeucau);
+             json.put("MaNV",json.getString("MaNV"));
+             json.put("Hovaten",json.getString("Hovaten"));
+             json.put("NgaySinh", json.getString("NgaySinh"));
+             json.put("GioiTinh", json.getString("GioiTinh"));
+             json.put("Sodienthoai", json.getString("Sodienthoai"));
+             json.put("Email", json.getString("Email"));
+             json.put("DiaChi", json.getString("DiaChi"));
+             json.put("MaTK",json.getString("MaTK"));
+             json.put("MaVT", json.getString("MaVT"));
+             OutputStream output;
+             output = socket.getOutputStream();
+             output.write((json.toString()).getBytes());
+             output.flush();
+             thread.start();
+             thread.join();
+             return client.result;
+         } 
+         catch (InterruptedException ex) {
+                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         catch (IOException ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
+        return "";
+     }
     
     private String guiSuaTK(String data)
     {
@@ -1167,11 +1264,38 @@ public class Client {
                 return xuLiGetHoaDon("HoaDon", maDT);
             case "TaiKhoan":
                 return xuLiGetTK("TaiKhoan", maDT);
+            case "NhanVien":
+                return xuLiGetNV("NhanVien", maDT);
                 
       }
        return "";
        
    }
+   
+    public String xuLiGetNV(String yeucau, String maDT)
+      {
+          try {
+              ClientListener client = new ClientListener(socket);
+            Thread thread = new Thread(client);
+            JSONObject json = new JSONObject();
+            json.put("method",yeucau);
+            json.put("MaNV",maDT);
+            OutputStream output;
+            output = socket.getOutputStream();
+            output.write((json.toString()).getBytes());
+            output.flush();
+            thread.start();
+            thread.join();
+            return client.result;
+          }
+          catch (InterruptedException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+      }
+          return "";
+      }
    
      public String xuLiGetTK(String yeucau,String maDT)
    {

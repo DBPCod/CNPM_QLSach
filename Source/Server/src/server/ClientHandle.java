@@ -361,6 +361,7 @@ public class ClientHandle implements Runnable{
                         Logger.getLogger(ClientHandle.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     break;
+                    
                case "ListChiTietKhuyenMai":
                     ChiTietKhuyenMaiBLL ctkmBLL1 = new ChiTietKhuyenMaiBLL();
                     sendMessage(String.valueOf(ctkmBLL1.getList()));
@@ -417,8 +418,14 @@ public class ClientHandle implements Runnable{
                case "ListNhanVien":
                    NhanVienBLL nv = new NhanVienBLL();
                    sendMessage(String.valueOf(nv.getList()));
+                
+                   break; 
+                case "NhanVien":
+                    NhanVienBLL nvBLL2 = new NhanVienBLL();
+                    String MaNV = json.getString("MaNV");
+                    sendMessage(String.valueOf(nvBLL2.getNhanVien(MaNV)));
+                    break;   
                    
-                   break;       
                 case "PUTNV":
                     NhanVienBLL nvBLL3 = new NhanVienBLL();
                      try {
@@ -532,7 +539,11 @@ public class ClientHandle implements Runnable{
                     String MaTK = json.getString("MaTK");
                     sendMessage(String.valueOf(tkBLL5.getTaiKhoan(MaTK)));
                     break;
-                    
+            case "DELETETK":
+                    TaiKhoanBLL tkBLL6 = new TaiKhoanBLL();
+                    String MaTK1 = json.getString("MaTK");
+                    sendMessage(String.valueOf(tkBLL6.xoaTK(new TaiKhoanDTO( MaTK1, "", "",0))));
+                    break;
         }
     }
 }
