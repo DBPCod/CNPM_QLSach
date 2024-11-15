@@ -29,6 +29,12 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     private String MaDT = "0";
     private String nguoiNhap1;
     private static Client client1;
+    
+    private String locTenNhanVien = null; 
+    private Date locNgayBatDau = null;   
+    private Date locNgayKetThuc = null;  
+    private Double locSoTienBatDau = null; 
+    private Double locSoTienKetThuc = null; 
 
     public panelHoaDon(Client client,String nguoiNhap) {
         initComponents();
@@ -38,6 +44,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         client1 = client;
         nguoiNhap1=nguoiNhap;
         setUp();
+        setUpComboBoxNhanVien();
     }
     
     // ham lay danh sach
@@ -160,6 +167,16 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             }
         }
     }
+    
+    private void setUpComboBoxNhanVien() 
+    {
+        locNV.removeAllItems(); // Xóa các item cũ
+        locNV.addItem("Tất cả"); // Thêm tùy chọn mặc định
+        for (NhanVienDTO nv : getListNV("ListNhanVien")) {
+            locNV.addItem(nv.getHoVaTen());
+        }
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -185,8 +202,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        cbxType = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -195,12 +210,13 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        locTienBD = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
-        locTienKT = new javax.swing.JComboBox<>();
         locNBD = new com.toedter.calendar.JDateChooser();
         locNKT = new com.toedter.calendar.JDateChooser();
         locNV = new javax.swing.JComboBox<>();
+        locTienBD = new javax.swing.JTextField();
+        locTienKT = new javax.swing.JTextField();
+        nutLoc = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -376,10 +392,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setText("Tìm kiếm....");
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
-
         jButton1.setText("Làm mới");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -392,10 +404,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(cbxType, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(328, 328, 328)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -403,10 +412,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxType, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -440,14 +446,45 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Từ số tiền");
 
-        locTienBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel16.setText("Đến số tiền");
 
-        locTienKT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        locNBD.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                locNBDPropertyChange(evt);
+            }
+        });
 
-        locNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        locNKT.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                locNKTPropertyChange(evt);
+            }
+        });
+
         locNV.setPreferredSize(new java.awt.Dimension(72, 40));
+        locNV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                locNVActionPerformed(evt);
+            }
+        });
+
+        locTienBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                locTienBDActionPerformed(evt);
+            }
+        });
+
+        locTienKT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                locTienKTActionPerformed(evt);
+            }
+        });
+
+        nutLoc.setText("Lọc");
+        nutLoc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nutLocMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -464,8 +501,11 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                     .addComponent(locNV, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(locNBD, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(locNKT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(locTienBD, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(locTienKT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(locTienBD)
+                    .addComponent(locTienKT)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(nutLoc)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -489,12 +529,14 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                         .addComponent(locNKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(locTienBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel16)
+                        .addComponent(locTienBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(nutLoc))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -593,9 +635,115 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         setUp();
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void locNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locNVActionPerformed
+        // Lấy tên nhân viên được chọn và lưu vào biến
+        locTenNhanVien = locNV.getSelectedItem().toString();
+        if (locTenNhanVien.equals("Tất cả")) {
+            locTenNhanVien = null; // Không áp dụng điều kiện nếu chọn "Tất cả"
+        }
+    }//GEN-LAST:event_locNVActionPerformed
+
+    private void locNBDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_locNBDPropertyChange
+        locNgayBatDau = locNBD.getDate(); 
+    }//GEN-LAST:event_locNBDPropertyChange
+
+    private void locNKTPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_locNKTPropertyChange
+        locNgayKetThuc = locNKT.getDate();
+    }//GEN-LAST:event_locNKTPropertyChange
+
+    private void locTienBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locTienBDActionPerformed
+        try {
+            String input = locTienBD.getText().trim();
+            if (!input.isEmpty()) {
+                locSoTienBatDau = Double.parseDouble(input);
+            } else {
+                locSoTienBatDau = null; // Không áp dụng điều kiện nếu không nhập
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền bắt đầu không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienBD.setText(""); // Xóa giá trị không hợp lệ
+            locSoTienBatDau = null;
+        }
+    }//GEN-LAST:event_locTienBDActionPerformed
+
+    private void nutLocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nutLocMouseClicked
+        DefaultTableModel model = (DefaultTableModel) jTableHD.getModel();
+        model.setRowCount(0);
+
+        String tenNhanVien = locNV.getSelectedItem().toString();
+        Date ngayBatDau = locNBD.getDate();
+        Date ngayKetThuc = locNKT.getDate();
+        Double soTienBatDau = null;
+        Double soTienKetThuc = null;
+
+        // Lấy giá trị lọc số tiền
+        try {
+            if (!locTienBD.getText().trim().isEmpty()) {
+                soTienBatDau = Double.parseDouble(locTienBD.getText().trim());
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền bắt đầu không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienBD.setText(""); // Xóa giá trị không hợp lệ
+        }
+
+        try {
+            if (!locTienKT.getText().trim().isEmpty()) {
+                soTienKetThuc = Double.parseDouble(locTienKT.getText().trim());
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền kết thúc không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienKT.setText(""); // Xóa giá trị không hợp lệ
+        }
+
+        // Lọc danh sách hóa đơn
+        for (HoaDonDTO hd : getList("ListHoaDon")) {
+            if (hd.getTrangThai() == 1) { // Chỉ lọc hóa đơn có trạng thái hợp lệ
+
+                boolean tenNhanVienThoaMan = tenNhanVien.equals("Tất cả") || hd.getMaTK().equals(tenNhanVien);
+                boolean ngayThoaMan = (ngayBatDau == null || ngayKetThuc == null ||
+                                       (!hd.getNgayLapHoaDon().before(ngayBatDau) && !hd.getNgayLapHoaDon().after(ngayKetThuc)));
+                boolean tienThoaMan = (soTienBatDau == null || hd.getThanhTien() >= soTienBatDau) &&
+                                      (soTienKetThuc == null || hd.getThanhTien() <= soTienKetThuc);
+
+                // Chỉ thêm vào bảng nếu tất cả các điều kiện đều thỏa mãn
+                if (tenNhanVienThoaMan && ngayThoaMan && tienThoaMan) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String ngayLapHD = formatter.format(hd.getNgayLapHoaDon());
+                    model.addRow(new Object[]{hd.getMaHD(), ngayLapHD, hd.getThanhTien(), hd.getMaTK()});
+                }
+            }
+        }
+
+        // Xóa các trường nhập sau khi lọc
+        locNV.setSelectedIndex(0); // Đặt lại về "Tất cả"
+        locNBD.setDate(null);
+        locNKT.setDate(null);
+        locTienBD.setText("");
+        locTienKT.setText("");
+
+        // Hiển thị thông báo nếu không có kết quả nào
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_nutLocMouseClicked
+
+    private void locTienKTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locTienKTActionPerformed
+        try {
+            String input = locTienKT.getText().trim();
+            if (!input.isEmpty()) {
+                locSoTienKetThuc = Double.parseDouble(input);
+            } else {
+                locSoTienKetThuc = null; // Không áp dụng điều kiện nếu không nhập
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền kết thúc không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienKT.setText(""); // Xóa giá trị không hợp lệ
+            locSoTienKetThuc = null;
+        }
+    }//GEN-LAST:event_locTienKTActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> cbxType;
     private javax.swing.JPanel chiTietButton;
     private javax.swing.JPanel dsHuyButton;
     private javax.swing.JPanel huyButton;
@@ -619,12 +767,12 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableHD;
-    private javax.swing.JTextField jTextField1;
     private com.toedter.calendar.JDateChooser locNBD;
     private com.toedter.calendar.JDateChooser locNKT;
     private javax.swing.JComboBox<String> locNV;
-    private javax.swing.JComboBox<String> locTienBD;
-    private javax.swing.JComboBox<String> locTienKT;
+    private javax.swing.JTextField locTienBD;
+    private javax.swing.JTextField locTienKT;
+    private javax.swing.JButton nutLoc;
     private javax.swing.JPanel themButton;
     // End of variables declaration//GEN-END:variables
 }
