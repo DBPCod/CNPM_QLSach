@@ -2,6 +2,8 @@ package QL.HoaDonGUI;
 
 import Client.Client;
 import DTO.HoaDonDTO;
+import DTO.NhanVienDTO;
+import QL.NhanVienGUI.panelNhanVien;
 import QL.NhapKhoGUI.thongTinPhieuNhap;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,35 +45,84 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     {
         JSONObject json;
         
-        switch (yeucau)
-        {
-            case "ListHoaDon":
-                ArrayList<HoaDonDTO> list = new ArrayList<>();
-                json = new JSONObject(client1.getList(yeucau));
-                
-                // chuyen mang sang mang jsonArray
-                JSONArray jsonArray = json.getJSONArray("list");
-                for (int i = 0; i < jsonArray.length(); i++) 
-                {
-                    JSONObject nxbObject = jsonArray.getJSONObject(i);
-                    String MaHD = nxbObject.getString("maHD");
-                    String NgayLapHD = nxbObject.getString("ngayLapHoaDon");
-                    Double ThanhTien = nxbObject.getDouble("thanhTien");
-                    int Trangthai = nxbObject.getInt("trangThai");
-                    String MaTK = nxbObject.getString("maTK");
-                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
-                    
-                    try {
-                        Date ngayLapHD = formatter.parse(NgayLapHD);
-                        // Thêm vào ArrayList
-                        //xem lai trang thai
-                        list.add(new HoaDonDTO(MaHD, ngayLapHD, ThanhTien, Trangthai, MaTK));
-                    } catch (ParseException ex) {
-                        Logger.getLogger(panelHoaDon.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                return list;
+        switch (yeucau) {
+            case "ListHoaDon": 
+                    ArrayList<HoaDonDTO> list = new ArrayList<HoaDonDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    System.out.println(jsonArray);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject hdObject = jsonArray.getJSONObject(i);
+                        String MaHD = hdObject.getString("maHD");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        Date NgayLap;
+                        try {
+                            NgayLap = formatter.parse((hdObject.getString("ngayLapHoaDon")).toString() );
+                            Double Thanhtien = hdObject.getDouble("thanhTien");
+                            int Trangthai = hdObject.getInt("trangThai");
+                            String MaTK = hdObject.getString("maTK");
+                            for(NhanVienDTO nv : getListNV("ListNhanVien"))
+                            {
+                                if(MaTK.equals(nv.getMaTK()))
+                                {
+                                    list.add(new HoaDonDTO(MaHD, NgayLap, Thanhtien, Trangthai, nv.getHoVaTen()));
+                                }
+                            }
+                            
+                        } catch (ParseException ex) {
+                            Logger.getLogger(panelHoaDon.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        
+                    // Thêm vào ArrayList
+                    //xem lai trang thai
+                   
         }
+                    
+                    return list;
+                   
+        }
+                
+                    
+        return new ArrayList<>();
+    }
+    
+    private ArrayList<NhanVienDTO> getListNV(String yeucau)
+    {
+        JSONObject json;
+        
+        switch (yeucau) {
+            case "ListNhanVien": 
+                
+                    ArrayList<NhanVienDTO> list = new ArrayList<NhanVienDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject nvObject = jsonArray.getJSONObject(i);
+                        String MaNV = nvObject.getString("maNV");
+                        String HoVaTen = nvObject.getString("hoVaTen");
+                        String NgaySinh = nvObject.getString("ngaySinh");
+                        String GioiTinh = nvObject.getString("gioiTinh");
+                        String SoDienThoai = nvObject.getString("soDienThoai");
+                        String Email = nvObject.getString("email");
+                        String DiaChi = nvObject.getString("diaChi");
+                        String MaTK = nvObject.getString("maTK");
+                        String MaVT = nvObject.getString("maVT");
+                        int Trangthai = nvObject.getInt("trangThai");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");       
+            try {
+                Date ngaySinh = formatter.parse(NgaySinh);
+                // Thêm vào ArrayList
+                //xem lai trang thai
+                list.add(new NhanVienDTO(MaNV,  HoVaTen,  ngaySinh,  GioiTinh,  SoDienThoai, Email, DiaChi, MaTK, MaVT, Trangthai));
+            } catch (ParseException ex) {
+                Logger.getLogger(panelNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                    return list;
+                   
+        }    
         return new ArrayList<>();
     }
     
@@ -144,12 +195,12 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
+        locTienBD = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        locTienKT = new javax.swing.JComboBox<>();
+        locNBD = new com.toedter.calendar.JDateChooser();
+        locNKT = new com.toedter.calendar.JDateChooser();
+        locNV = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -389,14 +440,14 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Từ số tiền");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        locTienBD.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel16.setText("Đến số tiền");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        locTienKT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.setPreferredSize(new java.awt.Dimension(72, 40));
+        locNV.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        locNV.setPreferredSize(new java.awt.Dimension(72, 40));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -410,11 +461,11 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                     .addComponent(jLabel14)
                     .addComponent(jLabel15)
                     .addComponent(jLabel16)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(locNV, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(locNBD, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(locNKT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(locTienBD, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(locTienKT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -427,23 +478,23 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locNV, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locNBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locNKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locTienBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -549,11 +600,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     private javax.swing.JPanel dsHuyButton;
     private javax.swing.JPanel huyButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
@@ -574,6 +620,11 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableHD;
     private javax.swing.JTextField jTextField1;
+    private com.toedter.calendar.JDateChooser locNBD;
+    private com.toedter.calendar.JDateChooser locNKT;
+    private javax.swing.JComboBox<String> locNV;
+    private javax.swing.JComboBox<String> locTienBD;
+    private javax.swing.JComboBox<String> locTienKT;
     private javax.swing.JPanel themButton;
     // End of variables declaration//GEN-END:variables
 }

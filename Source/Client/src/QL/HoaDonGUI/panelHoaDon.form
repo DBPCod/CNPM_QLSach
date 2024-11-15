@@ -406,11 +406,11 @@
                           <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jDateChooser1" alignment="0" pref="140" max="32767" attributes="0"/>
-                          <Component id="jDateChooser2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBox5" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jComboBox6" alignment="0" max="32767" attributes="0"/>
+                          <Component id="locNV" alignment="0" max="32767" attributes="0"/>
+                          <Component id="locNBD" alignment="0" pref="140" max="32767" attributes="0"/>
+                          <Component id="locNKT" alignment="0" max="32767" attributes="0"/>
+                          <Component id="locTienBD" alignment="0" max="32767" attributes="0"/>
+                          <Component id="locTienKT" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="697" max="-2" attributes="0"/>
@@ -426,23 +426,23 @@
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBox3" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="locNV" min="-2" pref="35" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jDateChooser1" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="locNBD" min="-2" pref="40" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jDateChooser2" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="locNKT" min="-2" pref="40" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBox5" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="locTienBD" min="-2" pref="40" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jComboBox6" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="locTienKT" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <Component id="jScrollPane1" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
@@ -538,7 +538,7 @@
                 <Property name="text" type="java.lang.String" value="T&#x1eeb; s&#x1ed1; ti&#x1ec1;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox5">
+            <Component class="javax.swing.JComboBox" name="locTienBD">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
@@ -558,7 +558,7 @@
                 <Property name="text" type="java.lang.String" value="&#x110;&#x1ebf;n s&#x1ed1; ti&#x1ec1;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox6">
+            <Component class="javax.swing.JComboBox" name="locTienKT">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
@@ -573,11 +573,11 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+            <Component class="com.toedter.calendar.JDateChooser" name="locNBD">
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+            <Component class="com.toedter.calendar.JDateChooser" name="locNKT">
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox3">
+            <Component class="javax.swing.JComboBox" name="locNV">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
