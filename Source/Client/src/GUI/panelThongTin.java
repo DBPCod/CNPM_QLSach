@@ -29,7 +29,7 @@ public class panelThongTin extends javax.swing.JInternalFrame {
         setUp();
     }
 
-    private void setUp()
+    public void setUp()
     {
         JSONObject json = new JSONObject(client1.getNhanVien(MaTK1));
         JSONObject json1 = new JSONObject(client1.getVaiTro(json.getString("MaVT")));
@@ -373,14 +373,14 @@ public class panelThongTin extends javax.swing.JInternalFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        suaThongTin stt = new suaThongTin();
+        suaThongTin stt = new suaThongTin(new JSONObject(client1.getNhanVien(MaTK1)),client1,MaTK1,this);
         stt.setDefaultCloseOperation(stt.DISPOSE_ON_CLOSE);
         stt.setVisible(true);
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
         // TODO add your handling code here:
-        doiMatKhau dmk = new doiMatKhau();
+        doiMatKhau dmk = new doiMatKhau(client1,MaTK1);
         dmk.setDefaultCloseOperation(dmk.DISPOSE_ON_CLOSE);
         dmk.setVisible(true);
     }//GEN-LAST:event_jPanel9MouseClicked

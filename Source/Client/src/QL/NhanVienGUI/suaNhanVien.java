@@ -345,7 +345,6 @@ public class suaNhanVien extends javax.swing.JFrame {
         json.put("MaTK", maTK);
         json.put("MaVT", getMaVT(vaitro));
         
-        System.out.println(json);
         //tao json de lay ket qua xu li cap nhat doi tuong
         JSONObject json1 = new JSONObject(client1.suaDT(json.toString()));
         if(json1.getString("ketqua").equals("true"))
