@@ -5,9 +5,19 @@
 package GUI;
 
 import Client.Client;
+import DTO.NhanVienDTO;
+import GUI.Main;
+import QL.NhanVienGUI.panelNhanVien;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Image;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -224,6 +234,58 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_myButton1ActionPerformed
 
+    //ham lay danh sách
+    private ArrayList<NhanVienDTO> getList(String yeucau)
+    {
+        JSONObject json;
+        
+        switch (yeucau) {
+            case "ListNhanVien": 
+                
+                    ArrayList<NhanVienDTO> list = new ArrayList<NhanVienDTO>();
+                    json = new JSONObject(client.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject nvObject = jsonArray.getJSONObject(i);
+                        String MaNV = nvObject.getString("maNV");
+                        String HoVaTen = nvObject.getString("hoVaTen");
+                        String NgaySinh = nvObject.getString("ngaySinh");
+                        String GioiTinh = nvObject.getString("gioiTinh");
+                        String SoDienThoai = nvObject.getString("soDienThoai");
+                        String Email = nvObject.getString("email");
+                        String DiaChi = nvObject.getString("diaChi");
+                        String MaTK = nvObject.getString("maTK");
+                        String MaVT = nvObject.getString("maVT");
+                        int Trangthai = nvObject.getInt("trangThai");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");       
+            try {
+                Date ngaySinh = formatter.parse(NgaySinh);
+                // Thêm vào ArrayList
+                //xem lai trang thai
+                list.add(new NhanVienDTO(MaNV,  HoVaTen,  ngaySinh,  GioiTinh,  SoDienThoai, Email, DiaChi, MaTK, MaVT, Trangthai));
+            } catch (ParseException ex) {
+                Logger.getLogger(panelNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                    return list;
+                   
+        }    
+        return new ArrayList<>();
+    }
+    
+    private String getMaVT(String MaTK)
+    {
+        for(NhanVienDTO x : getList("ListNhanVien"))
+        {
+            if(MaTK.equals(x.getMaTK()))
+            {
+                return x.getMaVT();
+            }
+        }
+        return "";
+    }
+    
     private void myButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myButton2MouseClicked
         
         String taikhoan = txtTK.getText();
@@ -231,14 +293,27 @@ public class Login extends javax.swing.JFrame {
         String check = client.dangNhap(taikhoan, matkhau);
         
         JSONObject json = new JSONObject(check);
-        
         if(json.getString("Trangthai").equals("true"))
         {
-            
-            Main main = new Main(json.getString("MaTK"),client);
-            main.setVisible(true);
-            this.dispose();
+            switch (getMaVT(json.getString("MaTK"))){
+                case "VT001":
+                    Main main = new Main(json.getString("MaTK"),client);
+                    main.setVisible(true);
+                    this.dispose();
+                    break;
+                case "VT002":
+                    MainNhapKho mainnk = new MainNhapKho(json.getString("MaTK"),client);
+                    mainnk.setVisible(true);
+                    this.dispose();
+                    break;
+                case "VT003":
+                    MainBanHang mainbh = new MainBanHang(json.getString("MaTK"),client);
+                    mainbh.setVisible(true);
+                    this.dispose();
+                    break;
+            }
         }
+        
     }//GEN-LAST:event_myButton2MouseClicked
 
     /**
@@ -296,3 +371,4 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JTextField txtTK;
     // End of variables declaration//GEN-END:variables
 }
+

@@ -4,11 +4,13 @@
  */
 package GUI;
 
+import Client.Client;
 import TrangChuImg.panelTrangChu;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+import org.json.JSONObject;
 
 /**
  *
@@ -19,10 +21,14 @@ public class MainBanHang extends javax.swing.JFrame {
     /**
      * Creates new form MainBanHang
      */
+    private static String MaTK1;
+     private static Client client1;
     Color customColor = Color.decode("#C2F2E9");
-    public MainBanHang() {
+    public MainBanHang(String MaTK,Client client) {
         initComponents();
         this.setLocationRelativeTo(null);
+        MaTK1 = MaTK;
+        client1=client;
         start();
         setBorder();
     }
@@ -40,8 +46,8 @@ public class MainBanHang extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         panelTT = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        tenNV = new javax.swing.JLabel();
+        vaiTro = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         panel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -76,10 +82,10 @@ public class MainBanHang extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon1.jpg"))); // NOI18N
         jLabel1.setText("jLabel1");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Đinh Bá Phong");
+        tenNV.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        tenNV.setText("Đinh Bá Phong");
 
-        jLabel3.setText("Nhập kho");
+        vaiTro.setText("Nhập kho");
 
         javax.swing.GroupLayout panelTTLayout = new javax.swing.GroupLayout(panelTT);
         panelTT.setLayout(panelTTLayout);
@@ -90,8 +96,8 @@ public class MainBanHang extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelTTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(tenNV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(vaiTro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelTTLayout.setVerticalGroup(
@@ -101,9 +107,9 @@ public class MainBanHang extends javax.swing.JFrame {
                 .addGroup(panelTTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelTTLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(tenNV)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel3)))
+                        .addComponent(vaiTro)))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -373,6 +379,16 @@ public class MainBanHang extends javax.swing.JFrame {
         panelTrangChu  tt = new panelTrangChu();
         panelChange.removeAll();
         panelChange.add(tt).setVisible(true);
+        setUp();
+    }
+    
+    public void setUp()
+    {
+       
+        JSONObject json = new JSONObject(client1.getNhanVien(MaTK1));
+        JSONObject json1 = new JSONObject(client1.getVaiTro(json.getString("MaVT")));
+        tenNV.setText(json.getString("Hovaten"));
+        vaiTro.setText(json1.getString("TenVT"));
     }
     private void setBorder()
     {
@@ -485,7 +501,7 @@ public class MainBanHang extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 FlatLightLaf.setup();
-                new MainBanHang().setVisible(true);
+                new MainBanHang(MaTK1,client1).setVisible(true);
             }
         });
     }
@@ -494,12 +510,10 @@ public class MainBanHang extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -515,5 +529,7 @@ public class MainBanHang extends javax.swing.JFrame {
     private javax.swing.JPanel panel8;
     private javax.swing.JPanel panelChange;
     private javax.swing.JPanel panelTT;
+    private javax.swing.JLabel tenNV;
+    private javax.swing.JLabel vaiTro;
     // End of variables declaration//GEN-END:variables
 }
