@@ -380,7 +380,7 @@ public class panelThongTin extends javax.swing.JInternalFrame {
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
         // TODO add your handling code here:
-        doiMatKhau dmk = new doiMatKhau();
+        doiMatKhau dmk = new doiMatKhau(client1,MaTK1);
         dmk.setDefaultCloseOperation(dmk.DISPOSE_ON_CLOSE);
         dmk.setVisible(true);
     }//GEN-LAST:event_jPanel9MouseClicked

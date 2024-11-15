@@ -319,6 +319,8 @@ public class suaThongTin extends javax.swing.JFrame {
         return "";
     }
     
+    
+    
     private String getMaVT(String tenVT)
     {
         JSONObject json = new JSONObject(client1.getList("ListVaiTro"));
