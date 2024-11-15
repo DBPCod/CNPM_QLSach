@@ -555,6 +555,11 @@ Color customColor = Color.decode("#C2F2E9");
 
         panel11.setBackground(new java.awt.Color(255, 255, 255));
         panel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panel11MouseClicked(evt);
+            }
+        });
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon12.jpg"))); // NOI18N
         jLabel24.setText("jLabel4");
@@ -988,6 +993,14 @@ Color customColor = Color.decode("#C2F2E9");
         panelTT.setBackground(Color.WHITE);
         
     }//GEN-LAST:event_panel12MouseClicked
+
+    private void panel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel11MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        System.out.println("a");
+        Login login = new Login();
+        login.setVisible(true);
+    }//GEN-LAST:event_panel11MouseClicked
 
     /**
      * @param args the command line arguments
