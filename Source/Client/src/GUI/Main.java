@@ -14,6 +14,7 @@ import QL.NhapKhoGUI.panelKho;
 import QL.SanPhamGUI.panelSanPham;
 import QL.TaiKhoanGUI.panelTaiKhoan;
 import QL.TheLoaiGUI.panelTheLoai;
+import QL.ThongKeGUI.panelThongKe;
 import QL.khuyenMaiGUI.panelKhuyenMai;
 import QL.tacGiaGUI.panelTacGia;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -991,7 +992,9 @@ Color customColor = Color.decode("#C2F2E9");
         panel9.setBackground(Color.WHITE);
         panel10.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
-        
+        panelThongKe tk = new panelThongKe();
+        panelChange.removeAll();
+        panelChange.add(tk).setVisible(true);
     }//GEN-LAST:event_panel12MouseClicked
 
     private void panel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel11MouseClicked
