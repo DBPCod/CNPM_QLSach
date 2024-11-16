@@ -129,7 +129,7 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         timKiemField = new javax.swing.JTextField();
-        nutLamMoi = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTK = new javax.swing.JTable();
@@ -233,13 +233,10 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
 
-        nutLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icondoimk.png"))); // NOI18N
-        nutLamMoi.setBorder(null);
-        nutLamMoi.setMaximumSize(new java.awt.Dimension(40, 40));
-        nutLamMoi.setMinimumSize(new java.awt.Dimension(40, 40));
-        nutLamMoi.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Làm mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nutLamMoiActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -248,8 +245,8 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(104, 104, 104)
-                .addComponent(nutLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(76, 76, 76)
+                .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(54, Short.MAX_VALUE))
@@ -259,8 +256,8 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nutLamMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(timKiemField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(timKiemField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -385,14 +382,16 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         System.out.println("Đối tượng đã chọn với Mã: " + MaDT);
     }//GEN-LAST:event_jTableTKMouseClicked
 
-    private void nutLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutLamMoiActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
         setUp();
-    }//GEN-LAST:event_nutLamMoiActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ChiTietTK;
     private javax.swing.JPanel SuaTK;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -403,7 +402,6 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableTK;
-    private javax.swing.JButton nutLamMoi;
     private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 }

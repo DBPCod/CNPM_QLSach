@@ -151,7 +151,7 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         timKiemField = new javax.swing.JTextField();
         nutLamMoi = new javax.swing.JButton();
         nutLamMoi1 = new javax.swing.JButton();
-        nutLamMoi2 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSP = new javax.swing.JTable();
@@ -345,13 +345,15 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         nutLamMoi1.setMaximumSize(new java.awt.Dimension(40, 40));
         nutLamMoi1.setMinimumSize(new java.awt.Dimension(40, 40));
 
-        nutLamMoi2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icondoimk.png"))); // NOI18N
-        nutLamMoi2.setBorder(null);
-        nutLamMoi2.setMaximumSize(new java.awt.Dimension(40, 40));
-        nutLamMoi2.setMinimumSize(new java.awt.Dimension(40, 40));
-        nutLamMoi2.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Làm mới");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nutLamMoi2ActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -361,8 +363,8 @@ public class panelSanPham extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nutLamMoi2, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(18, 18, 18)
                 .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,10 +382,10 @@ public class panelSanPham extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nutLamMoi2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(timKiemField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -544,13 +546,18 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jPanel10MouseClicked
 
-    private void nutLamMoi2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutLamMoi2ActionPerformed
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         setUp();
-    }//GEN-LAST:event_nutLamMoi2ActionPerformed
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -571,7 +578,6 @@ public class panelSanPham extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTableSP;
     private javax.swing.JButton nutLamMoi;
     private javax.swing.JButton nutLamMoi1;
-    private javax.swing.JButton nutLamMoi2;
     private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 }
