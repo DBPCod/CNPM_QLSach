@@ -808,10 +808,16 @@ public class themPhieuNhap extends javax.swing.JFrame {
             json1.put("maPN",maPN);
             json1.put("list",jsonArray.toString());
             
+            JSONObject json2 = new JSONObject();
+            json2.put("method","UPDATESLSP");
+            json2.put("theloai","phieunhap");
+            json2.put("list",jsonArray.toString());
+            
             if(client1.themDT(json.toString()).equals("thanhcong"))
             {
                 JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 client1.themDT(json1.toString());
+                client1.suaDT(json2.toString());
                 panelKho1.setUp();
                 this.setVisible(false);
             }

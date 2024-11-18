@@ -394,6 +394,8 @@ public class Client {
                 return guiSuaTL(data);
             case "UPDATESP":
                 return guiSuaSTL(data);
+            case "UPDATESLSP":
+                return guiSuaSLSP(data);
             case "UPDATELKM":
                 return guiSuaLKM(data);
             case "UPDATETK":
@@ -450,6 +452,34 @@ public class Client {
              json.put("MaTK",json.getString("MaTK"));
              json.put("TenTK",json.getString("TenTK"));
              json.put("MatkhauTK",json.getString("MatkhauTK"));
+             OutputStream output;
+             output = socket.getOutputStream();
+             output.write((json.toString()).getBytes());
+             output.flush();
+             thread.start();
+             thread.join();
+             return client.result;
+         } 
+         catch (InterruptedException ex) {
+                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         catch (IOException ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
+        return "";
+    }
+    
+    //ham gui yeu cau sua doi tuong loai khuyen mai toi server
+    private String guiSuaSLSP(String data)
+    {
+        JSONObject json = new JSONObject(data);
+        String yeucau = json.getString("method");
+        try {
+             ClientListener client = new ClientListener(socket);
+             Thread thread = new Thread(client);
+             json.put("method",yeucau);
+             json.put("list",json.getString("list"));
              OutputStream output;
              output = socket.getOutputStream();
              output.write((json.toString()).getBytes());

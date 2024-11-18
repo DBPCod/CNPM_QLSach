@@ -303,6 +303,10 @@ public class ClientHandle implements Runnable{
                     sp4.suaSP(json);
                     sendMessage(String.valueOf(stl4.updateSachTheLoai(json)));
                     break;
+             case "UPDATESLSP":
+                    SanPhamBLL stl6 = new SanPhamBLL ();
+                    sendMessage(String.valueOf(stl6.suaSLSP(json)));
+                    break;
              case "DELETESP":
                     SanPhamBLL stl5 = new SanPhamBLL ();
                     String MaSP5 = json.getString("MaSP");
