@@ -992,7 +992,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel9.setBackground(Color.WHITE);
         panel10.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
-        panelThongKe tk = new panelThongKe();
+        panelThongKe tk = new panelThongKe(client1);
         panelChange.removeAll();
         panelChange.add(tk).setVisible(true);
     }//GEN-LAST:event_panel12MouseClicked

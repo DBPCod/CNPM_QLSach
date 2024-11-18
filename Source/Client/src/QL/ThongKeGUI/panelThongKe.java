@@ -4,6 +4,7 @@
  */
 package QL.ThongKeGUI;
 
+import Client.Client;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -15,11 +16,13 @@ public class panelThongKe extends javax.swing.JInternalFrame {
     /**
      * Creates new form panelThongKe
      */
-    public panelThongKe() {
+    private Client client1;
+    public panelThongKe(Client client) {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
+        client1=client;
         setUp();
     }
 
@@ -31,9 +34,9 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         nhacungcap.setBorder(null);
         tonkho.setBorder(null);
         banchay.setBorder(null);
-        tongQuanGUI tongquan = new tongQuanGUI();
+        quyGUI quy = new quyGUI(client1);
         panelChinh.removeAll();
-        panelChinh.add(tongquan).setVisible(true);
+        panelChinh.add(quy).setVisible(true);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -70,15 +73,20 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tongquan.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        tongquan.setText("Tổng quan");
+        tongquan.setText("Doanh số theo quý");
         tongquan.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tongquan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tongquanMouseClicked(evt);
+            }
+        });
 
         doanhthu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        doanhthu.setText("Doanh thu");
+        doanhthu.setText("Sản phẩm bán chạy");
         doanhthu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         nhacungcap.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        nhacungcap.setText("Nhà cung cấp");
+        nhacungcap.setText("Thể loại bán chạy");
         nhacungcap.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         tonkho.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -86,7 +94,7 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         tonkho.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         banchay.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        banchay.setText("Bán chạy");
+        banchay.setText("Lợi nhuận");
         banchay.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -128,11 +136,19 @@ public class panelThongKe extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(panelChinh, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tongquanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tongquanMouseClicked
+        // TODO add your handling code here:
+        quyGUI quy = new quyGUI(client1);
+        panelChinh.removeAll();
+        panelChinh.add(quy).setVisible(true);
+    }//GEN-LAST:event_tongquanMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
