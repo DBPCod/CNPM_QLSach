@@ -84,6 +84,11 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         doanhthu.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         doanhthu.setText("Sản phẩm bán chạy");
         doanhthu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        doanhthu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                doanhthuMouseClicked(evt);
+            }
+        });
 
         nhacungcap.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         nhacungcap.setText("Thể loại bán chạy");
@@ -149,6 +154,13 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         panelChinh.removeAll();
         panelChinh.add(quy).setVisible(true);
     }//GEN-LAST:event_tongquanMouseClicked
+
+    private void doanhthuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doanhthuMouseClicked
+        // TODO add your handling code here:
+        sanPhamBanChayGUI spbc = new sanPhamBanChayGUI(client1);
+        panelChinh.removeAll();
+        panelChinh.add(spbc).setVisible(true);
+    }//GEN-LAST:event_doanhthuMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

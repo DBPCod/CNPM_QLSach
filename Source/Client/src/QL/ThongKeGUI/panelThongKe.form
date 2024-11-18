@@ -130,6 +130,9 @@
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="doanhthuMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="nhacungcap">
           <Properties>
