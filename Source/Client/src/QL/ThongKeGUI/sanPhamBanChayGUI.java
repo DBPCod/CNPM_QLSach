@@ -46,21 +46,7 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
 
     private void getSLSP()
     {
-//        ArrayList<HoaDonDTO> list = new ArrayList<>();
-//        Date date = new Date();
-//        Calendar calendar = Calendar.getInstance();
-//        calendar.setTime(date);
-//        int year = calendar.get(Calendar.YEAR);
-//            for(HoaDonDTO x : getListHD("ListHoaDon"))
-//            {
-//                Calendar calendar1 = Calendar.getInstance();
-//                calendar.setTime(x.getNgayLapHoaDon());
-//                
-//                if(calendar1.get(Calendar.YEAR) == year)
-//                {
-//                    list.add(x);
-//                }
-//            }
+
             
        ArrayList<ChiTietHoaDonDTO> list = getListCTHD("ListCTHD");
         ArrayList<Object[]> list1 = new ArrayList<Object[]>();
@@ -260,14 +246,14 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(62, 62, 62)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(nam, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(622, Short.MAX_VALUE))
+                .addContainerGap(590, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(63, 63, 63)
@@ -307,6 +293,9 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
 
     private void namActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_namActionPerformed
         // TODO add your handling code here:
+        int year = Integer.parseInt(String.valueOf(nam.getSelectedItem()));
+        
+        getHD(year);
     }//GEN-LAST:event_namActionPerformed
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -314,6 +303,73 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
         getSLSP();
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private void getHD(int year)
+    {
+        ArrayList<HoaDonDTO> list = new ArrayList<HoaDonDTO>();
+        for(HoaDonDTO x : getListHD("ListHoaDon"))
+            {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(x.getNgayLapHoaDon());
+                if(calendar.get(Calendar.YEAR) == year)
+                {
+                    list.add(x);
+                }
+            }
+        ArrayList<ChiTietHoaDonDTO> list1 = new ArrayList<ChiTietHoaDonDTO>();
+        for(HoaDonDTO x : list)
+        {
+            for(ChiTietHoaDonDTO a: getListCTHD("ListCTHD"))
+            {
+                if(x.getMaHD().equals(a.getMaCTHD()))
+                {
+                    list1.add(a);
+                }
+            } 
+        }
+        
+        ArrayList<Object[]> list2 = new ArrayList<Object[]>();
+        Map<String, Double> mapTong = new HashMap<>(); // Lưu tổng theo mã sản phẩm
+
+        for (int i = 0; i < list.size(); i++) {
+            String MaSP = list1.get(i).getMaSP();
+            double soluong = list1.get(i).getSoLuong();
+
+            // Nếu sản phẩm chưa có trong Map, thêm vào và khởi tạo tổng giá trị
+            mapTong.put(MaSP, mapTong.getOrDefault(MaSP, 0.0) + soluong);
+        }
+
+        for (Map.Entry<String, Double> entry : mapTong.entrySet()) {
+            list2.add(new Object[]{entry.getKey(), String.valueOf(entry.getValue())});
+        }
+
+
+        DefaultPieDataset dataset = new DefaultPieDataset();
+
+        for (Object[] x : list2) {
+            for(SanPhamDTO sp : getListSP("ListSanPham"))
+            {  
+                if(sp.getMaSP().equals(String.valueOf(x[0])))
+                {
+                    dataset.setValue(sp.getTenSP(), Double.parseDouble(String.valueOf(x[1])));
+                }
+            }
+        }
+        JFreeChart pieChart = ChartFactory.createPieChart(
+            "Sản phẩm bán chạy", 
+            dataset, 
+            true, // Hiển thị chú thích
+            true, // Cho phép tương tác
+            true // Không cần hiển thị thông tin
+        );
+        ChartPanel chartPanel = new ChartPanel(pieChart);
+        chartPanel.setPreferredSize(new Dimension(822,320));
+        mainSP.removeAll();
+        mainSP.setLayout(new BorderLayout());
+        mainSP.add(chartPanel,BorderLayout.CENTER);
+        mainSP.revalidate();
+        mainSP.repaint();
+        
+    }
     private void setUpCombobox()
     {
         Date date = new Date();

@@ -31,7 +31,6 @@ public class panelThongKe extends javax.swing.JInternalFrame {
     {
         tongquan.setBorder(null);
         doanhthu.setBorder(null);
-        nhacungcap.setBorder(null);
         tonkho.setBorder(null);
         banchay.setBorder(null);
         quyGUI quy = new quyGUI(client1);
@@ -51,7 +50,6 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         tongquan = new javax.swing.JButton();
         doanhthu = new javax.swing.JButton();
-        nhacungcap = new javax.swing.JButton();
         tonkho = new javax.swing.JButton();
         banchay = new javax.swing.JButton();
 
@@ -90,13 +88,14 @@ public class panelThongKe extends javax.swing.JInternalFrame {
             }
         });
 
-        nhacungcap.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        nhacungcap.setText("Thể loại bán chạy");
-        nhacungcap.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
         tonkho.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         tonkho.setText("Tồn kho");
         tonkho.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        tonkho.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tonkhoMouseClicked(evt);
+            }
+        });
 
         banchay.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         banchay.setText("Lợi nhuận");
@@ -111,8 +110,6 @@ public class panelThongKe extends javax.swing.JInternalFrame {
                 .addGap(0, 0, 0)
                 .addComponent(doanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(nhacungcap, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
                 .addComponent(tonkho, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(banchay, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -125,7 +122,6 @@ public class panelThongKe extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(tongquan, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(doanhthu, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nhacungcap, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tonkho, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(banchay, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
@@ -162,12 +158,18 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         panelChinh.add(spbc).setVisible(true);
     }//GEN-LAST:event_doanhthuMouseClicked
 
+    private void tonkhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tonkhoMouseClicked
+        // TODO add your handling code here:
+        tonKhoGUI tonKho = new tonKhoGUI(client1);
+        panelChinh.removeAll();
+        panelChinh.add(tonKho).setVisible(true);
+    }//GEN-LAST:event_tonkhoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton banchay;
     private javax.swing.JButton doanhthu;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JButton nhacungcap;
     private javax.swing.JPanel panelChinh;
     private javax.swing.JButton tongquan;
     private javax.swing.JButton tonkho;

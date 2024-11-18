@@ -77,8 +77,6 @@
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="doanhthu" min="-2" pref="115" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                  <Component id="nhacungcap" min="-2" pref="115" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="tonkho" min="-2" pref="115" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="banchay" min="-2" pref="115" max="-2" attributes="0"/>
@@ -93,7 +91,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="tongquan" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       <Component id="doanhthu" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
-                      <Component id="nhacungcap" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       <Component id="tonkho" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                       <Component id="banchay" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                   </Group>
@@ -134,19 +131,6 @@
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="doanhthuMouseClicked"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="nhacungcap">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="12" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Th&#x1ec3; lo&#x1ea1;i b&#xe1;n ch&#x1ea1;y"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                <EtchetBorder/>
-              </Border>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="tonkho">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -159,6 +143,9 @@
               </Border>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tonkhoMouseClicked"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="banchay">
           <Properties>
