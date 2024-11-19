@@ -135,7 +135,7 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         timKiemField = new javax.swing.JTextField();
-        nutLamMoi = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableNXB = new javax.swing.JTable();
@@ -324,15 +324,7 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
             }
         });
 
-        nutLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icondoimk.png"))); // NOI18N
-        nutLamMoi.setBorder(null);
-        nutLamMoi.setMaximumSize(new java.awt.Dimension(40, 40));
-        nutLamMoi.setMinimumSize(new java.awt.Dimension(40, 40));
-        nutLamMoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nutLamMoiActionPerformed(evt);
-            }
-        });
+        jButton1.setText("Làm mới");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -340,8 +332,8 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(nutLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -349,9 +341,9 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(nutLamMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(timKiemField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -494,13 +486,10 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_timKiemFieldActionPerformed
 
-    private void nutLamMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutLamMoiActionPerformed
-        setUp();
-    }//GEN-LAST:event_nutLamMoiActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chitietButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -515,7 +504,6 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableNXB;
-    private javax.swing.JButton nutLamMoi;
     private javax.swing.JPanel suaButton;
     private javax.swing.JPanel themButton;
     private javax.swing.JTextField timKiemField;

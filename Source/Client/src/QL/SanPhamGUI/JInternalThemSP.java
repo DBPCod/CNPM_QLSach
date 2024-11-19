@@ -559,6 +559,55 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         int soTrang = (Integer) spinnerST.getValue();
         String ngonNgu = txtNN.getText();
         byte[] anhbia;
+
+            // Kiểm tra tên sản phẩm
+    if (tenSP.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (!tenSP.matches("^[a-zA-ZÀ-ỹ\\s]+$")) {
+        JOptionPane.showMessageDialog(null, "Tên sản phẩm chỉ được chứa chữ cái và không chứa số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra giá nhập
+    if (giaNhap.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Giá nhập không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (!giaNhap.matches("^\\d+(\\.\\d{1,2})?$")) {
+        JOptionPane.showMessageDialog(null, "Giá nhập phải là số dương và có thể có tối đa 2 chữ số sau dấu thập phân!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra giá bìa
+    if (giaBia.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Giá bìa không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (!giaBia.matches("^\\d+(\\.\\d{1,2})?$")) {
+        JOptionPane.showMessageDialog(null, "Giá bìa phải là số dương và có thể có tối đa 2 chữ số sau dấu thập phân!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra số trang
+    if (soTrang <= 0) {
+        JOptionPane.showMessageDialog(null, "Số trang phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra ngôn ngữ
+    if (ngonNgu.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Ngôn ngữ không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (!ngonNgu.matches("^[a-zA-ZÀ-ỹ\\s]+$")) {
+        JOptionPane.showMessageDialog(null, "Ngôn ngữ chỉ được chứa chữ cái và không chứa số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra tác giả
+    if (comboboxTG.getSelectedIndex() == -1) {
+        JOptionPane.showMessageDialog(null, "Vui lòng chọn tác giả!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
         //neu anh ma null la do chua chon nut chon the loai
         if(dt1.getAnhBia()==null)
         {

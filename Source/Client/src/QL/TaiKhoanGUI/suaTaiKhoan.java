@@ -177,18 +177,27 @@ public class suaTaiKhoan extends javax.swing.JFrame {
 
     private void nutSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutSuaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nutSuaActionPerformed
-
-    private void MaTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaTKActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MaTKActionPerformed
-
-    private void nutSuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nutSuaMouseClicked
-        // TODO add your handling code here:
         //lay du lieu sua gui qua serve
         String tentk = TenTK.getText();
         String matk = MaTK.getText();
         String matkhautk = MatKhauTK.getText();
+        
+        // Kiểm tra tên tài khoản không được để trống
+        if (tentk.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra mật khẩu không được để trống và có ít nhất 6 ký tự
+        if (matkhautk.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (matkhautk.length() < 6) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu phải có ít nhất 6 ký tự!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         JSONObject json = new JSONObject();
         json.put("method", "UPDATETK");
@@ -208,6 +217,14 @@ public class suaTaiKhoan extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(null, "Sửa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
+    }//GEN-LAST:event_nutSuaActionPerformed
+
+    private void MaTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaTKActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MaTKActionPerformed
+
+    private void nutSuaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nutSuaMouseClicked
+        
     }//GEN-LAST:event_nutSuaMouseClicked
 
     /**

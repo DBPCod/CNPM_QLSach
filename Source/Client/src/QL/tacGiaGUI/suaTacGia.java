@@ -75,7 +75,7 @@ public class suaTacGia extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("THÔNG TIN TÁC GIẢ");
+        jLabel1.setText("SỬA TÁC GIẢ");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -123,7 +123,7 @@ public class suaTacGia extends javax.swing.JFrame {
             }
         });
 
-        gioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ", " " }));
+        gioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -203,6 +203,14 @@ public class suaTacGia extends javax.swing.JFrame {
         String quoctich = quocTich.getText();
         String butdanh = butDanh.getText();
         String gioitinh = String.valueOf(gioiTinh.getSelectedItem());
+        
+        if (quoctich.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Quốc tịch không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (!quoctich.matches("^[\\p{L}\\s]+$")) {
+            JOptionPane.showMessageDialog(null, "Quốc tịch chỉ được chứa chữ cái và khoảng trắng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         
         JSONObject json = new JSONObject();
         json.put("method","UPDATETG");

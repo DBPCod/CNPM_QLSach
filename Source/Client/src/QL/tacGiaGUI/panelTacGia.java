@@ -5,6 +5,7 @@
 package QL.tacGiaGUI;
 
 import Client.Client;
+import Customize.TimKiem;
 import DTO.TacGiaDTO;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
@@ -30,6 +31,8 @@ public class panelTacGia extends javax.swing.JInternalFrame {
      */
     private String MaDT = "0";
     private static Client client1;
+    private static TimKiem timkiem = new TimKiem();
+    
     public panelTacGia(Client client) {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
@@ -37,6 +40,8 @@ public class panelTacGia extends javax.swing.JInternalFrame {
         bui.setNorthPane(null);
         client1=client;
         setUp();
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }   
     
 
@@ -88,7 +93,29 @@ public class panelTacGia extends javax.swing.JInternalFrame {
         }
     }
     
- 
+    private void timKiem() 
+    {        
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jTableTG.getModel();
+        model.setRowCount(0); 
+
+        ArrayList<TacGiaDTO> allAuthors = getList("ListTacGia");
+
+        for (TacGiaDTO tacgia : allAuthors) {
+            if (tacgia.getTrangThai() == 1) {
+                String maTG = timkiem.KhongLayDau(tacgia.getMaTG().toLowerCase());
+                String tenTG = timkiem.KhongLayDau(tacgia.getHoVaTen().toLowerCase());
+
+                if (maTG.contains(searchText) || tenTG.contains(searchText)) {
+                    model.addRow(new Object[] {tacgia.getMaTG(),tacgia.getHoVaTen(),tacgia.getButDanh(),tacgia.getQuocTich()});
+                }
+            }
+        }
+
+        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
+            // xu li thong bao khi khong tim thay
+        }
+    }
       
     /**
      * This method is called from within the constructor to initialize the form.
@@ -114,8 +141,8 @@ public class panelTacGia extends javax.swing.JInternalFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        cbxType = new javax.swing.JComboBox<>();
+        timKiemField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTG = new javax.swing.JTable();
@@ -293,19 +320,26 @@ public class panelTacGia extends javax.swing.JInternalFrame {
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setText("Tìm kiếm....");
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.setText("Tìm kiếm....");
+        timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
+
+        jButton1.setText("Làm mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(cbxType, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1)
+                .addGap(82, 82, 82)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(timKiemField, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
                 .addGap(58, 58, 58))
         );
         jPanel8Layout.setVerticalGroup(
@@ -313,8 +347,8 @@ public class panelTacGia extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxType, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(11, Short.MAX_VALUE))
         );
 
@@ -470,9 +504,14 @@ public class panelTacGia extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jPanel10MouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        setUp();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> cbxType;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -491,6 +530,6 @@ public class panelTacGia extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTableTG;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 }

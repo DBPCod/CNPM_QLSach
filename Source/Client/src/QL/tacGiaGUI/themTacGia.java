@@ -219,6 +219,33 @@ public class themTacGia extends javax.swing.JFrame {
         String quoctich = quocTich.getText();
         String butdanh = butDanh.getText();
         String gioitinh = String.valueOf(gioiTinh.getSelectedItem());
+        
+                // Kiểm tra họ và tên tác giả
+        if (tentacgia.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Họ và tên tác giả không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (!tentacgia.matches("^[\\p{L}\\s]+$")) {
+            JOptionPane.showMessageDialog(null, "Họ và tên tác giả chỉ được chứa chữ cái và khoảng trắng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (tentacgia.matches(".*\\s{2,}.*")) {
+            JOptionPane.showMessageDialog(null, "Họ và tên tác giả không được chứa khoảng trắng liên tiếp!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Kiểm tra quốc tịch (chỉ cho phép chữ cái và khoảng trắng)
+        if (quoctich.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Quốc tịch không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (!quoctich.matches("^[\\p{L}\\s]+$")) {
+            JOptionPane.showMessageDialog(null, "Quốc tịch chỉ được chứa chữ cái và khoảng trắng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (butdanh.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Bút danh không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         JSONObject json = new JSONObject();
         json.put("method","PUTTG");
         json.put("MaTG",matacgia);

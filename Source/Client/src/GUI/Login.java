@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -59,7 +60,7 @@ public class Login extends javax.swing.JFrame {
         txtMK = new javax.swing.JPasswordField();
         jPanel5 = new javax.swing.JPanel();
         myButton2 = new Customize.MyButton();
-        jCheckBoxCustom1 = new checkbox.JCheckBoxCustom();
+        chkShowPassword = new checkbox.JCheckBoxCustom();
 
         jInternalFrame1.setVisible(true);
 
@@ -171,8 +172,13 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel5.add(myButton2);
 
-        jCheckBoxCustom1.setBackground(new java.awt.Color(51, 102, 255));
-        jCheckBoxCustom1.setText("Hiển thị mật khẩu");
+        chkShowPassword.setBackground(new java.awt.Color(51, 102, 255));
+        chkShowPassword.setText("Hiển thị mật khẩu");
+        chkShowPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkShowPasswordActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -183,7 +189,7 @@ public class Login extends javax.swing.JFrame {
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jCheckBoxCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chkShowPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(55, 55, 55))
         );
         jPanel2Layout.setVerticalGroup(
@@ -193,7 +199,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
-                .addComponent(jCheckBoxCustom1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(chkShowPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
                 .addGap(0, 0, 0))
@@ -290,31 +296,49 @@ public class Login extends javax.swing.JFrame {
         
         String taikhoan = txtTK.getText();
         String matkhau = txtMK.getText();
-        String check = client.dangNhap(taikhoan, matkhau);
         
+        
+        if (taikhoan.isEmpty() || matkhau.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Tên đăng nhập và mật khẩu không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+        String check = client.dangNhap(taikhoan, matkhau);  
         JSONObject json = new JSONObject(check);
-        if(json.getString("Trangthai").equals("true"))
-        {
-            switch (getMaVT(json.getString("MaTK"))){
-                case "VT001":
-                    Main main = new Main(json.getString("MaTK"),client);
-                    main.setVisible(true);
-                    this.dispose();
-                    break;
-                case "VT002":
-                    MainNhapKho mainnk = new MainNhapKho(json.getString("MaTK"),client);
-                    mainnk.setVisible(true);
-                    this.dispose();
-                    break;
-                case "VT003":
-                    MainBanHang mainbh = new MainBanHang(json.getString("MaTK"),client);
-                    mainbh.setVisible(true);
-                    this.dispose();
-                    break;
+        if (json.getString("Trangthai").equals("true")) {
+        switch (getMaVT(json.getString("MaTK"))) {
+            case "VT001":
+                Main main = new Main(json.getString("MaTK"), client);
+                main.setVisible(true);
+                this.dispose();
+                break;
+            case "VT002":
+                MainNhapKho mainnk = new MainNhapKho(json.getString("MaTK"), client);
+                mainnk.setVisible(true);
+                this.dispose();
+                break;
+            case "VT003":
+                MainBanHang mainbh = new MainBanHang(json.getString("MaTK"), client);
+                mainbh.setVisible(true);
+                this.dispose();
+                break;
             }
-        }
+        } else {
+        JOptionPane.showMessageDialog(this, "Tên tài khoản hoặc mật khẩu không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
         
     }//GEN-LAST:event_myButton2MouseClicked
+
+    private void chkShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkShowPasswordActionPerformed
+        // TODO add your handling code here:
+        if (chkShowPassword.isSelected()) {
+        // Hiển thị mật khẩu
+        txtMK.setEchoChar((char) 0); // Đặt echoChar thành 0 để hiển thị mật khẩu
+    } else {
+        // Ẩn mật khẩu
+        txtMK.setEchoChar('*'); // Đặt echoChar lại là dấu '*' để ẩn mật khẩu
+    }
+    }//GEN-LAST:event_chkShowPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -353,9 +377,9 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private checkbox.JCheckBoxCustom chkShowPassword;
     private javax.swing.JLabel img;
     private javax.swing.JButton jButton2;
-    private checkbox.JCheckBoxCustom jCheckBoxCustom1;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
