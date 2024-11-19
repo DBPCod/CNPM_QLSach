@@ -31,6 +31,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Client client = new Client();
+    
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -371,7 +372,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                FlatLightLaf.setup();
+                FlatLightLaf.setup();
                 new Login().setVisible(true);
             }
         });
