@@ -5,6 +5,7 @@
 package QL.ThongKeGUI;
 
 import Client.Client;
+import java.awt.Color;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
@@ -16,6 +17,7 @@ public class panelThongKe extends javax.swing.JInternalFrame {
     /**
      * Creates new form panelThongKe
      */
+    Color customColor = Color.decode("#C2F2E9");
     private Client client1;
     public panelThongKe(Client client) {
         initComponents();
@@ -36,6 +38,7 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         quyGUI quy = new quyGUI(client1);
         panelChinh.removeAll();
         panelChinh.add(quy).setVisible(true);
+        tongquan.setBackground(customColor);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -100,6 +103,11 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         banchay.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         banchay.setText("Lợi nhuận");
         banchay.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        banchay.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                banchayMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -146,6 +154,11 @@ public class panelThongKe extends javax.swing.JInternalFrame {
 
     private void tongquanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tongquanMouseClicked
         // TODO add your handling code here:
+        
+        tongquan.setBackground(customColor);
+        tonkho.setBackground(Color.WHITE);
+        banchay.setBackground(Color.WHITE);
+        doanhthu.setBackground(Color.WHITE);
         quyGUI quy = new quyGUI(client1);
         panelChinh.removeAll();
         panelChinh.add(quy).setVisible(true);
@@ -153,6 +166,10 @@ public class panelThongKe extends javax.swing.JInternalFrame {
 
     private void doanhthuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_doanhthuMouseClicked
         // TODO add your handling code here:
+        tongquan.setBackground(Color.WHITE);
+        doanhthu.setBackground(customColor);
+        tonkho.setBackground(Color.WHITE);
+        banchay.setBackground(Color.WHITE);
         sanPhamBanChayGUI spbc = new sanPhamBanChayGUI(client1);
         panelChinh.removeAll();
         panelChinh.add(spbc).setVisible(true);
@@ -160,10 +177,22 @@ public class panelThongKe extends javax.swing.JInternalFrame {
 
     private void tonkhoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tonkhoMouseClicked
         // TODO add your handling code here:
+        tonkho.setBackground(customColor);
+        tongquan.setBackground(Color.WHITE);
+        doanhthu.setBackground(Color.WHITE);
+        banchay.setBackground(Color.WHITE);
         tonKhoGUI tonKho = new tonKhoGUI(client1);
         panelChinh.removeAll();
         panelChinh.add(tonKho).setVisible(true);
     }//GEN-LAST:event_tonkhoMouseClicked
+
+    private void banchayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banchayMouseClicked
+        // TODO add your handling code here:
+        tonkho.setBackground(Color.WHITE);
+        tongquan.setBackground(Color.WHITE);
+        doanhthu.setBackground(Color.WHITE);
+        banchay.setBackground(customColor);
+    }//GEN-LAST:event_banchayMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
