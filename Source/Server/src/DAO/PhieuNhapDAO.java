@@ -40,9 +40,12 @@ public class PhieuNhapDAO {
                     String MaNXB = rs.getString("MaNXB");
                     list.add(new PhieuNhapDTO(MaPN, NgayNhap, ThanhTien, TrangThai, MaTK, MaNXB));
                 }
+                 System.out.println("lo1");
+                database.closeConnection(conn,stm,rs);
             } catch (SQLException ex) {
                 Logger.getLogger(TacGiaDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
+        
         return list;
     }
     
@@ -63,6 +66,7 @@ public class PhieuNhapDAO {
             pstmt.setString(6,pn.getMaNXB());
             if(pstmt.executeUpdate() > 0)
             {
+//                database.closeConnection(conn,stm,rs);
                 return "true";
             }
         } catch (SQLException ex) {
@@ -82,6 +86,7 @@ public class PhieuNhapDAO {
             pstmt.setString(2,pn.getMaPN());
             if(pstmt.executeUpdate() > 0)
             {
+//                database.closeConnection(conn,stm,rs);
                 return "true";
             }
         } catch (SQLException ex) {
@@ -90,4 +95,6 @@ public class PhieuNhapDAO {
         return "false";
         
     }
+    
+    
 }

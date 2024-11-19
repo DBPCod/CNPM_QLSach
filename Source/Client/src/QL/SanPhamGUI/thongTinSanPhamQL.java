@@ -67,9 +67,9 @@ public class thongTinSanPhamQL extends javax.swing.JFrame {
           txtGB.setText(String.valueOf(json.getDouble("GiaBia")));
           spinnerST.setValue(json.getInt("SoTrang"));
           txtNN.setText(json.getString("NgonNgu"));
+          txtSL.setText(String.valueOf(json.getInt("SoLuong")));
           String data2 = client1.getDoiTuong("TacGia", json.getString("MaTG"));
           JSONObject json3 = new JSONObject(data2);
-          System.out.println(data2+" a");
           txtTG.setText(json3.getString("Hovaten"));
           setSTL(); 
     }
@@ -236,7 +236,6 @@ public class thongTinSanPhamQL extends javax.swing.JFrame {
 
         jLabel11.setText("Số lượng");
 
-        txtSL.setText("0");
         txtSL.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtSL.setEnabled(false);
 
@@ -377,6 +376,7 @@ public class thongTinSanPhamQL extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

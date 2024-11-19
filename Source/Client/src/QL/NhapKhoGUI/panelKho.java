@@ -521,7 +521,6 @@ public class panelKho extends javax.swing.JInternalFrame {
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayNhap = formatter.format(phieunhap.getNgayNhap());
-                System.out.println(phieunhap.getMaPN());
                 model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaNXB()});
             }
         }
