@@ -38,6 +38,7 @@ public class ChiTietPhieuNhapDAO {
                     String MaPN = rs.getString("MaPN");
                     list.add(new ChiTietPhieuNhapDTO(Soluongnhap, Dongia, MaSP, MaPN));
                 }
+                database.closeConnection(conn,stm,rs);
             } catch (SQLException ex) {
                 Logger.getLogger(TacGiaDAO.class.getName()).log(Level.SEVERE, null, ex);
             }

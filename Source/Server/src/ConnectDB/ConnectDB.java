@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 /**
  *
  * @author HP
@@ -30,5 +30,41 @@ public class ConnectDB {
             e.printStackTrace();
         }
         return connection;
+    }
+    
+    public static void closeConnection(Connection conn, Statement stmt, ResultSet rs) {
+        // Đóng ResultSet
+        System.out.println(conn +" and " +stmt +" and " + rs);
+        if (rs != null) {
+            try {
+                rs.close();
+                System.out.println("ResultSet đã được đóng.");
+            } catch (SQLException e) {
+                System.err.println("Đóng ResultSet thất bại.");
+                e.printStackTrace();
+            }
+        }
+
+        // Đóng Statement
+        if (stmt != null) {
+            try {
+                stmt.close();
+                System.out.println("Statement đã được đóng.");
+            } catch (SQLException e) {
+                System.err.println("Đóng Statement thất bại.");
+                e.printStackTrace();
+            }
+        }
+
+        // Đóng Connection
+        if (conn != null) {
+            try {
+                conn.close();
+                System.out.println("Connection đã được đóng.");
+            } catch (SQLException e) {
+                System.err.println("Đóng Connection thất bại.");
+                e.printStackTrace();
+            }
+        }
     }
 }

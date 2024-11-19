@@ -618,11 +618,10 @@ public class themHoaDon extends javax.swing.JFrame {
         ArrayList<TaiKhoanDTO> list = new ArrayList<TaiKhoanDTO>();
         switch (yeucau) {
             case "ListTaiKhoan": 
-
                     json = new JSONObject(client1.getList(yeucau));
                     //chuyen mang chuoi sang mang jsonArray
                     JSONArray jsonArray = json.getJSONArray("list");
-                    System.out.println(jsonArray);
+                    
                     for (int i = 0; i < jsonArray.length(); i++) {
                           JSONObject tacGiaObject = jsonArray.getJSONObject(i);
                           String MaTK = tacGiaObject.getString("maTK");
@@ -664,12 +663,18 @@ public class themHoaDon extends javax.swing.JFrame {
             json1.put("method","PUTCTHD");
             JSONArray jsonArray = new JSONArray(list);
             json1.put("maHD",maHD);
-            json1.put("list",jsonArray.toString());
+            json1.put("list",jsonArray.toString()); 
             
+            JSONObject json2 = new JSONObject();
+            json2.put("method","UPDATESLSP");
+            json2.put("theloai","hoadon");
+            json2.put("list",jsonArray.toString());
+            System.out.println(json2.toString() + "aaaa");
             if(client1.themDT(json.toString()).equals("thanhcong"))
             {
                 JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 client1.themDT(json1.toString());
+                client1.suaDT(json2.toString());
                 panelHoaDon1.setUp();
                 this.setVisible(false);
             }

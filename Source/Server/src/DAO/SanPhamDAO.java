@@ -151,6 +151,27 @@ public class SanPhamDAO {
         
     }
     
+    //ham cap nhat doi tuong len csdl
+    public String suaSLSP(String MaSP,int Soluong)
+    {
+        java.sql.Connection conn;
+        String query = "UPDATE sanpham SET Soluong=? WHERE MaSP=?";
+        conn = database.connect();
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(query);
+            pstmt.setInt(1,Soluong);
+            pstmt.setString(2,MaSP);
+            if(pstmt.executeUpdate() > 0)
+            {
+                return "true";
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(TacGiaDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "false";
+        
+    }
+    
     public String xoaSP(SanPhamDTO sp)
     {
         java.sql.Connection conn;

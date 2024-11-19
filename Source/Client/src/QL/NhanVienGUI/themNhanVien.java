@@ -9,6 +9,7 @@ import DTO.TaiKhoanDTO;
 import QL.NhanVienGUI.panelNhanVien;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import org.json.JSONArray;
@@ -32,6 +33,7 @@ public class themNhanVien extends javax.swing.JFrame {
         client1=client;
         panelNhanVien1=panelNhanVien;
         setMaNV();
+        NgaySinh.setDate(new java.util.Date());
     }
     
     private void setMaNV()
@@ -120,7 +122,7 @@ public class themNhanVien extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        nutThem = new javax.swing.JButton();
         GioiTinh = new javax.swing.JComboBox<>();
         MaVT = new javax.swing.JComboBox<>();
         MaNV = new javax.swing.JTextField();
@@ -181,18 +183,23 @@ public class themNhanVien extends javax.swing.JFrame {
 
         jLabel8.setText("Email");
 
-        jButton1.setBackground(new java.awt.Color(102, 255, 102));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jButton1.setText("Thêm");
-        jButton1.setBorder(null);
-        jButton1.setBorderPainted(false);
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        nutThem.setBackground(new java.awt.Color(102, 255, 102));
+        nutThem.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        nutThem.setText("Thêm");
+        nutThem.setBorder(null);
+        nutThem.setBorderPainted(false);
+        nutThem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                nutThemMouseClicked(evt);
+            }
+        });
+        nutThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nutThemActionPerformed(evt);
             }
         });
 
-        GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nam", "nữ" }));
+        GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
 
         MaVT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Nhập kho", "Bán hàng" }));
 
@@ -244,7 +251,7 @@ public class themNhanVien extends javax.swing.JFrame {
                             .addComponent(MaTK, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nutThem, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
                     .addComponent(HoVaTen, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,8 +308,8 @@ public class themNhanVien extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(MaTK, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(nutThem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -313,7 +320,9 @@ public class themNhanVien extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -323,9 +332,40 @@ public class themNhanVien extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_HoVaTenActionPerformed
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void nutThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nutThemMouseClicked
         // TODO add your handling code here:
-    String tenNV = HoVaTen.getText();
+    
+    }//GEN-LAST:event_nutThemMouseClicked
+
+    private String getMaVT(String tenVT)
+    {
+        JSONObject json = new JSONObject(client1.getList("ListVaiTro"));
+        JSONArray jsonArray = json.getJSONArray("list");
+        System.out.println(jsonArray);
+        for(int i=0;i<jsonArray.length();i++)
+        {
+            
+            JSONObject nvObject = jsonArray.getJSONObject(i);
+              String chuoi = nvObject.getString("tenVT");
+            if(chuoi.equalsIgnoreCase(tenVT))
+            {
+                return nvObject.getString("maVT");
+            }
+        }
+        return "";
+    }
+    
+    private void MaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaNVActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MaNVActionPerformed
+
+    private void MaTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaTKActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MaTKActionPerformed
+
+    private void nutThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutThemActionPerformed
+        // TODO add your handling code here:
+        String tenNV = HoVaTen.getText();
     String maNV = MaNV.getText();
     String diaChiNV = DiaChi.getText();
     String emailNV = email.getText();
@@ -333,10 +373,81 @@ public class themNhanVien extends javax.swing.JFrame {
     String vaitro = MaVT.getSelectedItem().toString();
     Date layngaySinh = NgaySinh.getDate();  // Định dạng "yyyy-MM-dd"
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    if (layngaySinh == null) {
+    JOptionPane.showMessageDialog(null, "Vui lòng chọn ngày sinh!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    return;
+    }
     String ngaySinh = sdf.format(layngaySinh);
     String gioiTinh = GioiTinh.getSelectedItem().toString();  // giả định là combo box
     String maTK = MaTK.getText();
 
+    // Kiểm tra họ và tên
+    if (tenNV.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Họ và tên không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (!tenNV.matches("^[\\p{L}\\s]+$")) {
+        JOptionPane.showMessageDialog(null, "Họ và tên chỉ được chứa chữ cái và khoảng trắng!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (tenNV.matches(".*\\s{2,}.*")) {
+        JOptionPane.showMessageDialog(null, "Họ và tên không được chứa khoảng trắng liên tiếp!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra số điện thoại
+    if (sdtNV.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Số điện thoại không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (!sdtNV.matches("^0\\d{9}$")) {
+        JOptionPane.showMessageDialog(null, "Số điện thoại phải bắt đầu bằng 0 và có 10 chữ số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra địa chỉ
+    if (diaChiNV.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra email
+    if (emailNV.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Email không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    } else if (!emailNV.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+        JOptionPane.showMessageDialog(null, "Email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra ngày sinh
+    if (layngaySinh == null) {
+        JOptionPane.showMessageDialog(null, "Ngày sinh không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    // Kiểm tra ngày sinh không quá xa hoặc gần
+    Calendar currentDate = Calendar.getInstance();
+    Calendar birthDate = Calendar.getInstance();
+    birthDate.setTime(layngaySinh);
+
+    // Kiểm tra không được dưới 18 tuổi (tính theo ngày)
+    birthDate.add(Calendar.YEAR, 18); // Thêm 18 năm vào ngày sinh
+    if (birthDate.after(currentDate)) {
+        JOptionPane.showMessageDialog(this, "Ngày sinh phải ít nhất là 18 tuổi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra không được quá 70 tuổi (tính theo ngày)
+    Calendar maxBirthDate = Calendar.getInstance();
+    maxBirthDate.add(Calendar.YEAR, -70); // Trừ đi 70 năm từ ngày hiện tại
+    if (birthDate.before(maxBirthDate)) {
+        JOptionPane.showMessageDialog(this, "Ngày sinh không thể quá 70 tuổi!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Kiểm tra không được lớn hơn ngày hiện tại
+    if (layngaySinh.after(new Date())) {
+        JOptionPane.showMessageDialog(this, "Ngày sinh không thể lớn hơn ngày hiện tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
     //tao doi tuong tai khoan
     JSONObject json1 = new JSONObject();
@@ -372,37 +483,7 @@ public class themNhanVien extends javax.swing.JFrame {
         }
     }
     
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    
-    private String getMaVT(String tenVT)
-    {
-        JSONObject json = new JSONObject(client1.getList("ListVaiTro"));
-        JSONArray jsonArray = json.getJSONArray("list");
-        System.out.println(jsonArray);
-        for(int i=0;i<jsonArray.length();i++)
-        {
-            
-            JSONObject nvObject = jsonArray.getJSONObject(i);
-              String chuoi = nvObject.getString("tenVT");
-            if(chuoi.equalsIgnoreCase(tenVT))
-            {
-                return nvObject.getString("maVT");
-            }
-        }
-        return "";
-    }
-    
-    
-    
-    
-    private void MaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaNVActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MaNVActionPerformed
-
-    private void MaTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaTKActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_MaTKActionPerformed
+    }//GEN-LAST:event_nutThemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,7 +529,6 @@ public class themNhanVien extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> MaVT;
     private com.toedter.calendar.JDateChooser NgaySinh;
     private javax.swing.JTextField email;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -461,6 +541,7 @@ public class themNhanVien extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton nutThem;
     private javax.swing.JTextField soDienThoai;
     // End of variables declaration//GEN-END:variables
 }
