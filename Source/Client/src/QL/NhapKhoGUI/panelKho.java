@@ -270,11 +270,6 @@ public class panelKho extends javax.swing.JInternalFrame {
                 jButton1MouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -656,11 +651,6 @@ public class panelKho extends javax.swing.JInternalFrame {
         setUp();
     }//GEN-LAST:event_jButton1MouseClicked
 
-<<<<<<< HEAD
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
-=======
     private void nutLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutLocActionPerformed
         DefaultTableModel model = (DefaultTableModel) jTablePN.getModel();
         model.setRowCount(0);
@@ -767,7 +757,7 @@ public class panelKho extends javax.swing.JInternalFrame {
             locSoTienKetThuc = null;
         }
     }//GEN-LAST:event_locTienKTActionPerformed
->>>>>>> Khoa
+
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
