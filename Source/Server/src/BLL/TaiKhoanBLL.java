@@ -27,19 +27,40 @@ public class TaiKhoanBLL {
         String taikhoan = json.getString("taikhoan");
         String matkhau = json.getString("matkhau");
         TaiKhoanDAO tkDAO = new TaiKhoanDAO();
-        for(TaiKhoanDTO x : tkDAO.getAll())
-        {
-            
-            if(x.getTenTK().equals(taikhoan) && x.getMatKhauTK().equals(matkhau))
-            {
-                json1.put("Trangthai","true");
-                json1.put("MaTK",x.getMaTK());
-                
-                return json1.toString(0);
+        
+        boolean taiKhoanTonTai = false; // Cờ kiểm tra tồn tại tài khoản
+        for (TaiKhoanDTO x : tkDAO.getAll()) {
+            if (x.getTenTK().equals(taikhoan)) {
+                taiKhoanTonTai = true; // Tài khoản tồn tại
+                if (x.getMatKhauTK().equals(matkhau)) {
+                    json1.put("Trangthai", "true");
+                    json1.put("MaTK", x.getMaTK());
+                    return json1.toString(0);
+                }
             }
         }
-        json1.put("trangthai","false");
+
+        // Nếu tài khoản không tồn tại hoặc sai mật khẩu
+        json1.put("Trangthai", "false");
+        if (!taiKhoanTonTai) {
+            json1.put("Thongbao", "Tên tài khoản không tồn tại");
+        } else {
+            json1.put("Thongbao", "Mật khẩu không chính xác");
+        }
         return json1.toString(0);
+//        for(TaiKhoanDTO x : tkDAO.getAll())
+//        {
+//            
+//            if(x.getTenTK().equals(taikhoan) && x.getMatKhauTK().equals(matkhau))
+//            {
+//                json1.put("Trangthai","true");
+//                json1.put("MaTK",x.getMaTK());
+//                
+//                return json1.toString(0);
+//            }
+//        }
+//        json1.put("trangthai","false");
+//        return json1.toString(0);
     }
     
     public String getList()
