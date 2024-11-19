@@ -228,7 +228,6 @@ public class ClientHandle implements Runnable{
                     TheLoaiBLL tlBLL1 = new TheLoaiBLL();
                     String MaTL = json.getString("MaTL");
                     sendMessage(String.valueOf(tlBLL1.getTheLoai(MaTL)));
-                    
                     break;
             case "PUTTL":
                     //them doi tuong the loai

@@ -1521,7 +1521,7 @@ public class Client {
             Thread thread = new Thread(client);
             JSONObject json = new JSONObject();
             json.put("method",yeucau);
-            json.put("MaSP",maDT);
+            json.put("MaTL",maDT);
             OutputStream output;
             output = socket.getOutputStream();
             output.write((json.toString()).getBytes());
