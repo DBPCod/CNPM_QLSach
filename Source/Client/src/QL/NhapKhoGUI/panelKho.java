@@ -32,6 +32,13 @@ public class panelKho extends javax.swing.JInternalFrame {
     private String MaDT = "0";
     private static Client client1;
     private String nguoiNhap1;
+    
+    private String locTenNXB = null; 
+    private Date locNgayBatDau = null;   
+    private Date locNgayKetThuc = null;  
+    private Double locSoTienBatDau = null; 
+    private Double locSoTienKetThuc = null;
+    
     public panelKho(Client client,String nguoiNhap) {
         
         initComponents();
@@ -41,6 +48,7 @@ public class panelKho extends javax.swing.JInternalFrame {
         client1=client;
         nguoiNhap1=nguoiNhap;
         setUp();
+        setUpComboBoxNXB();
     }
 
     /**
@@ -67,24 +75,21 @@ public class panelKho extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
-        cbxType = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePN = new javax.swing.JTable();
-        jLabel11 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        locNXB = new javax.swing.JComboBox<>();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox5 = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
-        jComboBox6 = new javax.swing.JComboBox<>();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        locNBD = new com.toedter.calendar.JDateChooser();
+        locNKT = new com.toedter.calendar.JDateChooser();
+        nutLoc = new javax.swing.JButton();
+        locTienBD = new javax.swing.JTextField();
+        locTienKT = new javax.swing.JTextField();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -259,10 +264,6 @@ public class panelKho extends javax.swing.JInternalFrame {
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setText("Tìm kiếm....");
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
-
         jButton1.setText("Làm mới");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -280,10 +281,7 @@ public class panelKho extends javax.swing.JInternalFrame {
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(cbxType, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(328, 328, 328)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -291,11 +289,8 @@ public class panelKho extends javax.swing.JInternalFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbxType, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -309,7 +304,7 @@ public class panelKho extends javax.swing.JInternalFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã phiếu nhập", "Ngày nhập", "Thành tiền", "Mã nhà xuất bản"
+                "Mã phiếu nhập", "Ngày nhập", "Thành tiền", "Tên nhà xuất bản"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -331,10 +326,12 @@ public class panelKho extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(jTablePN);
 
-        jLabel11.setText("Nhân viên nhập");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setPreferredSize(new java.awt.Dimension(72, 40));
+        locNXB.setPreferredSize(new java.awt.Dimension(72, 40));
+        locNXB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                locNXBActionPerformed(evt);
+            }
+        });
 
         jLabel12.setText("Nhà xuất bản");
 
@@ -344,34 +341,62 @@ public class panelKho extends javax.swing.JInternalFrame {
 
         jLabel15.setText("Từ số tiền");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLabel16.setText("Đến số tiền");
 
-        jComboBox6.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        locNBD.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                locNBDPropertyChange(evt);
+            }
+        });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox3.setPreferredSize(new java.awt.Dimension(72, 40));
+        locNKT.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                locNKTPropertyChange(evt);
+            }
+        });
+
+        nutLoc.setText("Lọc");
+        nutLoc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nutLocActionPerformed(evt);
+            }
+        });
+
+        locTienBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                locTienBDActionPerformed(evt);
+            }
+        });
+
+        locTienKT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                locTienKTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel16)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox5, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox6, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(nutLoc))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(locTienBD, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel12)
+                                .addComponent(jLabel13)
+                                .addComponent(jLabel14)
+                                .addComponent(jLabel15)
+                                .addComponent(jLabel16)
+                                .addComponent(locNXB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(locNBD, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                                .addComponent(locNKT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -381,31 +406,29 @@ public class panelKho extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel12)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locNBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel14)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locNKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locTienBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel16)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(nutLoc)))
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
@@ -560,6 +583,15 @@ public class panelKho extends javax.swing.JInternalFrame {
         return new ArrayList<>();
     }
     
+    private void setUpComboBoxNXB() 
+    {
+        locNXB.removeAllItems(); // Xóa các item cũ
+        locNXB.addItem("Tất cả"); // Thêm tùy chọn mặc định
+        for (NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan")) {
+            locNXB.addItem(nxb.getTenNXB());
+        }
+    }
+    
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
         themPhieuNhap tpn = new themPhieuNhap(client1,nguoiNhap1,this);
@@ -624,23 +656,124 @@ public class panelKho extends javax.swing.JInternalFrame {
         setUp();
     }//GEN-LAST:event_jButton1MouseClicked
 
+<<<<<<< HEAD
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+=======
+    private void nutLocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutLocActionPerformed
+        DefaultTableModel model = (DefaultTableModel) jTablePN.getModel();
+        model.setRowCount(0);
+
+        String tenNXB = locNXB.getSelectedItem().toString();
+        Date ngayBatDau = locNBD.getDate();
+        Date ngayKetThuc = locNKT.getDate();
+        Double soTienBatDau = null;
+        Double soTienKetThuc = null;
+
+        // Lấy giá trị lọc số tiền
+        try {
+            if (!locTienBD.getText().trim().isEmpty()) {
+                soTienBatDau = Double.parseDouble(locTienBD.getText().trim());
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền bắt đầu không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienBD.setText(""); // Xóa giá trị không hợp lệ
+        }
+
+        try {
+            if (!locTienKT.getText().trim().isEmpty()) {
+                soTienKetThuc = Double.parseDouble(locTienKT.getText().trim());
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền kết thúc không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienKT.setText(""); // Xóa giá trị không hợp lệ
+        }
+
+        // Lọc danh sách hóa đơn
+        for (PhieuNhapDTO pn : getList("ListPhieuNhap")) {
+            if (pn.getTrangThai() == 1) { // Chỉ lọc hóa đơn có trạng thái hợp lệ
+
+                boolean tenNXBThoaMan = tenNXB.equals("Tất cả") || pn.getMaNXB().equals(tenNXB);
+                boolean ngayThoaMan = (ngayBatDau == null || ngayKetThuc == null ||
+                                       (!pn.getNgayNhap().before(ngayBatDau) && !pn.getNgayNhap().after(ngayKetThuc)));
+                boolean tienThoaMan = (soTienBatDau == null || pn.getThanhTien() >= soTienBatDau) &&
+                                      (soTienKetThuc == null || pn.getThanhTien() <= soTienKetThuc);
+
+                // Chỉ thêm vào bảng nếu tất cả các điều kiện đều thỏa mãn
+                if (tenNXBThoaMan && ngayThoaMan && tienThoaMan) {
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String ngayLapHD = formatter.format(pn.getNgayNhap());
+                    model.addRow(new Object[]{pn.getMaPN(), ngayLapHD, pn.getThanhTien(), pn.getMaNXB()});
+                }
+            }
+        }
+
+        // Xóa các trường nhập sau khi lọc
+        locNXB.setSelectedIndex(0); // Đặt lại về "Tất cả"
+        locNBD.setDate(null);
+        locNKT.setDate(null);
+        locTienBD.setText("");
+        locTienKT.setText("");
+
+        // Hiển thị thông báo nếu không có kết quả nào
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_nutLocActionPerformed
+
+    private void locNXBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locNXBActionPerformed
+        // Lấy tên nxb được chọn và lưu vào biến
+        locTenNXB = locNXB.getSelectedItem().toString();
+        if (locTenNXB.equals("Tất cả")) {
+            locTenNXB = null; // Không áp dụng điều kiện nếu chọn "Tất cả"
+        }
+    }//GEN-LAST:event_locNXBActionPerformed
+
+    private void locNBDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_locNBDPropertyChange
+        locNgayBatDau = locNBD.getDate();
+    }//GEN-LAST:event_locNBDPropertyChange
+
+    private void locNKTPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_locNKTPropertyChange
+        locNgayKetThuc = locNKT.getDate();
+    }//GEN-LAST:event_locNKTPropertyChange
+
+    private void locTienBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locTienBDActionPerformed
+        try {
+            String input = locTienBD.getText().trim();
+            if (!input.isEmpty()) {
+                locSoTienBatDau = Double.parseDouble(input);
+            } else {
+                locSoTienBatDau = null; // Không áp dụng điều kiện nếu không nhập
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền bắt đầu không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienBD.setText(""); // Xóa giá trị không hợp lệ
+            locSoTienBatDau = null;
+        }
+    }//GEN-LAST:event_locTienBDActionPerformed
+
+    private void locTienKTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locTienKTActionPerformed
+        try {
+            String input = locTienKT.getText().trim();
+            if (!input.isEmpty()) {
+                locSoTienKetThuc = Double.parseDouble(input);
+            } else {
+                locSoTienKetThuc = null; // Không áp dụng điều kiện nếu không nhập
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Số tiền kết thúc không hợp lệ!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            locTienKT.setText(""); // Xóa giá trị không hợp lệ
+            locSoTienKetThuc = null;
+        }
+    }//GEN-LAST:event_locTienKTActionPerformed
+>>>>>>> Khoa
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JComboBox<String> cbxType;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox5;
-    private javax.swing.JComboBox<String> jComboBox6;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -662,6 +795,11 @@ public class panelKho extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTablePN;
-    private javax.swing.JTextField jTextField1;
+    private com.toedter.calendar.JDateChooser locNBD;
+    private com.toedter.calendar.JDateChooser locNKT;
+    private javax.swing.JComboBox<String> locNXB;
+    private javax.swing.JTextField locTienBD;
+    private javax.swing.JTextField locTienKT;
+    private javax.swing.JButton nutLoc;
     // End of variables declaration//GEN-END:variables
 }
