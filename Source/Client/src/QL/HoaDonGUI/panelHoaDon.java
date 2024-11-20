@@ -515,6 +515,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -536,9 +537,8 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(nutLoc))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(nutLoc)))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -621,6 +621,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
         if(json1.getString("ketqua").equals("true"))
         {
+            getCTHD();
             JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             setUp();
         }
@@ -630,6 +631,28 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_huyButtonMouseClicked
 
+    
+    private void getCTHD()
+    {
+        ArrayList<Object[]> list = new ArrayList<Object[]>();
+        JSONObject json = new JSONObject(client1.getDoiTuong("CTHoaDon", MaDT));
+        JSONArray jsonArray = json.getJSONArray("list");
+        for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                        String MaHD = tacGiaObject.getString("maCTHD");
+                        String MaSP = tacGiaObject.getString("maSP");
+                        int soLuong = tacGiaObject.getInt("soLuong");
+                        list.add(new Object[]{MaHD,MaSP,String.valueOf(soLuong)});
+        }
+        
+        JSONArray jsonArray1 = new JSONArray(list);
+        JSONObject json2 = new JSONObject();
+        json2.put("method","UPDATEHuySLSP");
+        json2.put("theloai","hoadon");
+        json2.put("list",jsonArray.toString());
+        
+        client1.suaDT(json2.toString());
+    }
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         setUp();

@@ -306,6 +306,10 @@ public class ClientHandle implements Runnable{
                     SanPhamBLL stl6 = new SanPhamBLL ();
                     sendMessage(String.valueOf(stl6.suaSLSP(json)));
                     break;
+             case "UPDATEHuySLSP":
+                    SanPhamBLL stl7 = new SanPhamBLL ();
+                    sendMessage(String.valueOf(stl7.suaHuySLSP(json)));
+                    break;
              case "DELETESP":
                     SanPhamBLL stl5 = new SanPhamBLL ();
                     String MaSP5 = json.getString("MaSP");
@@ -407,6 +411,12 @@ public class ClientHandle implements Runnable{
                    ChiTietPhieuNhapBLL ctpnBLL1 = new ChiTietPhieuNhapBLL();
                    sendMessage(String.valueOf(ctpnBLL1.getList()));
                    break;
+                   
+                case "CTPhieuNhap":
+                    ChiTietPhieuNhapBLL ctpnBLL3 = new ChiTietPhieuNhapBLL();
+                    String MaPN = json.getString("MaCTPN");
+                    sendMessage(String.valueOf(ctpnBLL3.getCTPN(MaPN)));
+                    break;
                case "PUTCTPN":
                     ChiTietPhieuNhapBLL ctpnBLL = new ChiTietPhieuNhapBLL();
                     String list1 = json.getString("list");
@@ -493,6 +503,11 @@ public class ClientHandle implements Runnable{
                     HoaDonBLL hdBLL1 = new HoaDonBLL();
                     String MaHD = json.getString("MaHD");
                     sendMessage(String.valueOf(hdBLL1.getHoaDon(MaHD)));
+                    break;
+            case "CTHoaDon":
+                    ChiTietHoaDonBLL cthdBLL4 = new ChiTietHoaDonBLL();
+                    String MaHD1 = json.getString("MaCTHD");
+                    sendMessage(String.valueOf(cthdBLL4.getCTPN(MaHD1)));
                     break;
             case "PUTHD":
                     //lay doi tuong de xem thong tin the loai
