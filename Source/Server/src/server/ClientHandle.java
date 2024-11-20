@@ -504,6 +504,11 @@ public class ClientHandle implements Runnable{
                     String MaHD = json.getString("MaHD");
                     sendMessage(String.valueOf(hdBLL1.getHoaDon(MaHD)));
                     break;
+            case "CTHoaDon":
+                    ChiTietHoaDonBLL cthdBLL4 = new ChiTietHoaDonBLL();
+                    String MaHD1 = json.getString("MaCTHD");
+                    sendMessage(String.valueOf(cthdBLL4.getCTPN(MaHD1)));
+                    break;
             case "PUTHD":
                     //lay doi tuong de xem thong tin the loai
                     HoaDonBLL hdBLL2 = new HoaDonBLL();

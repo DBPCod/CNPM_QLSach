@@ -1328,11 +1328,37 @@ public class Client {
                 return xuLiGetNV("NhanVien", maDT);
             case "CTPhieuNhap":
                 return xuLiGetCTPN("CTPhieuNhap",maDT);
-                
+            case "CTHoaDon":
+                return xuLiGetCTHD("CTHoaDon",maDT);
       }
        return "";
        
    }
+   
+   public String xuLiGetCTHD(String yeucau, String maDT)
+      {
+          try {
+              ClientListener client = new ClientListener(socket);
+            Thread thread = new Thread(client);
+            JSONObject json = new JSONObject();
+            json.put("method",yeucau);
+            json.put("MaCTHD",maDT);
+            OutputStream output;
+            output = socket.getOutputStream();
+            output.write((json.toString()).getBytes());
+            output.flush();
+            thread.start();
+            thread.join();
+            return client.result;
+          }
+          catch (InterruptedException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+      }
+          return "";
+      }
    
     public String xuLiGetCTPN(String yeucau, String maDT)
       {

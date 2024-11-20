@@ -189,7 +189,7 @@ public class SanPhamBLL {
                 JSONObject x = listArray.getJSONObject(i);
                 // Truy xuất thông tin sản phẩm từ mảng con
                 String maSP = x.getString("maSP"); // Mã sản phẩm
-                int soLuong = x.getInt("soLuongNhap"); // Số lượng
+                int soLuong = x.getInt("soLuong"); // Số lượng
 
                 // Lấy thông tin sản phẩm từ cơ sở dữ liệu
                 JSONObject sanPhamInfo = new JSONObject(getSanPham(maSP));
