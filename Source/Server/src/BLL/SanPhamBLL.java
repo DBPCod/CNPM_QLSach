@@ -155,6 +155,58 @@ public class SanPhamBLL {
         return json.toString();
     }
     
+    public String suaHuySLSP(JSONObject sp)
+    {
+        SanPhamDAO spDAO = new SanPhamDAO();
+        JSONObject json = new JSONObject();
+        String listString = sp.getString("list");
+         JSONArray listArray = new JSONArray(listString);
+         String theloai = sp.getString("theloai");
+         if(theloai.equals("phieunhap"))
+         {
+             for (int i = 0; i < listArray.length(); i++) {
+            // Mỗi phần tử trong listArray là một JSONArray con
+                JSONObject x = listArray.getJSONObject(i);
+                // Truy xuất thông tin sản phẩm từ mảng con
+                String maSP = x.getString("maSP"); // Mã sản phẩm
+                int soLuong = x.getInt("soLuongNhap"); // Số lượng
+
+                // Lấy thông tin sản phẩm từ cơ sở dữ liệu
+                JSONObject sanPhamInfo = new JSONObject(getSanPham(maSP));
+
+                // Cập nhật số lượng sản phẩm trong cơ sở dữ liệu
+                int newQuantity = sanPhamInfo.getInt("SoLuong") - soLuong;
+                System.out.println(newQuantity);
+                // Thực hiện cập nhật số lượng sản phẩm
+                json.put("Trangthai", spDAO.suaSLSP(maSP, newQuantity));
+                
+            }
+         }
+         else
+         {
+             for (int i = 0; i < listArray.length(); i++) {
+            // Mỗi phần tử trong listArray là một JSONArray con
+                JSONObject x = listArray.getJSONObject(i);
+                // Truy xuất thông tin sản phẩm từ mảng con
+                String maSP = x.getString("maSP"); // Mã sản phẩm
+                int soLuong = x.getInt("soLuongNhap"); // Số lượng
+
+                // Lấy thông tin sản phẩm từ cơ sở dữ liệu
+                JSONObject sanPhamInfo = new JSONObject(getSanPham(maSP));
+
+                // Cập nhật số lượng sản phẩm trong cơ sở dữ liệu
+                int newQuantity = sanPhamInfo.getInt("SoLuong") + soLuong;
+                System.out.println(newQuantity);
+                // Thực hiện cập nhật số lượng sản phẩm
+                json.put("Trangthai", spDAO.suaSLSP(maSP, newQuantity));
+            }
+         }
+         
+
+        
+        return json.toString();
+    }
+    
     public String xoaTheLoai(SanPhamDTO sp)
     {
         SanPhamDAO spDAO = new SanPhamDAO();

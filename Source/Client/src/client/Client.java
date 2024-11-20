@@ -396,6 +396,8 @@ public class Client {
                 return guiSuaSTL(data);
             case "UPDATESLSP":
                 return guiSuaSLSP(data);
+            case "UPDATEHuySLSP":
+                return guiSuaHuySLSP(data);
             case "UPDATELKM":
                 return guiSuaLKM(data);
             case "UPDATETK":
@@ -403,6 +405,34 @@ public class Client {
             case "UPDATENV":
                 return guiSuaNV(data);
         }
+        return "";
+    }
+    
+    //ham gui yeu cau sua doi tuong loai khuyen mai toi server
+    private String guiSuaHuySLSP(String data)
+    {
+        JSONObject json = new JSONObject(data);
+        String yeucau = json.getString("method");
+        try {
+             ClientListener client = new ClientListener(socket);
+             Thread thread = new Thread(client);
+             json.put("method",yeucau);
+             json.put("list",json.getString("list"));
+             OutputStream output;
+             output = socket.getOutputStream();
+             output.write((json.toString()).getBytes());
+             output.flush();
+             thread.start();
+             thread.join();
+             return client.result;
+         } 
+         catch (InterruptedException ex) {
+                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+             }
+         catch (IOException ex) {
+             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
         return "";
     }
     
@@ -1296,11 +1326,38 @@ public class Client {
                 return xuLiGetTK("TaiKhoan", maDT);
             case "NhanVien":
                 return xuLiGetNV("NhanVien", maDT);
+            case "CTPhieuNhap":
+                return xuLiGetCTPN("CTPhieuNhap",maDT);
                 
       }
        return "";
        
    }
+   
+    public String xuLiGetCTPN(String yeucau, String maDT)
+      {
+          try {
+              ClientListener client = new ClientListener(socket);
+            Thread thread = new Thread(client);
+            JSONObject json = new JSONObject();
+            json.put("method",yeucau);
+            json.put("MaCTPN",maDT);
+            OutputStream output;
+            output = socket.getOutputStream();
+            output.write((json.toString()).getBytes());
+            output.flush();
+            thread.start();
+            thread.join();
+            return client.result;
+          }
+          catch (InterruptedException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+      }
+          return "";
+      }
    
     public String xuLiGetNV(String yeucau, String maDT)
       {
