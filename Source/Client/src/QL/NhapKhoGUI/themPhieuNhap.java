@@ -420,6 +420,11 @@ public class themPhieuNhap extends javax.swing.JFrame {
                 jButton1MouseClicked(evt);
             }
         });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jTableSPC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -466,6 +471,8 @@ public class themPhieuNhap extends javax.swing.JFrame {
         jTextField3.setSelectionColor(new java.awt.Color(0, 0, 0));
 
         jLabel5.setText("Số lượng");
+
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -696,6 +703,10 @@ public class themPhieuNhap extends javax.swing.JFrame {
         DefaultTableModel table1 = (DefaultTableModel) jTableSP.getModel();
         int index = jTableSP.getSelectedRow();
         int value = (int) jSpinner1.getValue();
+        if (value < 1) {
+        JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return; // Dừng xử lý nếu giá trị không hợp lệ
+        }
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
         String GiaNhap1 = table1.getValueAt(index, 3).toString();
@@ -829,6 +840,11 @@ public class themPhieuNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         tenTG1 = (String) comboboxNXB.getSelectedItem();
     }//GEN-LAST:event_comboboxNXBActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

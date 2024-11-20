@@ -234,6 +234,8 @@ public class themHoaDon extends javax.swing.JFrame {
 
         jLabel5.setText("Số lượng");
 
+        jSpinner1.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -467,6 +469,10 @@ public class themHoaDon extends javax.swing.JFrame {
         DefaultTableModel table1 = (DefaultTableModel) jTableSP.getModel();
         int index = jTableSP.getSelectedRow();
         int value = (int) jSpinner1.getValue();
+        if (value < 1) {
+        JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return; // Dừng xử lý nếu giá trị không hợp lệ
+        }
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
         String GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);

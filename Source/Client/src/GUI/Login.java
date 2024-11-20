@@ -31,6 +31,7 @@ public class Login extends javax.swing.JFrame {
      * Creates new form Login
      */
     Client client = new Client();
+    
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -305,6 +306,7 @@ public class Login extends javax.swing.JFrame {
 
         String check = client.dangNhap(taikhoan, matkhau);  
         JSONObject json = new JSONObject(check);
+
         if (json.getString("Trangthai").equals("true")) {
         switch (getMaVT(json.getString("MaTK"))) {
             case "VT001":
@@ -324,9 +326,9 @@ public class Login extends javax.swing.JFrame {
                 break;
             }
         } else {
-        JOptionPane.showMessageDialog(this, "Tên tài khoản hoặc mật khẩu không chính xác", "Lỗi", JOptionPane.ERROR_MESSAGE);
-    }
-        
+        String errorMessage = json.optString("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");    
+        JOptionPane.showMessageDialog(this, errorMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }  
     }//GEN-LAST:event_myButton2MouseClicked
 
     private void chkShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkShowPasswordActionPerformed
@@ -370,7 +372,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-//                FlatLightLaf.setup();
+                FlatLightLaf.setup();
                 new Login().setVisible(true);
             }
         });

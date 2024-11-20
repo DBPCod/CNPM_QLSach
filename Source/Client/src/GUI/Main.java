@@ -689,7 +689,7 @@ Color customColor = Color.decode("#C2F2E9");
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 657, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 47, Short.MAX_VALUE))
+                .addGap(0, 21, Short.MAX_VALUE))
         );
 
         pack();
