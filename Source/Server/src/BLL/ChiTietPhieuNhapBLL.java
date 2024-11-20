@@ -6,6 +6,7 @@ package BLL;
 
 import DAO.ChiTietPhieuNhapDAO;
 import DTO.ChiTietPhieuNhapDTO;
+import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -41,6 +42,23 @@ public class ChiTietPhieuNhapBLL {
             json.put("ketqua",ctpnDAO.themDT(new ChiTietPhieuNhapDTO(soLuong, donGia, MaSP, maPN)));
         }
         json.put("Trangthai", "true");
+        return json.toString();
+    }
+    
+    public String getCTPN(String MaDT)
+    {
+        ArrayList<ChiTietPhieuNhapDTO> list = new ArrayList<ChiTietPhieuNhapDTO>();
+        ChiTietPhieuNhapDAO ctpnDAO = new ChiTietPhieuNhapDAO();
+        for(ChiTietPhieuNhapDTO x : ctpnDAO.getList())
+        {
+            if(x.getMaPN().equals(MaDT))
+            {
+                list.add(x);
+            }
+        }
+        JSONObject json = new JSONObject();
+        json.put("Trangthai","true");
+        json.put("list",list);
         return json.toString();
     }
 }
