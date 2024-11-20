@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import BH.HoaDonGUI.panelHoaDon;
+import BH.SanPhamGUI.panelSanPham;
+import BH.ThongKeGUI.panelThongKe;
 import Client.Client;
 import TrangChuImg.panelTrangChu;
 import com.formdev.flatlaf.FlatLightLaf;
@@ -236,13 +239,18 @@ public class MainBanHang extends javax.swing.JFrame {
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 46, Short.MAX_VALUE)
+            .addGap(0, 320, Short.MAX_VALUE)
         );
 
-        jPanel4.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 195, -1));
+        jPanel4.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 186, 195, 320));
 
         panel11.setBackground(new java.awt.Color(255, 255, 255));
         panel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panel11MouseClicked(evt);
+            }
+        });
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon12.jpg"))); // NOI18N
         jLabel24.setText("jLabel4");
@@ -414,6 +422,9 @@ public class MainBanHang extends javax.swing.JFrame {
 
         panel8.setBackground(Color.WHITE);
         panel10.setBackground(Color.WHITE);
+        panelThongTin tt = new panelThongTin(MaTK1,client1);
+        panelChange.removeAll();
+        panelChange.add(tt).setVisible(true);
     }//GEN-LAST:event_panelTTMouseClicked
 
     private void panel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel1MouseClicked
@@ -426,6 +437,9 @@ public class MainBanHang extends javax.swing.JFrame {
         panel10.setBackground(Color.WHITE);
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
+        panelTrangChu  tt = new panelTrangChu();
+        panelChange.removeAll();
+        panelChange.add(tt).setVisible(true);
 
     }//GEN-LAST:event_panel1MouseClicked
 
@@ -437,6 +451,9 @@ public class MainBanHang extends javax.swing.JFrame {
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel8.setBackground(Color.WHITE);
+        panelSanPham sp = new panelSanPham(client1);
+        panelChange.removeAll();
+        panelChange.add(sp).setVisible(true);
     }//GEN-LAST:event_panel2MouseClicked
 
     private void panel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel10MouseClicked
@@ -447,6 +464,9 @@ public class MainBanHang extends javax.swing.JFrame {
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         panel8.setBackground(Color.WHITE);
+        panelThongKe tk = new panelThongKe(client1);
+        panelChange.removeAll();
+        panelChange.add(tk).setVisible(true);
     }//GEN-LAST:event_panel10MouseClicked
 
     private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
@@ -468,7 +488,18 @@ public class MainBanHang extends javax.swing.JFrame {
         panel10.setBackground(Color.WHITE);;
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
+        panelHoaDon hd = new panelHoaDon(client1,tenNV.getText());
+        panelChange.removeAll();
+        panelChange.add(hd).setVisible(true);
     }//GEN-LAST:event_panel8MouseClicked
+
+    private void panel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel11MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        System.out.println("a");
+        Login login = new Login();
+        login.setVisible(true);
+    }//GEN-LAST:event_panel11MouseClicked
 
     /**
      * @param args the command line arguments

@@ -5,7 +5,10 @@
 package GUI;
 
 import Client.Client;
-import NK.NhapKhoGUI.panelNhapKho;
+import NK.NhaXuatBanGUI.panelNhaXuatBan;
+import NK.NhapKhoGUI.panelKho;
+import NK.SanPhamGUI.panelSanPham;
+import NK.ThongKeGUI.panelThongKe;
 import TrangChuImg.panelTrangChu;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
@@ -64,7 +67,6 @@ Color customColor = Color.decode("#C2F2E9");
         panel10 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jPanel15 = new javax.swing.JPanel();
         panel11 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
@@ -201,6 +203,11 @@ Color customColor = Color.decode("#C2F2E9");
 
         jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel15.setText("Nhà xuất bản");
+        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel15MouseClicked(evt);
+            }
+        });
 
         jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon6.jpg"))); // NOI18N
         jLabel14.setText("jLabel4");
@@ -241,6 +248,11 @@ Color customColor = Color.decode("#C2F2E9");
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel13.setText("Phiếu nhập");
+        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel13MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout panel6Layout = new javax.swing.GroupLayout(panel6);
         panel6.setLayout(panel6Layout);
@@ -302,23 +314,13 @@ Color customColor = Color.decode("#C2F2E9");
 
         jPanel4.add(panel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 182, 195, 50));
 
-        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 46, Short.MAX_VALUE)
-        );
-
-        jPanel4.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 195, -1));
-
         panel11.setBackground(new java.awt.Color(255, 255, 255));
         panel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panel11.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                panel11MouseClicked(evt);
+            }
+        });
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icon12.jpg"))); // NOI18N
         jLabel24.setText("jLabel4");
@@ -441,7 +443,6 @@ Color customColor = Color.decode("#C2F2E9");
         panel6.setBorder(border);
        
         panel10.setBorder(border);
-        jPanel15.setBorder(border);
         panel11.setBorder(border1);
         panelTT.setBorder(border2);
     }
@@ -456,6 +457,9 @@ Color customColor = Color.decode("#C2F2E9");
         panel5.setBackground(Color.WHITE);
         panel6.setBackground(Color.WHITE);
         panel10.setBackground(Color.WHITE);
+        panelThongTin tt = new panelThongTin(MaTK1,client1);
+        panelChange.removeAll();
+        panelChange.add(tt).setVisible(true);
     }//GEN-LAST:event_panelTTMouseClicked
 
     private void panel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel1MouseClicked
@@ -470,9 +474,9 @@ Color customColor = Color.decode("#C2F2E9");
         panel10.setBackground(Color.WHITE);
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
-
-      
-
+        panelTrangChu  tt = new panelTrangChu();
+        panelChange.removeAll();
+        panelChange.add(tt).setVisible(true);
     }//GEN-LAST:event_panel1MouseClicked
 
     private void panel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel2MouseClicked
@@ -486,6 +490,9 @@ Color customColor = Color.decode("#C2F2E9");
         panel10.setBackground(Color.WHITE);
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
+        panelSanPham sp = new panelSanPham(client1);
+        panelChange.removeAll();
+        panelChange.add(sp).setVisible(true);
     }//GEN-LAST:event_panel2MouseClicked
 
     private void panel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel5MouseClicked
@@ -499,6 +506,9 @@ Color customColor = Color.decode("#C2F2E9");
         panel10.setBackground(Color.WHITE);
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
+        panelNhaXuatBan nxb = new panelNhaXuatBan(client1);
+        panelChange.removeAll();
+        panelChange.add(nxb).setVisible(true);
     }//GEN-LAST:event_panel5MouseClicked
 
     private void panel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel6MouseClicked
@@ -513,7 +523,7 @@ Color customColor = Color.decode("#C2F2E9");
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
         
-        panelNhapKho nk = new panelNhapKho();
+        panelKho nk = new panelKho(client1, tenNV.getText());
         panelChange.removeAll();
         panelChange.add(nk).setVisible(true);
     }//GEN-LAST:event_panel6MouseClicked
@@ -529,6 +539,9 @@ Color customColor = Color.decode("#C2F2E9");
       
         panel11.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
+        panelThongKe tk = new panelThongKe(client1);
+        panelChange.removeAll();
+        panelChange.add(tk).setVisible(true);
     }//GEN-LAST:event_panel10MouseClicked
 
     private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
@@ -543,6 +556,23 @@ Color customColor = Color.decode("#C2F2E9");
         panel10.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
     }//GEN-LAST:event_jLabel25MouseClicked
+
+    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jLabel15MouseClicked
+
+    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel13MouseClicked
+
+    private void panel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel11MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+        System.out.println("a");
+        Login login = new Login();
+        login.setVisible(true);
+    }//GEN-LAST:event_panel11MouseClicked
 
     /**
      * @param args the command line arguments
@@ -595,7 +625,6 @@ Color customColor = Color.decode("#C2F2E9");
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel panel1;
