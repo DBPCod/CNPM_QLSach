@@ -210,6 +210,12 @@ public class doiMatKhau extends javax.swing.JFrame {
             return;
         }
         String matkhau = mkMoi.getText();
+        
+        if (matkhau.length() < 6) {
+            JOptionPane.showMessageDialog(null, "Mật khẩu mới phải có ít nhất 6 ký tự!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
         JSONObject json = new JSONObject();
         json.put("method","UPDATETK");
         json.put("MaTK",MaTK1);

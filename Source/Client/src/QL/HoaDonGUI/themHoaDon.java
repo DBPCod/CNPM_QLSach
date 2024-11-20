@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import Customize.TimKiem;
 
 /**
  *
@@ -35,6 +36,8 @@ public class themHoaDon extends javax.swing.JFrame {
     private static panelHoaDon panelHoaDon1;
     private double thanhTien1=0;
     private Object[] objRemove;
+    private static TimKiem timkiem = new TimKiem();
+    
     private ArrayList<Object[]> list = new ArrayList<Object[]>();
     public themHoaDon(Client client, String nguoiNhap,panelHoaDon panelHoaDon) {
         initComponents();
@@ -46,6 +49,8 @@ public class themHoaDon extends javax.swing.JFrame {
         ngayNhapDate.setDate(new Date());
         setMaHD();
         setUp();
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     
@@ -117,6 +122,33 @@ public class themHoaDon extends javax.swing.JFrame {
                    
                    return new ArrayList<>();
         }
+    
+    private void timKiem()
+    {
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
+        model.setRowCount(0); 
+        
+
+        ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
+
+        for (SanPhamDTO sp : allItems) {
+            if (sp.getTrangThai() == 1) {
+                
+                String MaSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
+                String TenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
+                
+
+                if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
+                    model.addRow(new Object[] {sp.getMaSP(),sp.getTenSP(),String.valueOf(sp.getSoLuong()),String.valueOf(sp.getGiaBia())});
+                }
+            }
+        }
+
+        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
+            // xu li thong bao khi khong tim thay
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,7 +159,7 @@ public class themHoaDon extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        timKiemField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSP = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -156,8 +188,13 @@ public class themHoaDon extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timKiemFieldActionPerformed(evt);
+            }
+        });
 
         jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -384,7 +421,7 @@ public class themHoaDon extends javax.swing.JFrame {
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                            .addComponent(jTextField1)
+                            .addComponent(timKiemField)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -410,7 +447,7 @@ public class themHoaDon extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -687,6 +724,10 @@ public class themHoaDon extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4MouseClicked
 
+    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timKiemFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -743,10 +784,10 @@ public class themHoaDon extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTableSP;
     private javax.swing.JTable jTableSPC;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private com.toedter.calendar.JDateChooser ngayNhapDate;
     private javax.swing.JLabel thanhTien;
+    private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 }
