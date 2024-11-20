@@ -9,6 +9,7 @@ import DTO.LoaiKhuyenMaiDTO;
 import DTO.SanPhamDTO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
@@ -574,6 +575,43 @@ public class themKhuyenMai extends javax.swing.JFrame {
             Date ngayBD = jDateChooserNBD.getDate();
             Date ngayKT = jDateChooserNKT.getDate();
             
+            // Kiểm tra các trường không được để trống
+            if (tenKM.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Tên khuyến mãi không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (ngayBD == null) {
+                JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (ngayKT == null) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Kiểm tra ngày bắt đầu không được trước ngày hiện tại
+            Date currentDate = new Date();
+            if (ngayBD.before(currentDate)) {
+            // Xóa giờ, phút, giây của ngày hiện tại để so sánh chỉ theo ngày
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+            if (ngayBD.before(calendar.getTime())) {
+                JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được trước ngày hiện tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+                }
+            
+            // Kiểm tra ngày kết thúc không được trước ngày bắt đầu
+            if (ngayKT.before(ngayBD)) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc không được trước ngày bắt đầu!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+                }
+            }
+
             JSONObject json = new JSONObject();
             json.put("method","PUTKM");
             json.put("maKM",maKM);
