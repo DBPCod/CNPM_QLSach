@@ -301,6 +301,7 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         getSLSP();
+        nam.setSelectedIndex(0);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void getHD(int year)

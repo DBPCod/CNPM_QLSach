@@ -173,7 +173,8 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel5.add(myButton2);
 
-        chkShowPassword.setBackground(new java.awt.Color(51, 102, 255));
+        chkShowPassword.setBackground(new java.awt.Color(153, 153, 153));
+        chkShowPassword.setForeground(new java.awt.Color(0, 0, 0));
         chkShowPassword.setText("Hiển thị mật khẩu");
         chkShowPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
