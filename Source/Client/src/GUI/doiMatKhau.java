@@ -71,6 +71,7 @@ public class doiMatKhau extends javax.swing.JFrame {
         mkMoi1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 

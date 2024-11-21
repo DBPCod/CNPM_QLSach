@@ -80,6 +80,7 @@ public class Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(800, 500));
@@ -174,7 +175,6 @@ public class Login extends javax.swing.JFrame {
         jPanel5.add(myButton2);
 
         chkShowPassword.setBackground(new java.awt.Color(153, 153, 153));
-        chkShowPassword.setForeground(new java.awt.Color(0, 0, 0));
         chkShowPassword.setText("Hiển thị mật khẩu");
         chkShowPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

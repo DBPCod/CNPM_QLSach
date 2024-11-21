@@ -132,6 +132,7 @@ public class themNhanVien extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -339,9 +340,10 @@ public class themNhanVien extends javax.swing.JFrame {
 
     private String getMaVT(String tenVT)
     {
+        System.out.println(tenVT +" aaaa");
         JSONObject json = new JSONObject(client1.getList("ListVaiTro"));
         JSONArray jsonArray = json.getJSONArray("list");
-        System.out.println(jsonArray);
+        
         for(int i=0;i<jsonArray.length();i++)
         {
             
@@ -365,7 +367,7 @@ public class themNhanVien extends javax.swing.JFrame {
 
     private void nutThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutThemActionPerformed
         // TODO add your handling code here:
-        String tenNV = HoVaTen.getText();
+    String tenNV = HoVaTen.getText();
     String maNV = MaNV.getText();
     String diaChiNV = DiaChi.getText();
     String emailNV = email.getText();
