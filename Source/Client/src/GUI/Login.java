@@ -172,6 +172,11 @@ public class Login extends javax.swing.JFrame {
                 myButton2MouseClicked(evt);
             }
         });
+        myButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myButton2ActionPerformed(evt);
+            }
+        });
         jPanel5.add(myButton2);
 
         chkShowPassword.setBackground(new java.awt.Color(153, 153, 153));
@@ -342,6 +347,10 @@ public class Login extends javax.swing.JFrame {
         txtMK.setEchoChar('*'); // Đặt echoChar lại là dấu '*' để ẩn mật khẩu
     }
     }//GEN-LAST:event_chkShowPasswordActionPerformed
+
+    private void myButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_myButton2ActionPerformed
 
     /**
      * @param args the command line arguments
