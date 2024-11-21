@@ -178,10 +178,10 @@ public class themKhuyenMai extends javax.swing.JFrame {
                     String TenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
                     if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
                         model.addRow(new Object[] { sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaBia()) });
+                    }
                 }
             }
         }
-    }
     }
     
     /**

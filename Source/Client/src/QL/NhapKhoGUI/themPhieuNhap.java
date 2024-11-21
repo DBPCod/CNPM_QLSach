@@ -28,6 +28,7 @@ import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import Customize.TimKiem;
 
 /**
  *
@@ -47,6 +48,8 @@ public class themPhieuNhap extends javax.swing.JFrame {
     private Object[] objRemove;
     private double thanhTien1=0;
     private static panelKho panelKho1;
+    private static TimKiem timkiem = new TimKiem();
+    
     public themPhieuNhap(Client client, String nguoiNhap,panelKho panelKho) {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -59,6 +62,9 @@ public class themPhieuNhap extends javax.swing.JFrame {
         setUpNXB();
         MNV.setText(nguoiNhap);
         ngayNhapDate.setDate(new Date());
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
+    
     }
 
     //ham lay ma nha xuat ban
@@ -314,7 +320,35 @@ public class themPhieuNhap extends javax.swing.JFrame {
             //them tung doi tuong vao bang
             if(sanpham.getTrangThai()==1)
             {
-                model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getNgonNgu()),String.valueOf(sanpham.getGiaNhap())});
+                model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaNhap())});
+            }
+        }
+    }
+    
+    private void timKiem()
+    {
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
+        // Nếu trường tìm kiếm rỗng, hiển thị lại toàn bộ danh sách sản phẩm
+        if (searchText.isEmpty()) {
+            model.setRowCount(0); // Xóa toàn bộ bảng
+            for (SanPhamDTO sp : getList("ListSanPham")) {
+                if (sp.getTrangThai() == 1) {
+                    model.addRow(new Object[] { sp.getMaSP(),sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaNhap()) });
+                }
+            }
+        } else {
+            // Nếu có dữ liệu tìm kiếm, chỉ hiển thị những sản phẩm phù hợp
+            model.setRowCount(0); // Xóa bảng trước khi tìm kiếm
+            ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
+            for (SanPhamDTO sanpham : allItems) {
+                if (sanpham.getTrangThai() == 1) {
+                    String MaSP = timkiem.KhongLayDau(sanpham.getMaSP().toLowerCase());
+                    String TenSP = timkiem.KhongLayDau(sanpham.getTenSP().toLowerCase());
+                    if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
+                        model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaNhap())});
+                    }
+                }
             }
         }
     }
@@ -332,7 +366,7 @@ public class themPhieuNhap extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        timKiemField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSP = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -358,6 +392,7 @@ public class themPhieuNhap extends javax.swing.JFrame {
         ngayNhapDate = new com.toedter.calendar.JDateChooser();
         MaPN = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         jInternalFrame1.setVisible(true);
 
@@ -383,8 +418,13 @@ public class themPhieuNhap extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timKiemFieldActionPerformed(evt);
+            }
+        });
 
         jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -394,7 +434,7 @@ public class themPhieuNhap extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Ngôn ngữ", "Giá Nhập"
+                "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá Nhập"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -615,6 +655,13 @@ public class themPhieuNhap extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Làm mới");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -623,11 +670,14 @@ public class themPhieuNhap extends javax.swing.JFrame {
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                    .addComponent(jTextField1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
@@ -648,7 +698,9 @@ public class themPhieuNhap extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -846,6 +898,15 @@ public class themPhieuNhap extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        setUp();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
+         // TODO add your handling code here:
+    }//GEN-LAST:event_timKiemFieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -889,6 +950,7 @@ public class themPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JTextField MaPN;
     private javax.swing.JComboBox<String> comboboxNXB;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JInternalFrame jInternalFrame1;
@@ -911,10 +973,10 @@ public class themPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTableSP;
     private javax.swing.JTable jTableSPC;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private com.toedter.calendar.JDateChooser ngayNhapDate;
     private javax.swing.JLabel thanhTien;
+    private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 }
