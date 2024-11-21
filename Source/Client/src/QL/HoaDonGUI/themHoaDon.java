@@ -5,10 +5,13 @@
 package QL.HoaDonGUI;
 
 import Client.Client;
+import DTO.ChiTietKhuyenMaiDTO;
+import DTO.KhuyenMaiDTO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 import DTO.TaiKhoanDTO;
 import QL.NhapKhoGUI.themPhieuNhap;
+import QL.khuyenMaiGUI.panelKhuyenMai;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,7 +72,6 @@ public class themHoaDon extends javax.swing.JFrame {
     }
     
     //ham thiet lap danh sach san pham
-    //ham thiet lap bang danh sach
     public void setUp()
     {
         
@@ -82,9 +84,118 @@ public class themHoaDon extends javax.swing.JFrame {
             //them tung doi tuong vao bang
             if(sanpham.getTrangThai()==1)
             {
-                model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia())});
+                model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia()),getGiaKMSP(sanpham.getMaSP(),sanpham.getGiaBia())});
             }
         }
+    }
+    
+    //ham lay gia khuyen mai cua san pham
+    private double getGiaKMSP(String maSP,double giabia)
+    {
+        Date date1 = new Date();
+        ArrayList<Object[]> list = new ArrayList<Object[]>();
+        for(KhuyenMaiDTO x : getListKM("ListKhuyenMai"))
+        {
+            if(checkDate(date1,x.getNgayBatDau(),x.getNgayKetThuc())==1)
+            {
+                for(ChiTietKhuyenMaiDTO x1 : getListCTKM("ListChiTietKhuyenMai"))
+                {
+                    if(x.getMaKM().equals(x1.getMaKM()) && x.getTrangThai()==1)
+                    {
+                        list.add(new Object[]{x1.getMaSP(),x.getPhanTram()});
+                    }
+                }
+            }
+            
+        }
+        
+        for(Object[] x : list)
+        {
+            if(String.valueOf(x[0]).equals(maSP))
+            {
+                System.out.println(Double.parseDouble(String.valueOf(x[1])));
+                double tiengiam = giabia - (giabia*(Double.parseDouble(String.valueOf(x[1])) / 100));
+                return tiengiam;
+            }
+        }
+        return 0;
+    }
+    
+    private int checkDate(Date ngayhientai,Date ngaybatdau,Date ngayketthuc)
+    {
+            
+        int result = ngaybatdau.compareTo(ngayhientai);
+        if(result < 0 || result == 0)
+        {
+            if(ngayketthuc.compareTo(ngayhientai) > 0)
+            {
+                return 1;
+            }
+        }
+                return 0;   
+    }
+    
+    //ham lay danh sach khuyen mai
+    private ArrayList<KhuyenMaiDTO> getListKM(String yeucau)
+    {
+        JSONObject json;
+        switch (yeucau) {
+            case "ListKhuyenMai": 
+                
+                    ArrayList<KhuyenMaiDTO> list = new ArrayList<KhuyenMaiDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    org.json.JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                        String MaKM = tacGiaObject.getString("maKM");
+                        String TenKM = tacGiaObject.getString("tenKM");
+                        String NgayBatDau = tacGiaObject.getString("ngayBatDau");
+                        String NgayKetThuc = tacGiaObject.getString("ngayKetThuc");
+                        String MaLKM = tacGiaObject.getString("maLoaiKM");
+                        int Trangthai = tacGiaObject.getInt("trangThai");
+                        int phanTramGiam = tacGiaObject.getInt("phanTram");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        
+                        Date ngayBatDau;
+            try {
+                ngayBatDau = formatter.parse(NgayBatDau);
+                Date ngayKetThuc = formatter.parse(NgayKetThuc);
+                // Thêm vào ArrayList
+                //xem lai trang thai
+                list.add(new KhuyenMaiDTO( MaKM,  TenKM,  ngayBatDau,  ngayKetThuc,  MaLKM, Trangthai,phanTramGiam));
+            } catch (ParseException ex) {
+                Logger.getLogger(panelKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        
+        } 
+                    return list;
+        }
+                
+                    
+        return new ArrayList<>();
+    }
+    
+    //ham lay danh sach
+    private ArrayList<ChiTietKhuyenMaiDTO> getListCTKM(String yeucau)
+    {
+        JSONObject json;
+        switch (yeucau) {
+            case "ListChiTietKhuyenMai": 
+                    ArrayList<ChiTietKhuyenMaiDTO> list = new ArrayList<ChiTietKhuyenMaiDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    System.out.println(json);;
+                    //chuyen mang chuoi sang mang jsonArray
+                    org.json.JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                        String MaKM = tacGiaObject.getString("maKM");
+                        String MaSP = tacGiaObject.getString("maSP");
+                        list.add(new ChiTietKhuyenMaiDTO(MaKM,MaSP));
+                    } 
+                    return list;
+        }
+        return new ArrayList<>();
     }
     
     //ham lay danh sach
@@ -153,6 +264,7 @@ public class themHoaDon extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -164,11 +276,11 @@ public class themHoaDon extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Số lượng tồn", "Giá bìa"
+                "Mã sản phẩm", "Tên sản phẩm", "Số lượng tồn", "Giá bìa", "Giảm giá"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -475,7 +587,15 @@ public class themHoaDon extends javax.swing.JFrame {
         }
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
-        String GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
+        String GiaBia1="";
+        if(table1.getValueAt(index, 4).toString().equals("0"))
+        {
+             GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
+        }
+        else
+        {
+            GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 4).toString()) * value);
+        }
         Object[] obj1 = {MaSP,TenSP,value,GiaBia1};
         list.add(obj1);
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();

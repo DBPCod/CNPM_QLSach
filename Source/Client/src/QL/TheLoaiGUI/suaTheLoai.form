@@ -3,6 +3,7 @@
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -45,30 +46,6 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
               <Group type="102" alignment="1" attributes="0">
-<<<<<<< HEAD:Source/Client/build/classes/QL/khuyenMaiGUI/chiTietKhuyenMai.form
-                  <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" min="-2" pref="370" max="-2" attributes="0"/>
-                  <EmptySpace pref="46" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="0" pref="155" max="32767" attributes="0"/>
-                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField3" alignment="0" pref="155" max="32767" attributes="0"/>
-                      <Component id="jTextField4" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jButton1" alignment="0" pref="155" max="32767" attributes="0"/>
-                          <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <Component id="jTextField2" min="-2" pref="155" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="166" max="-2" attributes="0"/>
-=======
                   <EmptySpace pref="40" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -87,7 +64,6 @@
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
->>>>>>> Khoa:Source/Client/src/QL/TheLoaiGUI/suaTheLoai.form
               </Group>
           </Group>
         </DimensionLayout>
@@ -97,49 +73,14 @@
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-<<<<<<< HEAD:Source/Client/build/classes/QL/khuyenMaiGUI/chiTietKhuyenMai.form
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <Component id="jTextField1" min="-2" pref="30" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jTextField2" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="jTextField4" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jTextField3" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <Component id="jButton1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Component id="jScrollPane2" min="-2" pref="310" max="-2" attributes="0"/>
-                          </Group>
-=======
                       <Group type="102" alignment="1" attributes="0">
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="MaTL" min="-2" pref="30" max="-2" attributes="0"/>
->>>>>>> Khoa:Source/Client/src/QL/TheLoaiGUI/suaTheLoai.form
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-<<<<<<< HEAD:Source/Client/build/classes/QL/khuyenMaiGUI/chiTietKhuyenMai.form
-                          <Component id="jComboBox1" min="-2" pref="30" max="-2" attributes="0"/>
-                      </Group>
-                  </Group>
-                  <EmptySpace pref="165" max="32767" attributes="0"/>
-=======
                           <Component id="TenTL" min="-2" pref="30" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -151,7 +92,6 @@
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
->>>>>>> Khoa:Source/Client/src/QL/TheLoaiGUI/suaTheLoai.form
               </Group>
           </Group>
         </DimensionLayout>
@@ -200,59 +140,7 @@
             <Property name="text" type="java.lang.String" value="M&#xe3; th&#x1ec3; lo&#x1ea1;i"/>
           </Properties>
         </Component>
-<<<<<<< HEAD:Source/Client/build/classes/QL/khuyenMaiGUI/chiTietKhuyenMai.form
-        <Component class="javax.swing.JTextField" name="jTextField1">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-                <EtchetBorder/>
-              </Border>
-            </Property>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ng&#xe0;y b&#x1eaf;t &#x111;&#x1ea7;u"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel5">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Lo&#x1ea1;i khuy&#x1ebf;n m&#xe3;i"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ng&#xe0;y k&#x1ebf;t th&#xfa;c"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="66" green="ff" red="66" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="16" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Xong"/>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
-            </Property>
-            <Property name="borderPainted" type="boolean" value="false"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Ph&#x1ea7;n tr&#x103;m khuy&#x1ebf;n m&#xe3;i"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="jTextField3">
-=======
         <Component class="javax.swing.JTextField" name="MaTL">
->>>>>>> Khoa:Source/Client/src/QL/TheLoaiGUI/suaTheLoai.form
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
@@ -265,11 +153,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MaTLActionPerformed"/>
           </Events>
         </Component>
-<<<<<<< HEAD:Source/Client/build/classes/QL/khuyenMaiGUI/chiTietKhuyenMai.form
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
-=======
         <Component class="javax.swing.JLabel" name="jLabel5">
->>>>>>> Khoa:Source/Client/src/QL/TheLoaiGUI/suaTheLoai.form
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#xea;n th&#x1ec3; lo&#x1ea1;i"/>
           </Properties>
@@ -281,7 +165,6 @@
                 <EtchetBorder/>
               </Border>
             </Property>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="nutSua">

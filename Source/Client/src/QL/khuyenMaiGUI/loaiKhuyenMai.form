@@ -3,6 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -223,6 +224,7 @@
                                       <Component id="txtLKM" max="32767" attributes="0"/>
                                       <Component id="jSpinnerLKM" min="-2" pref="218" max="-2" attributes="0"/>
                                       <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -246,8 +248,12 @@
                                   <Component id="jPanel9" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="jPanel10" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="txtLKM" min="-2" pref="45" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
@@ -255,7 +261,6 @@
                                   <Component id="jSpinnerLKM" min="-2" pref="45" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -431,7 +436,6 @@
                 </Container>
                 <Component class="javax.swing.JTextField" name="txtLKM">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Nh&#x1ead;p t&#xea;n lo&#x1ea1;i khuy&#x1ebf;n m&#xe3;i"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
                         <EtchetBorder/>
@@ -469,6 +473,11 @@
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtMaLKMMouseClicked"/>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtMaLKMActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel8">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xea;n khuy&#x1ebf;n m&#xe3;i"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
