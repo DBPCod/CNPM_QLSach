@@ -108,15 +108,15 @@ Color customColor = Color.decode("#C2F2E9");
         );
         panelTTLayout.setVerticalGroup(
             panelTTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelTTLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTTLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(panelTTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelTTLayout.createSequentialGroup()
                         .addComponent(tenNV)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(vaiTro)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(22, 22, 22))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));

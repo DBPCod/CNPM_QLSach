@@ -149,6 +149,8 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSP = new javax.swing.JTable();
 
+        setPreferredSize(new java.awt.Dimension(962, 640));
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));

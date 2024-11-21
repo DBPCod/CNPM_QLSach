@@ -76,7 +76,7 @@ public class panelThongTin extends javax.swing.JInternalFrame {
         jLabel17 = new javax.swing.JLabel();
         vaitro = new javax.swing.JTextField();
 
-        setPreferredSize(new java.awt.Dimension(962, 606));
+        setPreferredSize(new java.awt.Dimension(962, 657));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -290,15 +290,12 @@ public class panelThongTin extends javax.swing.JInternalFrame {
                     .addComponent(email)
                     .addComponent(gioitinh, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(hovaten)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel15)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel11)
-                            .addComponent(jLabel12))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
                 .addGap(126, 126, 126))
         );
         jPanel3Layout.setVerticalGroup(
