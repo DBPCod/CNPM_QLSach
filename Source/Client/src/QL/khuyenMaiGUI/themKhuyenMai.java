@@ -156,6 +156,19 @@ public class themKhuyenMai extends javax.swing.JFrame {
         }
     }
     
+    private boolean kiemTraTenKMTonTai(String tenKM) {
+        JSONObject json = new JSONObject(client1.getList("ListKhuyenMai"));
+        JSONArray jsonArray = json.getJSONArray("list");
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject kmObject = jsonArray.getJSONObject(i);
+            if (kmObject.getString("tenKM").equalsIgnoreCase(tenKM)) {
+                return true; // Tên khuyến mãi đã tồn tại
+            }
+        }
+        return false; // Tên khuyến mãi chưa tồn tại
+    }
+    
     private void timKiem()
     {
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
@@ -520,6 +533,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -638,6 +652,12 @@ public class themKhuyenMai extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Tên khuyến mãi không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            
+            if (kiemTraTenKMTonTai(tenKM)) {
+                JOptionPane.showMessageDialog(null, "Tên khuyến mãi đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
             if (ngayBD == null) {
                 JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
                 return;

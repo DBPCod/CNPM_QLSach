@@ -103,7 +103,7 @@ public class ClientHandle implements Runnable{
     
     
     //ham de xem client yeu cau gi
-    public void xetDK(String data)
+    public void xetDK(String data) throws IOException
     {
         JSONObject json = new JSONObject(data);
         String dieukien = json.getString("method");

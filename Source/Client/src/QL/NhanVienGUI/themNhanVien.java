@@ -357,6 +357,19 @@ public class themNhanVien extends javax.swing.JFrame {
         return "";
     }
     
+    private boolean kiemTraSoDienThoaiTonTai(String soDienThoai) {
+    JSONObject json = new JSONObject(client1.getList("ListNhanVien"));
+    JSONArray jsonArray = json.getJSONArray("list");
+    
+    for(int i = 0; i < jsonArray.length(); i++) {
+        JSONObject nvObject = jsonArray.getJSONObject(i);
+        if (nvObject.getString("soDienThoai").equals(soDienThoai)) {
+            return true; // Số điện thoại đã tồn tại
+        }
+    }
+    return false; // Số điện thoại chưa tồn tại
+}
+    
     private void MaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaNVActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_MaNVActionPerformed
@@ -404,6 +417,11 @@ public class themNhanVien extends javax.swing.JFrame {
         return;
     }
 
+    if (kiemTraSoDienThoaiTonTai(sdtNV)) {
+        JOptionPane.showMessageDialog(null, "Số điện thoại đã được sử dụng bởi một nhân viên khác!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
     // Kiểm tra địa chỉ
     if (diaChiNV.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Địa chỉ không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
