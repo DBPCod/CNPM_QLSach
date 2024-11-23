@@ -160,6 +160,8 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableNV = new javax.swing.JTable();
 
+        setPreferredSize(new java.awt.Dimension(970, 640));
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
