@@ -129,6 +129,8 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableKM = new javax.swing.JTable();
 
+        setPreferredSize(new java.awt.Dimension(970, 640));
+
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));

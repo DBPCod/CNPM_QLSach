@@ -92,6 +92,8 @@ public class panelKho extends javax.swing.JInternalFrame {
         locTienBD = new javax.swing.JTextField();
         locTienKT = new javax.swing.JTextField();
 
+        setPreferredSize(new java.awt.Dimension(970, 640));
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));

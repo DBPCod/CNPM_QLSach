@@ -35,6 +35,22 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         this.setLocationRelativeTo(null);
+        txtMK.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    handleLogin();
+                }
+            }
+        });
+
+        txtTK.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+                    handleLogin();
+                }
+            }
+        });
+
     }
 
     /**
@@ -282,6 +298,44 @@ public class Login extends javax.swing.JFrame {
         return new ArrayList<>();
     }
     
+    private void handleLogin() 
+    {
+        String taikhoan = txtTK.getText();
+        String matkhau = txtMK.getText();
+
+        if (taikhoan.isEmpty() || matkhau.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Tên đăng nhập và mật khẩu không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String check = client.dangNhap(taikhoan, matkhau);
+        JSONObject json = new JSONObject(check);
+
+        if (json.getString("Trangthai").equals("true")) {
+            switch (getMaVT(json.getString("MaTK"))) {
+                case "VT001":
+                    Main main = new Main(json.getString("MaTK"), client);
+                    main.setVisible(true);
+                    this.dispose();
+                    break;
+                case "VT002":
+                    MainNhapKho mainnk = new MainNhapKho(json.getString("MaTK"), client);
+                    mainnk.setVisible(true);
+                    this.dispose();
+                    break;
+                case "VT003":
+                    MainBanHang mainbh = new MainBanHang(json.getString("MaTK"), client);
+                    mainbh.setVisible(true);
+                    this.dispose();
+                    break;
+            }
+        } else {
+            String errorMessage = json.optString("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");
+            JOptionPane.showMessageDialog(this, errorMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    
     private String getMaVT(String MaTK)
     {
         for(NhanVienDTO x : getList("ListNhanVien"))
@@ -295,41 +349,7 @@ public class Login extends javax.swing.JFrame {
     }
     
     private void myButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_myButton2MouseClicked
-        
-        String taikhoan = txtTK.getText();
-        String matkhau = txtMK.getText();
-        
-        
-        if (taikhoan.isEmpty() || matkhau.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Tên đăng nhập và mật khẩu không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        return;
-    }
-
-        String check = client.dangNhap(taikhoan, matkhau);  
-        JSONObject json = new JSONObject(check);
-
-        if (json.getString("Trangthai").equals("true")) {
-        switch (getMaVT(json.getString("MaTK"))) {
-            case "VT001":
-                Main main = new Main(json.getString("MaTK"), client);
-                main.setVisible(true);
-                this.dispose();
-                break;
-            case "VT002":
-                MainNhapKho mainnk = new MainNhapKho(json.getString("MaTK"), client);
-                mainnk.setVisible(true);
-                this.dispose();
-                break;
-            case "VT003":
-                MainBanHang mainbh = new MainBanHang(json.getString("MaTK"), client);
-                mainbh.setVisible(true);
-                this.dispose();
-                break;
-            }
-        } else {
-        String errorMessage = json.optString("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");    
-        JOptionPane.showMessageDialog(this, errorMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }  
+        handleLogin();
     }//GEN-LAST:event_myButton2MouseClicked
 
     private void chkShowPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkShowPasswordActionPerformed
