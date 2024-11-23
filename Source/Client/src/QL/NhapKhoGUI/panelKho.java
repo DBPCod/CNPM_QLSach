@@ -32,7 +32,8 @@ public class panelKho extends javax.swing.JInternalFrame {
     private String MaDT = "0";
     private static Client client1;
     private String nguoiNhap1;
-    
+    //check dung de kiem tra khong xoa nhung doi tuong trong danh sach xoa
+    private boolean check=true;
     private String locTenNXB = null; 
     private Date locNgayBatDau = null;   
     private Date locNgayKetThuc = null;  
@@ -610,7 +611,7 @@ public class panelKho extends javax.swing.JInternalFrame {
 
     private void jPanel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel12MouseClicked
         // hien thi danh sach phieu nhap da xoa
-        
+        check=false;
         setUpDelete();
     }//GEN-LAST:event_jPanel12MouseClicked
 
@@ -625,26 +626,42 @@ public class panelKho extends javax.swing.JInternalFrame {
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
         // TODO add your handling code here:
         
-        if(MaDT.equals("0"))
+        int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Bạn có chắc chắn muốn tiếp tục?", // Nội dung thông báo
+                "Xác nhận", // Tiêu đề của hộp thoại
+                JOptionPane.YES_NO_OPTION, // Loại thông báo (YES/NO)
+                JOptionPane.QUESTION_MESSAGE // Icon (QUESTION)
+        );
+        // Xử lý kết quả dựa trên lựa chọn của người dùng
+        if (response == JOptionPane.YES_OPTION && check==true) {
+//            System.out.println("Người dùng chọn Có.");
+            if(MaDT.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            JSONObject json = new JSONObject();
+            json.put("method","DELETEPN");
+            json.put("MaPN", MaDT);
+            JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+            if(json1.getString("ketqua").equals("true"))
+            {
+                getCTPN();
+                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                setUp();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+        else if(check==false)
         {
-            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return;
+            JOptionPane.showMessageDialog(null, "Không thể xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }
         
-        JSONObject json = new JSONObject();
-        json.put("method","DELETEPN");
-        json.put("MaPN", MaDT);
-        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
-        if(json1.getString("ketqua").equals("true"))
-        {
-            getCTPN();
-            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            setUp();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
     }//GEN-LAST:event_jPanel10MouseClicked
 
     private void getCTPN()
@@ -670,6 +687,7 @@ public class panelKho extends javax.swing.JInternalFrame {
     }
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        check=true;
         setUp();
     }//GEN-LAST:event_jButton1MouseClicked
 

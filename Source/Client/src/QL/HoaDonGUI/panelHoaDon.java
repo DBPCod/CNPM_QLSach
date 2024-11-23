@@ -29,7 +29,8 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     private String MaDT = "0";
     private String nguoiNhap1;
     private static Client client1;
-    
+    //dung de kiem tra xoa doi tuong trong danh sach xoa
+    private boolean check=true;
     private String locTenNhanVien = null; 
     private Date locNgayBatDau = null;   
     private Date locNgayKetThuc = null;  
@@ -587,6 +588,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
 
     private void dsHuyButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dsHuyButtonMouseClicked
         // TODO add your handling code here:
+        check=false;
         setUpDelete();
     }//GEN-LAST:event_dsHuyButtonMouseClicked
 
@@ -611,26 +613,43 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
 
     private void huyButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_huyButtonMouseClicked
         // TODO add your handling code here:
-        if(MaDT.equals("0"))
-        {
-            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        
-        JSONObject json = new JSONObject();
-        json.put("method","DELETEHD");
-        json.put("MaHD", MaDT);
-        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
-        if(json1.getString("ketqua").equals("true"))
-        {
-            getCTHD();
-            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            setUp();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+        int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Bạn có chắc chắn muốn tiếp tục?", // Nội dung thông báo
+                "Xác nhận", // Tiêu đề của hộp thoại
+                JOptionPane.YES_NO_OPTION, // Loại thông báo (YES/NO)
+                JOptionPane.QUESTION_MESSAGE // Icon (QUESTION)
+        );
+        if (response == JOptionPane.YES_OPTION && check==true) {
+//            System.out.println("Người dùng chọn Có.");
+            if(MaDT.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            JSONObject json = new JSONObject();
+            json.put("method","DELETEHD");
+            json.put("MaHD", MaDT);
+            JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+            if(json1.getString("ketqua").equals("true"))
+            {
+                getCTHD();
+                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                setUp();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+                     } 
+            else if (response == JOptionPane.NO_OPTION) {
+                System.out.println("Người dùng chọn Không.");
+                         }
+            else if(check==false)
+            {
+                JOptionPane.showMessageDialog(null, "Không thể xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
     }//GEN-LAST:event_huyButtonMouseClicked
 
     
@@ -657,6 +676,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     }
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        check=true;
         setUp();
     }//GEN-LAST:event_jButton1MouseClicked
 

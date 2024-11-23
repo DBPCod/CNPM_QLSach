@@ -445,15 +445,9 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-<<<<<<< HEAD
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
-=======
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(116, Short.MAX_VALUE))
->>>>>>> Khoa
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -500,10 +494,18 @@ public class panelSanPham extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        // TODO add your handling code here:        
-        suaSanPham ssp = new suaSanPham(client1,this,MaDT);
-        ssp.setDefaultCloseOperation(ssp.DISPOSE_ON_CLOSE);
-        ssp.setVisible(true);
+        // TODO add your handling code here:    
+        if(MaDT.equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            suaSanPham ssp = new suaSanPham(client1,this,MaDT);
+            ssp.setDefaultCloseOperation(ssp.DISPOSE_ON_CLOSE);
+            ssp.setVisible(true);
+        }
+        
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
@@ -533,26 +535,43 @@ public class panelSanPham extends javax.swing.JInternalFrame {
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
         // TODO add your handling code here:
-        if(MaDT.equals("0"))
-        {
-            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return;
+        int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Bạn có chắc chắn muốn tiếp tục?", // Nội dung thông báo
+                "Xác nhận", // Tiêu đề của hộp thoại
+                JOptionPane.YES_NO_OPTION, // Loại thông báo (YES/NO)
+                JOptionPane.QUESTION_MESSAGE // Icon (QUESTION)
+        );
+        
+        // Xử lý kết quả dựa trên lựa chọn của người dùng
+        if (response == JOptionPane.YES_OPTION) {
+//            System.out.println("Người dùng chọn Có.");
+            if(MaDT.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            JSONObject json = new JSONObject();
+            json.put("method","DELETESP");
+            json.put("MaSP",MaDT);
+            json.put("Trangthai",0);
+            JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+            if(json1.getString("ketqua").equals("true"))
+            {
+                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                setUp();
+
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (response == JOptionPane.NO_OPTION) {
+            System.out.println("Người dùng chọn Không.");
+        } else {
+            System.out.println("Người dùng đóng hộp thoại.");
         }
-        JSONObject json = new JSONObject();
-        json.put("method","DELETESP");
-        json.put("MaSP",MaDT);
-        json.put("Trangthai",0);
-        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
-        if(json1.getString("ketqua").equals("true"))
-        {
-            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            setUp();
-            
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+        
     }//GEN-LAST:event_jPanel10MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
