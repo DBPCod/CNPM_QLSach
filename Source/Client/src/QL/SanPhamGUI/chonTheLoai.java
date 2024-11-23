@@ -246,10 +246,12 @@ public class chonTheLoai extends javax.swing.JInternalFrame {
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
 
-        dt1.list.add(new Object[] {MaTL1,TenTL1});
+//        dt1.list.add(new Object[] {MaTL1,TenTL1});
         JInternalThemSP jTSP = new JInternalThemSP(tsp1,client1,MaTL1,TenTL1,dt1,pnsp1);
-        tsp1.mainTSP.removeAll();
-        tsp1.mainTSP.add(jTSP).setVisible(true);
+//        tsp1.mainTSP.removeAll();
+//        tsp1.mainTSP.add(jTSP).setVisible(true);
+          jTSP.setVisible(false);
+          this.setVisible(false);
     }//GEN-LAST:event_jButton3MouseClicked
 
 

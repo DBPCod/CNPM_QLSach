@@ -156,6 +156,8 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSP = new javax.swing.JTable();
 
+        setPreferredSize(new java.awt.Dimension(970, 640));
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -220,10 +222,10 @@ public class panelSanPham extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
                 .addContainerGap())
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +368,7 @@ public class panelSanPham extends javax.swing.JInternalFrame {
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addGap(48, 48, 48))
             .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel8Layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -435,17 +437,17 @@ public class panelSanPham extends javax.swing.JInternalFrame {
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 860, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(44, 44, 44))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47))
+                .addContainerGap(116, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -466,7 +468,8 @@ public class panelSanPham extends javax.swing.JInternalFrame {
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -491,10 +494,18 @@ public class panelSanPham extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        // TODO add your handling code here:        
-        suaSanPham ssp = new suaSanPham(client1,this,MaDT);
-        ssp.setDefaultCloseOperation(ssp.DISPOSE_ON_CLOSE);
-        ssp.setVisible(true);
+        // TODO add your handling code here:    
+        if(MaDT.equals("0"))
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            suaSanPham ssp = new suaSanPham(client1,this,MaDT);
+            ssp.setDefaultCloseOperation(ssp.DISPOSE_ON_CLOSE);
+            ssp.setVisible(true);
+        }
+        
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void jPanel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel11MouseClicked
@@ -524,26 +535,43 @@ public class panelSanPham extends javax.swing.JInternalFrame {
 
     private void jPanel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel10MouseClicked
         // TODO add your handling code here:
-        if(MaDT.equals("0"))
-        {
-            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return;
+        int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Bạn có chắc chắn muốn tiếp tục?", // Nội dung thông báo
+                "Xác nhận", // Tiêu đề của hộp thoại
+                JOptionPane.YES_NO_OPTION, // Loại thông báo (YES/NO)
+                JOptionPane.QUESTION_MESSAGE // Icon (QUESTION)
+        );
+        
+        // Xử lý kết quả dựa trên lựa chọn của người dùng
+        if (response == JOptionPane.YES_OPTION) {
+//            System.out.println("Người dùng chọn Có.");
+            if(MaDT.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            JSONObject json = new JSONObject();
+            json.put("method","DELETESP");
+            json.put("MaSP",MaDT);
+            json.put("Trangthai",0);
+            JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+            if(json1.getString("ketqua").equals("true"))
+            {
+                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                setUp();
+
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (response == JOptionPane.NO_OPTION) {
+            System.out.println("Người dùng chọn Không.");
+        } else {
+            System.out.println("Người dùng đóng hộp thoại.");
         }
-        JSONObject json = new JSONObject();
-        json.put("method","DELETESP");
-        json.put("MaSP",MaDT);
-        json.put("Trangthai",0);
-        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
-        if(json1.getString("ketqua").equals("true"))
-        {
-            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            setUp();
-            
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+        
     }//GEN-LAST:event_jPanel10MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked

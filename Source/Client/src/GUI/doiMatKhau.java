@@ -115,6 +115,11 @@ public class doiMatKhau extends javax.swing.JFrame {
 
         mkHienTai.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         mkHienTai.setEnabled(false);
+        mkHienTai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mkHienTaiActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(102, 255, 102));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
@@ -211,6 +216,12 @@ public class doiMatKhau extends javax.swing.JFrame {
             return;
         }
         String matkhau = mkMoi.getText();
+        
+        if (matkhau.length() < 6) {
+            JOptionPane.showMessageDialog(null, "Mật khẩu mới phải có ít nhất 6 ký tự!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
         JSONObject json = new JSONObject();
         json.put("method","UPDATETK");
         json.put("MaTK",MaTK1);
@@ -227,6 +238,11 @@ public class doiMatKhau extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Sửa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
         }    
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void mkHienTaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mkHienTaiActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_mkHienTaiActionPerformed
 
     /**
      * @param args the command line arguments

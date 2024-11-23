@@ -6,6 +6,7 @@
 package QL.khuyenMaiGUI;
 
 import Client.Client;
+import Customize.TimKiem;
 import DTO.KhuyenMaiDTO;
 import DTO.TacGiaDTO;
 import java.text.ParseException;
@@ -29,6 +30,8 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
     /** Creates new form panelKhuyenMai */
     private static Client client1;
     private String MaDT = "0";
+    private static TimKiem timkiem = new TimKiem();
+    
     public panelKhuyenMai(Client client) {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
@@ -36,6 +39,8 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
         bui.setNorthPane(null);
         client1=client;
         setUp();
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên khuyến mãi...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     //ham lay danh sach
@@ -99,6 +104,33 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
         }
     }
     
+    private void timKiem() 
+    {        
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jTableKM.getModel();
+        model.setRowCount(0); 
+
+        ArrayList<KhuyenMaiDTO> allDiscount = getList("ListKhuyenMai");
+
+        for (KhuyenMaiDTO khuyenmai : allDiscount) {
+            if (khuyenmai.getTrangThai() == 1) {
+                String maKM = timkiem.KhongLayDau(khuyenmai.getMaKM().toLowerCase());
+                String tenKM = timkiem.KhongLayDau(khuyenmai.getTenKM().toLowerCase());
+                
+                if (maKM.contains(searchText) || tenKM.contains(searchText)){
+                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                    String ngaybatdau = formatter.format(khuyenmai.getNgayBatDau());
+                    String ngayketthuc = formatter.format(khuyenmai.getNgayKetThuc());
+                    model.addRow(new Object[] {khuyenmai.getMaKM(),khuyenmai.getTenKM(),ngaybatdau,ngayketthuc});
+                }
+            }
+        }
+
+        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
+            // xu li thong bao khi khong tim thay
+        }
+    }
+    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -123,11 +155,13 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
         jLabel29 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        timKiemField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel28 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableKM = new javax.swing.JTable();
+
+        setPreferredSize(new java.awt.Dimension(970, 640));
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -302,9 +336,14 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
 
         jPanel27.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setText("Tìm kiếm....");
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.setText("Tìm kiếm....");
+        timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timKiemFieldActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Làm mới");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -321,15 +360,15 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54))
         );
         jPanel27Layout.setVerticalGroup(
             jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel27Layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(jPanel27Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -379,7 +418,7 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
         jPanel28Layout.setVerticalGroup(
             jPanel28Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel28Layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(36, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
         );
@@ -459,32 +498,53 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
 
     private void jPanel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel25MouseClicked
         // TODO add your handling code here:
-        if(MaDT.equals("0"))
-        {
-            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return;
+        int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Bạn có chắc chắn muốn tiếp tục?", // Nội dung thông báo
+                "Xác nhận", // Tiêu đề của hộp thoại
+                JOptionPane.YES_NO_OPTION, // Loại thông báo (YES/NO)
+                JOptionPane.QUESTION_MESSAGE // Icon (QUESTION)
+        );
+        
+         // Xử lý kết quả dựa trên lựa chọn của người dùng
+        if (response == JOptionPane.YES_OPTION) {
+//            System.out.println("Người dùng chọn Có.");
+            if(MaDT.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            JSONObject json = new JSONObject();
+            json.put("method","DELETEKM");
+            json.put("MaKM",MaDT);
+            json.put("Trangthai",0);
+            JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+            if(json1.getString("ketqua").equals("true"))
+            {
+                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                setUp();
+
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (response == JOptionPane.NO_OPTION) {
+            System.out.println("Người dùng chọn Không.");
+        } else {
+            System.out.println("Người dùng đóng hộp thoại.");
         }
-        JSONObject json = new JSONObject();
-        json.put("method","DELETEKM");
-        json.put("MaKM",MaDT);
-        json.put("Trangthai",0);
-        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
-        if(json1.getString("ketqua").equals("true"))
-        {
-            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            setUp();
-            
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+        
     }//GEN-LAST:event_jPanel25MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         setUp();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timKiemFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -507,7 +567,7 @@ public class panelKhuyenMai extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel30;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableKM;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 
 }

@@ -117,10 +117,15 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
             InputStream is = new ByteArrayInputStream(imageBytes);
             BufferedImage bi1;
             bi1 = ImageIO.read(is);
-            Image img = bi1.getScaledInstance(185,238,Image.SCALE_SMOOTH);
-            ImageIcon icon = new ImageIcon(img);
-            lb_img.setIcon(icon);
+            if(bi1!=null)
+            {
+                Image img = bi1.getScaledInstance(185,238,Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(img);
+                lb_img.setIcon(icon);
+            }
+            
         } catch (IOException ex) {
+            System.out.println("loi");
             Logger.getLogger(thongTinSanPhamQL.class.getName()).log(Level.SEVERE, null, ex);
         }
             //hien thi anh len giao dien

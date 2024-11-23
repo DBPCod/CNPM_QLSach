@@ -89,6 +89,7 @@ public class suaTaiKhoan extends javax.swing.JFrame {
 
         MaTK.setEditable(false);
         MaTK.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        MaTK.setEnabled(false);
         MaTK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MaTKActionPerformed(evt);

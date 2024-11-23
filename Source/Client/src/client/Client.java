@@ -730,7 +730,7 @@ public class Client {
        return "";
    }
    
-   public String guiThemTK(String data)
+    public String guiThemTK(String data)
    {
        JSONObject json = new JSONObject(data);
        String yeucau = json.getString("method");
@@ -758,8 +758,8 @@ public class Client {
         
        return "";
    }
-   
-   public String guiThemNV(String data)
+    
+    public String guiThemNV(String data)
    {
        JSONObject json = new JSONObject(data);
        String yeucau = json.getString("method");

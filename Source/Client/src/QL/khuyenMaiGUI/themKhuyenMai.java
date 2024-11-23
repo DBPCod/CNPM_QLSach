@@ -5,10 +5,12 @@
 package QL.khuyenMaiGUI;
 
 import Client.Client;
+import Customize.TimKiem;
 import DTO.LoaiKhuyenMaiDTO;
 import DTO.SanPhamDTO;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import javax.swing.JOptionPane;
@@ -30,6 +32,8 @@ public class themKhuyenMai extends javax.swing.JFrame {
     private static Client client1;
     private String maLoaiKM;
     private ArrayList<Object[]> list = new ArrayList<Object[]>();
+    private static TimKiem timkiem = new TimKiem();
+    
     public themKhuyenMai(Client client,panelKhuyenMai panelKhuyenMai) {
         initComponents();
         this.setLocationRelativeTo(null);
@@ -39,6 +43,8 @@ public class themKhuyenMai extends javax.swing.JFrame {
         setUp();
         setUpLKM();
         jDateChooserNBD.setDate(new Date());
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     
@@ -149,6 +155,48 @@ public class themKhuyenMai extends javax.swing.JFrame {
             jComboBoxLKM.addItem(khuyenmaiDTO.getTenLoaiKM());
         }
     }
+    
+    private boolean kiemTraTenKMTonTai(String tenKM) {
+        JSONObject json = new JSONObject(client1.getList("ListKhuyenMai"));
+        JSONArray jsonArray = json.getJSONArray("list");
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject kmObject = jsonArray.getJSONObject(i);
+            if (kmObject.getString("tenKM").equalsIgnoreCase(tenKM)) {
+                return true; // Tên khuyến mãi đã tồn tại
+            }
+        }
+        return false; // Tên khuyến mãi chưa tồn tại
+    }
+    
+    private void timKiem()
+    {
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
+        // Nếu trường tìm kiếm rỗng, hiển thị lại toàn bộ danh sách sản phẩm
+        if (searchText.isEmpty()) {
+            model.setRowCount(0); // Xóa toàn bộ bảng
+            for (SanPhamDTO sp : getList("ListSanPham")) {
+                if (sp.getTrangThai() == 1) {
+                    model.addRow(new Object[] { sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaBia()) });
+                }
+            }
+        } else {
+            // Nếu có dữ liệu tìm kiếm, chỉ hiển thị những sản phẩm phù hợp
+            model.setRowCount(0); // Xóa bảng trước khi tìm kiếm
+            ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
+            for (SanPhamDTO sp : allItems) {
+                if (sp.getTrangThai() == 1) {
+                    String MaSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
+                    String TenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
+                    if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
+                        model.addRow(new Object[] { sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaBia()) });
+                    }
+                }
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -173,7 +221,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
         jDateChooserNBD = new com.toedter.calendar.JDateChooser();
         jDateChooserNKT = new com.toedter.calendar.JDateChooser();
         jComboBoxLKM = new javax.swing.JComboBox<>();
-        jTextField2 = new javax.swing.JTextField();
+        timKiemField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSP = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
@@ -182,6 +230,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         maLKM = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -260,9 +309,14 @@ public class themKhuyenMai extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.setText("Tìm kiếm...");
-        jTextField2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField2.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.setText("Tìm kiếm...");
+        timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timKiemFieldActionPerformed(evt);
+            }
+        });
 
         jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -344,17 +398,34 @@ public class themKhuyenMai extends javax.swing.JFrame {
         maLKM.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         maLKM.setEnabled(false);
 
+        jButton3.setText("Làm mới");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jTextField2)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(92, 92, 92)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
@@ -385,10 +456,6 @@ public class themKhuyenMai extends javax.swing.JFrame {
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(22, 22, 22))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,20 +463,6 @@ public class themKhuyenMai extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(maLKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel7))
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTenKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxLKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel4)
@@ -430,9 +483,27 @@ public class themKhuyenMai extends javax.swing.JFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jDateChooserNKT, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(22, 22, 22)
+                                        .addComponent(maLKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel7))
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTenKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxLKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30)
@@ -462,6 +533,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        this.setVisible(false);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -575,6 +647,49 @@ public class themKhuyenMai extends javax.swing.JFrame {
             Date ngayBD = jDateChooserNBD.getDate();
             Date ngayKT = jDateChooserNKT.getDate();
             
+            // Kiểm tra các trường không được để trống
+            if (tenKM.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Tên khuyến mãi không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            if (kiemTraTenKMTonTai(tenKM)) {
+                JOptionPane.showMessageDialog(null, "Tên khuyến mãi đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            if (ngayBD == null) {
+                JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            if (ngayKT == null) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            // Kiểm tra ngày bắt đầu không được trước ngày hiện tại
+            Date currentDate = new Date();
+            if (ngayBD.before(currentDate)) {
+            // Xóa giờ, phút, giây của ngày hiện tại để so sánh chỉ theo ngày
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(currentDate);
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            calendar.set(Calendar.MILLISECOND, 0);
+
+            if (ngayBD.before(calendar.getTime())) {
+                JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được trước ngày hiện tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+                }
+            
+            // Kiểm tra ngày kết thúc không được trước ngày bắt đầu
+            if (ngayKT.before(ngayBD)) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc không được trước ngày bắt đầu!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+                }
+            }
+
             JSONObject json = new JSONObject();
             json.put("method","PUTKM");
             json.put("maKM",maKM);
@@ -602,6 +717,15 @@ public class themKhuyenMai extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        setUp();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timKiemFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -641,6 +765,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBoxLKM;
@@ -659,9 +784,9 @@ public class themKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableSP;
     private javax.swing.JTable jTableSPC;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextFieldKM;
     private javax.swing.JTextField maLKM;
+    private javax.swing.JTextField timKiemField;
     private javax.swing.JTextField txtTenKM;
     // End of variables declaration//GEN-END:variables
 }

@@ -140,7 +140,7 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableNXB = new javax.swing.JTable();
 
-        setPreferredSize(new java.awt.Dimension(942, 651));
+        setPreferredSize(new java.awt.Dimension(970, 640));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(930, 651));
@@ -453,26 +453,42 @@ public class panelNhaXuatBan extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_chitietButtonMouseClicked
 
     private void xoaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xoaButtonMouseClicked
-        // neu chua chon doi tuong thi khong cho xoa
-        if(MaDT.equals("0"))
-        {
-            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
+        int response = JOptionPane.showConfirmDialog(
+                null, 
+                "Bạn có chắc chắn muốn tiếp tục?", // Nội dung thông báo
+                "Xác nhận", // Tiêu đề của hộp thoại
+                JOptionPane.YES_NO_OPTION, // Loại thông báo (YES/NO)
+                JOptionPane.QUESTION_MESSAGE // Icon (QUESTION)
+        );
         
-        JSONObject json = new JSONObject();
-        json.put("method","DELETENXB");
-        json.put("MaNXB", MaDT);
-        JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
-        if(json1.getString("ketqua").equals("true"))
-        {
-            JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-            setUp();
+        if (response == JOptionPane.YES_OPTION) {
+//            System.out.println("Người dùng chọn Có.");
+            // neu chua chon doi tuong thi khong cho xoa
+            if(MaDT.equals("0"))
+            {
+                JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            JSONObject json = new JSONObject();
+            json.put("method","DELETENXB");
+            json.put("MaNXB", MaDT);
+            JSONObject json1 = new JSONObject(client1.xoaDT(json.toString()));
+            if(json1.getString("ketqua").equals("true"))
+            {
+                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                setUp();
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (response == JOptionPane.NO_OPTION) {
+            System.out.println("Người dùng chọn Không.");
+        } else {
+            System.out.println("Người dùng đóng hộp thoại.");
         }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-        }
+
     }//GEN-LAST:event_xoaButtonMouseClicked
 
     private void jTableNXBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableNXBMouseClicked

@@ -54,9 +54,13 @@ public class thongTinSanPhamBH extends javax.swing.JFrame {
             InputStream is = new ByteArrayInputStream(imageBytes);
             BufferedImage bi1;
             bi1 = ImageIO.read(is);
-            Image img = bi1.getScaledInstance(185,238,Image.SCALE_SMOOTH);
-            ImageIcon icon = new ImageIcon(img);
-            lb_img.setIcon(icon);
+            if(bi1!=null)
+            {
+                Image img = bi1.getScaledInstance(185,238,Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(img);
+                lb_img.setIcon(icon);
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(thongTinSanPhamBH.class.getName()).log(Level.SEVERE, null, ex);
         }

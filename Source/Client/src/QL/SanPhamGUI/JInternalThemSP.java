@@ -276,6 +276,8 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
             }
         });
 
+        spinnerST.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+
         jTableTheLoai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -559,13 +561,12 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         int soTrang = (Integer) spinnerST.getValue();
         String ngonNgu = txtNN.getText();
         byte[] anhbia;
-
+        // Kiểm tra giá trị của giá nhập và giá bìa
+        
+        
             // Kiểm tra tên sản phẩm
     if (tenSP.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        return;
-    } else if (!tenSP.matches("^[a-zA-ZÀ-ỹ\\s]+$")) {
-        JOptionPane.showMessageDialog(null, "Tên sản phẩm chỉ được chứa chữ cái và không chứa số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         return;
     }
 
@@ -586,6 +587,13 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "Giá bìa phải là số dương và có thể có tối đa 2 chữ số sau dấu thập phân!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         return;
     }
+    
+    double giaNhapDouble = Double.parseDouble(giaNhap);
+    double giaBiaDouble = Double.parseDouble(giaBia);
+    if (giaBiaDouble <= giaNhapDouble) {
+        JOptionPane.showMessageDialog(null, "Giá bìa phải lớn hơn giá nhập!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
     // Kiểm tra số trang
     if (soTrang <= 0) {
@@ -601,6 +609,12 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "Ngôn ngữ chỉ được chứa chữ cái và không chứa số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         return;
     }
+    
+    if (jTableTheLoai.getRowCount() == 0) {
+    JOptionPane.showMessageDialog(null, "Vui lòng chọn ít nhất một thể loại cho sản phẩm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+    
 
     // Kiểm tra tác giả
     if (comboboxTG.getSelectedIndex() == -1) {
@@ -612,6 +626,10 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         if(dt1.getAnhBia()==null)
         {
             anhbia = imageInByteArray1;
+            if (anhbia == null || anhbia.length == 0) {
+            JOptionPane.showMessageDialog(null, "Vui lòng chọn ảnh bìa cho sản phẩm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+            }
         }
         else
         {
