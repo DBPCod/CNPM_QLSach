@@ -613,6 +613,17 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
 
     private void huyButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_huyButtonMouseClicked
         // TODO add your handling code here:
+        if (!check) {
+            JOptionPane.showMessageDialog(
+                null, 
+                "Không thể huỷ hoá đơn đã trong danh sách huỷ!", 
+                "Thông báo", 
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            return;
+        }
+
+        
         int response = JOptionPane.showConfirmDialog(
                 null, 
                 "Bạn có chắc chắn muốn tiếp tục?", // Nội dung thông báo
@@ -635,12 +646,12 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             if(json1.getString("ketqua").equals("true"))
             {
                 getCTHD();
-                JOptionPane.showMessageDialog(null, "Xóa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Huỷ thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 setUp();
             }
             else
             {
-                JOptionPane.showMessageDialog(null, "Xóa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Huỷ không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
                      } 
             else if (response == JOptionPane.NO_OPTION) {
@@ -648,7 +659,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                          }
             else if(check==false)
             {
-                JOptionPane.showMessageDialog(null, "Không thể xóa", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Không thể huỷ", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
     }//GEN-LAST:event_huyButtonMouseClicked
 
