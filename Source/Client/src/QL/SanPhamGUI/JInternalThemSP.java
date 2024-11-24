@@ -582,7 +582,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         try {
             bi = ImageIO.read(new File(path));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(bi,"jpg",baos);
+            ImageIO.write(bi,"png",baos);
             //chuyen sang byte de chuyen du lieu len database
             byte[] imageInByteArray = baos.toByteArray();
             imageInByteArray1=imageInByteArray;

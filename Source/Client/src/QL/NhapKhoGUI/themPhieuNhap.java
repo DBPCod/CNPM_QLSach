@@ -330,14 +330,17 @@ public class themPhieuNhap extends javax.swing.JFrame {
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
         DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
         // Nếu trường tìm kiếm rỗng, hiển thị lại toàn bộ danh sách sản phẩm
+        
         if (searchText.isEmpty()) {
+            System.out.println("aaaaaaa");
             model.setRowCount(0); // Xóa toàn bộ bảng
             for (SanPhamDTO sp : getList("ListSanPham")) {
                 if (sp.getTrangThai() == 1) {
                     model.addRow(new Object[] { sp.getMaSP(),sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaNhap()) });
                 }
             }
-        } else {
+        
+        } else if(!searchText.isEmpty()){
             // Nếu có dữ liệu tìm kiếm, chỉ hiển thị những sản phẩm phù hợp
             model.setRowCount(0); // Xóa bảng trước khi tìm kiếm
             ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
@@ -351,6 +354,7 @@ public class themPhieuNhap extends javax.swing.JFrame {
                 }
             }
         }
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -421,11 +425,6 @@ public class themPhieuNhap extends javax.swing.JFrame {
 
         timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        timKiemField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timKiemFieldActionPerformed(evt);
-            }
-        });
 
         jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -903,10 +902,6 @@ public class themPhieuNhap extends javax.swing.JFrame {
         // TODO add your handling code here:
         setUp();
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
-         // TODO add your handling code here:
-    }//GEN-LAST:event_timKiemFieldActionPerformed
 
     /**
      * @param args the command line arguments

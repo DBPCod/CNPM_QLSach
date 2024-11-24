@@ -258,6 +258,7 @@ public class themHoaDon extends javax.swing.JFrame {
 
         if (model.getRowCount() == 0 && !searchText.isEmpty()) {
             // xu li thong bao khi khong tim thay
+            
         }
     }
     /**
