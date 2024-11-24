@@ -55,7 +55,6 @@ public class themHoaDon extends javax.swing.JFrame {
         setMaHD();
         setUp();
         timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
-        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     
@@ -239,15 +238,11 @@ public class themHoaDon extends javax.swing.JFrame {
                    return new ArrayList<>();
         }
     
-    private void timKiem()
+    private void timKiem() 
     {
-     
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
-        
-        
         DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
-        model.setRowCount(0); 
-        
+        model.setRowCount(0);  // Làm sạch bảng trước khi thêm dữ liệu mới
 
         ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
 
@@ -255,29 +250,45 @@ public class themHoaDon extends javax.swing.JFrame {
         if (searchText.isEmpty()) {
             for (SanPhamDTO sanpham : allItems) {
                 if (sanpham.getTrangThai() == 1) {
-                    model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia()),getGiaKMSP(sanpham.getMaSP(),sanpham.getGiaBia())});
+                    model.addRow(new Object[] {
+                        sanpham.getMaSP(),
+                        sanpham.getTenSP(),
+                        String.valueOf(sanpham.getSoLuong()),
+                        String.valueOf(sanpham.getGiaBia()),
+                        getGiaKMSP(sanpham.getMaSP(), sanpham.getGiaBia())
+                    });
                 }
             }
-            return; // Kết thúc phương thức
+            return;  // Kết thúc phương thức nếu tìm kiếm rỗng
         }
-        
+
+        // Nếu có searchText, tìm kiếm các sản phẩm theo mã hoặc tên
+        boolean found = false;
         for (SanPhamDTO sanpham : allItems) {
             if (sanpham.getTrangThai() == 1) {
-                
                 String MaSP = timkiem.KhongLayDau(sanpham.getMaSP().toLowerCase());
                 String TenSP = timkiem.KhongLayDau(sanpham.getTenSP().toLowerCase());
-                
 
                 if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
-                    model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia()),getGiaKMSP(sanpham.getMaSP(),sanpham.getGiaBia())});
+                    model.addRow(new Object[] {
+                        sanpham.getMaSP(),
+                        sanpham.getTenSP(),
+                        String.valueOf(sanpham.getSoLuong()),
+                        String.valueOf(sanpham.getGiaBia()),
+                        getGiaKMSP(sanpham.getMaSP(), sanpham.getGiaBia())
+                    });
+                    found = true;  // Đánh dấu là đã tìm thấy ít nhất 1 sản phẩm
                 }
             }
         }
 
-        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
-            // xu li thong bao khi khong tim thay
+        // Hiển thị thông báo nếu không tìm thấy sản phẩm nào
+        if (!found && !searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -313,6 +324,7 @@ public class themHoaDon extends javax.swing.JFrame {
         ngayNhapDate = new com.toedter.calendar.JDateChooser();
         jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        timkiembutton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -433,7 +445,7 @@ public class themHoaDon extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -549,6 +561,19 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         });
 
+        timkiembutton.setText("Tìm kiếm");
+        timkiembutton.setPreferredSize(new java.awt.Dimension(79, 23));
+        timkiembutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timkiembuttonMouseClicked(evt);
+            }
+        });
+        timkiembutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timkiembuttonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -560,10 +585,12 @@ public class themHoaDon extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(timkiembutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -590,7 +617,8 @@ public class themHoaDon extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(timkiembutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -901,6 +929,15 @@ public class themHoaDon extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void timkiembuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiembuttonMouseClicked
+        // TODO add your handling code here:
+        timKiem();
+    }//GEN-LAST:event_timkiembuttonMouseClicked
+
+    private void timkiembuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timkiembuttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timkiembuttonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -963,5 +1000,6 @@ public class themHoaDon extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser ngayNhapDate;
     private javax.swing.JLabel thanhTien;
     private javax.swing.JTextField timKiemField;
+    private javax.swing.JButton timkiembutton;
     // End of variables declaration//GEN-END:variables
 }
