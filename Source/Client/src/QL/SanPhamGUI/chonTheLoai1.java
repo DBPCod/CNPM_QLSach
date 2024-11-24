@@ -226,7 +226,7 @@ public class chonTheLoai1 extends javax.swing.JInternalFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         if(MaTL1.equals("") || TenTL1.equals(""))
        {
-           JOptionPane.showMessageDialog(null, "Chua chon doi tuong!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+           JOptionPane.showMessageDialog(null, "Chưa chọn thể loại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
        }
        else
        {

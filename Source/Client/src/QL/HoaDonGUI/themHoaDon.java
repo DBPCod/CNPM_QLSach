@@ -321,11 +321,6 @@ public class themHoaDon extends javax.swing.JFrame {
 
         timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        timKiemField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timKiemFieldActionPerformed(evt);
-            }
-        });
 
         jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -675,14 +670,15 @@ public class themHoaDon extends javax.swing.JFrame {
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
         String GiaBia1="";
-        
-        if(table1.getValueAt(index, 4).toString().equals("0"))
-            {
-                 GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
-            }
-            else
-            {
-                GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 4).toString()) * value);
+
+        if(table1.getValueAt(index, 4).toString().equals("0.0"))
+        {
+             GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
+        }
+        else
+        {
+            GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 4).toString()) * value);
+
         }
         
         Object[] obj1 = {MaSP,TenSP,value,GiaBia1};
@@ -895,10 +891,6 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButton4MouseClicked
-
-    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timKiemFieldActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
