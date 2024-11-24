@@ -6,6 +6,7 @@ package QL.SanPhamGUI;
 
 import Client.Client;
 import DTO.SanPhamDTO;
+import DTO.TheLoaiDTO;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -38,6 +40,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
      * Creates new form JInternalThemSP
      */
     private static panelSanPham pnsp1;
+    private String maDT="0";
     //byte[] dung de luu anh
     byte[] imageInByteArray1=null;
     private Client client1;
@@ -59,7 +62,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         setButDanh();
         setUpTL();
         setMaSP();
-        System.out.println("a");
+        
     }
     private void setUpTL() {
     if (dt1.list.size() != 0) {
@@ -75,6 +78,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
             String chuoi = (String) dt1.list.get(i)[0]; // Lấy giá trị từ cột đầu tiên của mỗi đối tượng
             if (!seenValues.contains(chuoi)) { // Kiểm tra xem giá trị đã được thêm chưa
                 seenValues.add(chuoi); // Thêm vào HashSet
+                System.out.println(chuoi+"bbbb");
                 newList.add(new Object[]{chuoi}); // Thêm vào newList nếu chưa có
             }
         }
@@ -85,15 +89,56 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
             for (Object[] x : newList) {
                 if(!x[0].equals(""))
                 {
-                    model.addRow(x);
+                    for(TheLoaiDTO x1 : getListTL("ListTheLoai"))
+                    {
+                        if(x1.getMaTL().equals(String.valueOf(x[0])))
+                        {
+                            model.addRow(new Object[]{x1.getTenTL()});
+                        }
+                    }
+                    
                 }
                 
             }
         }
         setUpAll();
     }
+    else
+    {
+        DefaultTableModel model = (DefaultTableModel) jTableTheLoai.getModel();
+        model.setRowCount(0);
+    }
 }
 
+    // ham lay danh sach
+    private ArrayList<TheLoaiDTO> getListTL(String yeucau) 
+    {
+        JSONObject json;
+        
+        switch (yeucau) 
+        {
+            case "ListTheLoai":
+                ArrayList<TheLoaiDTO> list = new ArrayList<>();
+                json = new JSONObject(client1.getList(yeucau));
+                
+                // chuyen mang chuoi sang mang jsonArray
+                JSONArray jsonArray = json.getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); i++) 
+                {
+                    JSONObject tlObject = jsonArray.getJSONObject(i);
+                    String MaTL = tlObject.getString("maTL");
+                    String TenTL = tlObject.getString("tenTL");
+                    int Trangthai = tlObject.getInt("trangThai");
+                    // them vao arraylist
+                    // xem lai trang thai
+                    list.add(new TheLoaiDTO(MaTL, TenTL, Trangthai));
+                    
+                }
+                return list;
+        }
+                
+        return new ArrayList<>();
+    }
     //ham thiet lap maSP
     private void setMaSP()
     {
@@ -189,6 +234,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         txtGN = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtTSP1 = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -295,6 +341,11 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
             }
         });
         jTableTheLoai.setPreferredSize(new java.awt.Dimension(75, 75));
+        jTableTheLoai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableTheLoaiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableTheLoai);
 
         jButton4.setBackground(new java.awt.Color(102, 255, 102));
@@ -320,6 +371,22 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         jLabel5.setText("Tên sản phẩm");
 
         txtTSP1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jButton5.setBackground(new java.awt.Color(255, 12, 12));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jButton5.setText("Hủy thể loại");
+        jButton5.setBorder(null);
+        jButton5.setBorderPainted(false);
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -361,7 +428,9 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
                                             .addComponent(txtNN, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
                                             .addComponent(jLabel9))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -406,16 +475,18 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
                                                 .addComponent(comboboxTG, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                                                 .addComponent(spinnerST, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                                             .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))))
-                        .addGap(34, 34, 34)
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -479,7 +550,14 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
            
            for (int row = 0; row < table.getRowCount(); row++) {
                 String tenTL = String.valueOf(table.getValueAt(row, 0));
-                list.add(new Object[]{tenTL});
+                for(TheLoaiDTO x : getListTL("ListTheLoai"))
+                {
+                    if(x.getTenTL().equals(tenTL))
+                    {
+                        list.add(new Object[]{x.getMaTL()});
+                    }
+                }
+                
             }
            //tao doi tuong de truyen du lieu
            //de xet lai gia tri
@@ -682,6 +760,52 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
 //        setTL();
     }//GEN-LAST:event_jButton3MouseClicked
 
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        // TODO add your handling code here:
+        
+        if(!maDT.equals("0"))
+        {
+            Iterator<Object[]> iterator = dt1.list.iterator();
+            while (iterator.hasNext()) {
+                Object[] x = iterator.next();
+                if (String.valueOf(x[0]).equals(getTenTL(maDT))) {
+                    System.out.println("mmmm");
+                    iterator.remove(); // Sử dụng iterator để xóa
+                }
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        setUpTL();
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTableTheLoaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTheLoaiMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) jTableTheLoai.getModel();
+        int index = jTableTheLoai.getSelectedRow();
+        String value = table.getValueAt(index, 0).toString();
+        maDT=value;
+    }//GEN-LAST:event_jTableTheLoaiMouseClicked
+
+    private String getTenTL(String maTL)
+    {
+        for(TheLoaiDTO x : getListTL("ListTheLoai"))
+        {
+            if(x.getTenTL().equals(maTL))
+            {
+                return x.getMaTL();
+            }
+        }
+        return "";
+    }
     //ham de them the loai cua san pham
     private void setTL()
     {
@@ -710,6 +834,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
