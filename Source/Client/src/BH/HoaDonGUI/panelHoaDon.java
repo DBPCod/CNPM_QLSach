@@ -48,6 +48,8 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         setUpComboBoxNhanVien();
     }
     
+    
+    
     // ham lay danh sach
     private ArrayList<HoaDonDTO> getList(String yeucau)
     {
@@ -74,7 +76,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                             {
                                 if(MaTK.equals(nv.getMaTK()))
                                 {
-                                    list.add(new HoaDonDTO(MaHD, NgayLap, Thanhtien, Trangthai, nv.getHoVaTen()));
+                                    list.add(new HoaDonDTO(MaHD, NgayLap, Thanhtien, Trangthai, nv.getMaTK()));
                                 }
                             }
                             
@@ -139,13 +141,14 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     
     public void setUp() 
     {
+//        System.out.println(nguoiNhap1+"aaa");
         DefaultTableModel model = (DefaultTableModel) jTableHD.getModel();
         model.setRowCount(0);
         for (HoaDonDTO hd : getList("ListHoaDon")) 
         {
             System.out.println(hd.getTrangThai());
             // them tung doi tuong vao bang
-            if (hd.getTrangThai() == 1) 
+            if (hd.getTrangThai() == 1 && getMaTK(nguoiNhap1).equals(hd.getMaTK())) 
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayLapHD = formatter.format(hd.getNgayLapHoaDon());
@@ -155,6 +158,17 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         }
     }
     
+    private String getMaTK(String tenNV)
+    {
+        for(NhanVienDTO nv : getListNV("ListNhanVien"))
+        {
+            if(nv.getHoVaTen().equals(tenNV))
+            {
+                return nv.getMaTK();
+            }
+        }
+        return "";
+    }
     public void setUpDelete() 
     {
         DefaultTableModel model = (DefaultTableModel) jTableHD.getModel();

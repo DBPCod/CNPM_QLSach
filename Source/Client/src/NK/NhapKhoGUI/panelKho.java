@@ -7,7 +7,9 @@ package NK.NhapKhoGUI;
 import QL.NhapKhoGUI.*;
 import Client.Client;
 import DTO.NhaXuatBanDTO;
+import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
+import QL.NhanVienGUI.panelNhanVien;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -522,13 +524,64 @@ public class panelKho extends javax.swing.JInternalFrame {
         for(PhieuNhapDTO phieunhap : getList("ListPhieuNhap"))
         {
             //them tung doi tuong vao bang
-            if(phieunhap.getTrangThai()==1)
+            if(phieunhap.getTrangThai()==1 && getMaTK(nguoiNhap1).equals(phieunhap.getMaTK()))
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayNhap = formatter.format(phieunhap.getNgayNhap());
                 model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaNXB()});
             }
         }
+    }
+    
+    private ArrayList<NhanVienDTO> getListNV(String yeucau)
+    {
+        JSONObject json;
+        
+        switch (yeucau) {
+            case "ListNhanVien": 
+                
+                    ArrayList<NhanVienDTO> list = new ArrayList<NhanVienDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject nvObject = jsonArray.getJSONObject(i);
+                        String MaNV = nvObject.getString("maNV");
+                        String HoVaTen = nvObject.getString("hoVaTen");
+                        String NgaySinh = nvObject.getString("ngaySinh");
+                        String GioiTinh = nvObject.getString("gioiTinh");
+                        String SoDienThoai = nvObject.getString("soDienThoai");
+                        String Email = nvObject.getString("email");
+                        String DiaChi = nvObject.getString("diaChi");
+                        String MaTK = nvObject.getString("maTK");
+                        String MaVT = nvObject.getString("maVT");
+                        int Trangthai = nvObject.getInt("trangThai");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");       
+            try {
+                Date ngaySinh = formatter.parse(NgaySinh);
+                // Thêm vào ArrayList
+                //xem lai trang thai
+                list.add(new NhanVienDTO(MaNV,  HoVaTen,  ngaySinh,  GioiTinh,  SoDienThoai, Email, DiaChi, MaTK, MaVT, Trangthai));
+            } catch (ParseException ex) {
+                Logger.getLogger(panelNhanVien.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                    return list;
+                   
+        }    
+        return new ArrayList<>();
+    }
+    
+    private String getMaTK(String tenNV)
+    {
+        for(NhanVienDTO nv : getListNV("ListNhanVien"))
+        {
+            if(nv.getHoVaTen().equals(tenNV))
+            {
+                return nv.getMaTK();
+            }
+        }
+        return "";
     }
     
     //ham thiet lap bang danh sach
