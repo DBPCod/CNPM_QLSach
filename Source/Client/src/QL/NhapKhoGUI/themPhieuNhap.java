@@ -755,16 +755,25 @@ public class themPhieuNhap extends javax.swing.JFrame {
         
         DefaultTableModel table1 = (DefaultTableModel) jTableSP.getModel();
         int index = jTableSP.getSelectedRow();
-        int value = (int) jSpinner1.getValue();
-        if (value < 1) {
-        JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        return; // Dừng xử lý nếu giá trị không hợp lệ
+        
+        if (index == -1) { // Kiểm tra nếu không có sản phẩm nào được chọn
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        
+        int value = (int) jSpinner1.getValue();
+        
+        if (value < 1) {
+            JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return; // Dừng xử lý nếu giá trị không hợp lệ
+            }
+        
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
         String GiaNhap1 = table1.getValueAt(index, 3).toString();
         Object[] obj1 = {MaSP,TenSP,value,GiaNhap1};
         list.add(obj1);
+        
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
         table.setRowCount(0);
         

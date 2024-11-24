@@ -61,38 +61,39 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         setMaSP();
         System.out.println("a");
     }
+    
     private void setUpTL() {
-    if (dt1.list.size() != 0) {
-        DefaultTableModel model = (DefaultTableModel) jTableTheLoai.getModel();
-        model.setRowCount(0);
-        ArrayList<Object[]> newList = new ArrayList<>();
+        if (dt1.list.size() != 0) {
+            DefaultTableModel model = (DefaultTableModel) jTableTheLoai.getModel();
+            model.setRowCount(0);
+            ArrayList<Object[]> newList = new ArrayList<>();
 
-        // Sử dụng HashSet để theo dõi các giá trị đã thấy
-        HashSet<String> seenValues = new HashSet<>();
+            // Sử dụng HashSet để theo dõi các giá trị đã thấy
+            HashSet<String> seenValues = new HashSet<>();
 
-        // Giả sử dt1.list chứa các đối tượng mảng mà bạn muốn kiểm tra
-        for (int i = 0; i < dt1.list.size(); i++) {
-            String chuoi = (String) dt1.list.get(i)[0]; // Lấy giá trị từ cột đầu tiên của mỗi đối tượng
-            if (!seenValues.contains(chuoi)) { // Kiểm tra xem giá trị đã được thêm chưa
-                seenValues.add(chuoi); // Thêm vào HashSet
-                newList.add(new Object[]{chuoi}); // Thêm vào newList nếu chưa có
-            }
-        }
-        
-        // Thêm các giá trị duy nhất vào model
-        if(newList.size()!=0)
-        {
-            for (Object[] x : newList) {
-                if(!x[0].equals(""))
-                {
-                    model.addRow(x);
+            // Giả sử dt1.list chứa các đối tượng mảng mà bạn muốn kiểm tra
+            for (int i = 0; i < dt1.list.size(); i++) {
+                String chuoi = (String) dt1.list.get(i)[0]; // Lấy giá trị từ cột đầu tiên của mỗi đối tượng
+                if (!seenValues.contains(chuoi)) { // Kiểm tra xem giá trị đã được thêm chưa
+                    seenValues.add(chuoi); // Thêm vào HashSet
+                    newList.add(new Object[]{chuoi}); // Thêm vào newList nếu chưa có
                 }
-                
             }
+
+            // Thêm các giá trị duy nhất vào model
+            if(newList.size()!=0)
+            {
+                for (Object[] x : newList) {
+                    if(!x[0].equals(""))
+                    {
+                        model.addRow(x);
+                    }
+
+                }
+            }
+            setUpAll();
         }
-        setUpAll();
     }
-}
 
     //ham thiet lap maSP
     private void setMaSP()

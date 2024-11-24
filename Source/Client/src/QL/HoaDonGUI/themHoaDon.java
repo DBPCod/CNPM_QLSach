@@ -24,6 +24,8 @@ import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import Customize.TimKiem;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  *
@@ -93,6 +95,7 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         }
     }
+    
     
     //ham lay gia khuyen mai cua san pham
     private double getGiaKMSP(String maSP,double giabia)
@@ -181,6 +184,7 @@ public class themHoaDon extends javax.swing.JFrame {
         return new ArrayList<>();
     }
     
+    
     //ham lay danh sach
     private ArrayList<ChiTietKhuyenMaiDTO> getListCTKM(String yeucau)
     {
@@ -202,6 +206,7 @@ public class themHoaDon extends javax.swing.JFrame {
         }
         return new ArrayList<>();
     }
+    
     
     //ham lay danh sach
     private ArrayList<SanPhamDTO> getList(String yeucau)
@@ -236,22 +241,35 @@ public class themHoaDon extends javax.swing.JFrame {
     
     private void timKiem()
     {
+     
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        
+        
         DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
         model.setRowCount(0); 
         
 
         ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
 
-        for (SanPhamDTO sp : allItems) {
-            if (sp.getTrangThai() == 1) {
+        // Nếu searchText rỗng, hiển thị toàn bộ sản phẩm
+        if (searchText.isEmpty()) {
+            for (SanPhamDTO sanpham : allItems) {
+                if (sanpham.getTrangThai() == 1) {
+                    model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia()),getGiaKMSP(sanpham.getMaSP(),sanpham.getGiaBia())});
+                }
+            }
+            return; // Kết thúc phương thức
+        }
+        
+        for (SanPhamDTO sanpham : allItems) {
+            if (sanpham.getTrangThai() == 1) {
                 
-                String MaSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
-                String TenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
+                String MaSP = timkiem.KhongLayDau(sanpham.getMaSP().toLowerCase());
+                String TenSP = timkiem.KhongLayDau(sanpham.getTenSP().toLowerCase());
                 
 
                 if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
-                    model.addRow(new Object[] {sp.getMaSP(),sp.getTenSP(),String.valueOf(sp.getSoLuong()),String.valueOf(sp.getGiaBia())});
+                    model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia()),getGiaKMSP(sanpham.getMaSP(),sanpham.getGiaBia())});
                 }
             }
         }
@@ -338,6 +356,11 @@ public class themHoaDon extends javax.swing.JFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -630,22 +653,38 @@ public class themHoaDon extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel table1 = (DefaultTableModel) jTableSP.getModel();
         int index = jTableSP.getSelectedRow();
-        int value = (int) jSpinner1.getValue();
-        if (value < 1) {
-        JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        return; // Dừng xử lý nếu giá trị không hợp lệ
+        
+        if (index == -1) { // Kiểm tra nếu không có sản phẩm nào được chọn
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        
+        int value = (int) jSpinner1.getValue();
+        
+        if (value < 1) {
+            JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return; // Dừng xử lý nếu giá trị không hợp lệ
+            }
+        
+        int soLuongKho = Integer.parseInt(table1.getValueAt(index, 2).toString()); // Lấy số lượng trong kho
+        if (value > soLuongKho) { // Kiểm tra nếu số lượng yêu cầu lớn hơn số lượng trong kho
+            JOptionPane.showMessageDialog(this, "Số lượng yêu cầu vượt quá số lượng trong kho!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return; // Dừng xử lý nếu số lượng không hợp lệ
+        }
+        
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
         String GiaBia1="";
+        
         if(table1.getValueAt(index, 4).toString().equals("0"))
-        {
-             GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
+            {
+                 GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
+            }
+            else
+            {
+                GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 4).toString()) * value);
         }
-        else
-        {
-            GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 4).toString()) * value);
-        }
+        
         Object[] obj1 = {MaSP,TenSP,value,GiaBia1};
         list.add(obj1);
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
@@ -865,6 +904,10 @@ public class themHoaDon extends javax.swing.JFrame {
         // TODO add your handling code here:
         setUp();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
