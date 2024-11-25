@@ -332,44 +332,6 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
 
         spinnerST.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
-<<<<<<< HEAD
-        jTableTheLoai.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null},
-                {null}
-            },
-            new String [] {
-                "Thể loại"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTableTheLoai.setPreferredSize(new java.awt.Dimension(75, 75));
-        jTableTheLoai.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableTheLoaiMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableTheLoai);
-
-=======
->>>>>>> Luu
         jButton4.setBackground(new java.awt.Color(102, 255, 102));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton4.setText("Chọn thể loại");
