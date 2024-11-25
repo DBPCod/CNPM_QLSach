@@ -33,7 +33,7 @@ public class ClientListener implements Runnable{
     public void run() {
         try{
         
-            byte[] buffer = new byte[1024 * 1024];
+            byte[] buffer = new byte[1024 * 1024 * 1024];
             int bytesRead;
             while(running && (bytesRead = input.read(buffer)) != -1)
             {

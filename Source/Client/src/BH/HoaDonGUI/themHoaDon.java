@@ -6,10 +6,13 @@ package BH.HoaDonGUI;
 
 import QL.HoaDonGUI.*;
 import Client.Client;
+import DTO.ChiTietKhuyenMaiDTO;
+import DTO.KhuyenMaiDTO;
 import DTO.NhanVienDTO;
 import DTO.SanPhamDTO;
 import DTO.TaiKhoanDTO;
 import QL.NhapKhoGUI.themPhieuNhap;
+import QL.khuyenMaiGUI.panelKhuyenMai;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import Customize.TimKiem;
 
 /**
  *
@@ -36,6 +40,8 @@ public class themHoaDon extends javax.swing.JFrame {
     private static panelHoaDon panelHoaDon1;
     private double thanhTien1=0;
     private Object[] objRemove;
+    private static TimKiem timkiem = new TimKiem();
+    
     private ArrayList<Object[]> list = new ArrayList<Object[]>();
     public themHoaDon(Client client, String nguoiNhap,panelHoaDon panelHoaDon) {
         initComponents();
@@ -47,6 +53,8 @@ public class themHoaDon extends javax.swing.JFrame {
         ngayNhapDate.setDate(new Date());
         setMaHD();
         setUp();
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     
@@ -70,7 +78,6 @@ public class themHoaDon extends javax.swing.JFrame {
     }
     
     //ham thiet lap danh sach san pham
-    //ham thiet lap bang danh sach
     public void setUp()
     {
         
@@ -83,9 +90,118 @@ public class themHoaDon extends javax.swing.JFrame {
             //them tung doi tuong vao bang
             if(sanpham.getTrangThai()==1)
             {
-                model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia())});
+                model.addRow(new Object[] {sanpham.getMaSP(),sanpham.getTenSP(),String.valueOf(sanpham.getSoLuong()),String.valueOf(sanpham.getGiaBia()),getGiaKMSP(sanpham.getMaSP(),sanpham.getGiaBia())});
             }
         }
+    }
+    
+    //ham lay gia khuyen mai cua san pham
+    private double getGiaKMSP(String maSP,double giabia)
+    {
+        Date date1 = new Date();
+        ArrayList<Object[]> list = new ArrayList<Object[]>();
+        for(KhuyenMaiDTO x : getListKM("ListKhuyenMai"))
+        {
+            if(checkDate(date1,x.getNgayBatDau(),x.getNgayKetThuc())==1)
+            {
+                for(ChiTietKhuyenMaiDTO x1 : getListCTKM("ListChiTietKhuyenMai"))
+                {
+                    if(x.getMaKM().equals(x1.getMaKM()) && x.getTrangThai()==1)
+                    {
+                        list.add(new Object[]{x1.getMaSP(),x.getPhanTram()});
+                    }
+                }
+            }
+            
+        }
+        
+        for(Object[] x : list)
+        {
+            if(String.valueOf(x[0]).equals(maSP))
+            {
+                System.out.println(Double.parseDouble(String.valueOf(x[1])));
+                double tiengiam = giabia - (giabia*(Double.parseDouble(String.valueOf(x[1])) / 100));
+                return tiengiam;
+            }
+        }
+        return 0;
+    }
+    
+    private int checkDate(Date ngayhientai,Date ngaybatdau,Date ngayketthuc)
+    {
+            
+        int result = ngaybatdau.compareTo(ngayhientai);
+        if(result < 0 || result == 0)
+        {
+            if(ngayketthuc.compareTo(ngayhientai) > 0)
+            {
+                return 1;
+            }
+        }
+                return 0;   
+    }
+    
+    //ham lay danh sach khuyen mai
+    private ArrayList<KhuyenMaiDTO> getListKM(String yeucau)
+    {
+        JSONObject json;
+        switch (yeucau) {
+            case "ListKhuyenMai": 
+                
+                    ArrayList<KhuyenMaiDTO> list = new ArrayList<KhuyenMaiDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    org.json.JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                        String MaKM = tacGiaObject.getString("maKM");
+                        String TenKM = tacGiaObject.getString("tenKM");
+                        String NgayBatDau = tacGiaObject.getString("ngayBatDau");
+                        String NgayKetThuc = tacGiaObject.getString("ngayKetThuc");
+                        String MaLKM = tacGiaObject.getString("maLoaiKM");
+                        int Trangthai = tacGiaObject.getInt("trangThai");
+                        int phanTramGiam = tacGiaObject.getInt("phanTram");
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                        
+                        Date ngayBatDau;
+            try {
+                ngayBatDau = formatter.parse(NgayBatDau);
+                Date ngayKetThuc = formatter.parse(NgayKetThuc);
+                // Thêm vào ArrayList
+                //xem lai trang thai
+                list.add(new KhuyenMaiDTO( MaKM,  TenKM,  ngayBatDau,  ngayKetThuc,  MaLKM, Trangthai,phanTramGiam));
+            } catch (ParseException ex) {
+                Logger.getLogger(panelKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                        
+        } 
+                    return list;
+        }
+                
+                    
+        return new ArrayList<>();
+    }
+    
+    //ham lay danh sach
+    private ArrayList<ChiTietKhuyenMaiDTO> getListCTKM(String yeucau)
+    {
+        JSONObject json;
+        switch (yeucau) {
+            case "ListChiTietKhuyenMai": 
+                    ArrayList<ChiTietKhuyenMaiDTO> list = new ArrayList<ChiTietKhuyenMaiDTO>();
+                    json = new JSONObject(client1.getList(yeucau));
+                    System.out.println(json);;
+                    //chuyen mang chuoi sang mang jsonArray
+                    org.json.JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                        String MaKM = tacGiaObject.getString("maKM");
+                        String MaSP = tacGiaObject.getString("maSP");
+                        list.add(new ChiTietKhuyenMaiDTO(MaKM,MaSP));
+                    } 
+                    return list;
+        }
+        return new ArrayList<>();
     }
     
     //ham lay danh sach
@@ -118,6 +234,33 @@ public class themHoaDon extends javax.swing.JFrame {
                    
                    return new ArrayList<>();
         }
+    
+    private void timKiem()
+    {
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
+        model.setRowCount(0); 
+        
+
+        ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
+
+        for (SanPhamDTO sp : allItems) {
+            if (sp.getTrangThai() == 1) {
+                
+                String MaSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
+                String TenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
+                
+
+                if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
+                    model.addRow(new Object[] {sp.getMaSP(),sp.getTenSP(),String.valueOf(sp.getSoLuong()),String.valueOf(sp.getGiaBia())});
+                }
+            }
+        }
+
+        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
+            // xu li thong bao khi khong tim thay
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -128,7 +271,7 @@ public class themHoaDon extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        timKiemField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableSP = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -152,25 +295,31 @@ public class themHoaDon extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         ngayNhapDate = new com.toedter.calendar.JDateChooser();
         jButton5 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jTextField1.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
+        timKiemField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timKiemFieldActionPerformed(evt);
+            }
+        });
 
         jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Mã sản phẩm", "Tên sản phẩm", "Số lượng tồn", "Giá bìa"
+                "Mã sản phẩm", "Tên sản phẩm", "Số lượng tồn", "Giá bìa", "Giảm giá"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -376,6 +525,13 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         });
 
+        jButton3.setText("Làm mới");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -385,9 +541,12 @@ public class themHoaDon extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE)
-                            .addComponent(jTextField1)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -412,7 +571,9 @@ public class themHoaDon extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -477,7 +638,15 @@ public class themHoaDon extends javax.swing.JFrame {
         }
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
-        String GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
+        String GiaBia1="";
+        if(table1.getValueAt(index, 4).toString().equals("0.0"))
+        {
+             GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
+        }
+        else
+        {
+            GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 4).toString()) * value);
+        }
         Object[] obj1 = {MaSP,TenSP,value,GiaBia1};
         list.add(obj1);
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
@@ -689,6 +858,15 @@ public class themHoaDon extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4MouseClicked
 
+    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timKiemFieldActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        setUp();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -729,6 +907,7 @@ public class themHoaDon extends javax.swing.JFrame {
     private javax.swing.JTextField MaHD;
     private javax.swing.JTextField MaNV;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
@@ -746,10 +925,10 @@ public class themHoaDon extends javax.swing.JFrame {
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTable jTableSP;
     private javax.swing.JTable jTableSPC;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private com.toedter.calendar.JDateChooser ngayNhapDate;
     private javax.swing.JLabel thanhTien;
+    private javax.swing.JTextField timKiemField;
     // End of variables declaration//GEN-END:variables
 }

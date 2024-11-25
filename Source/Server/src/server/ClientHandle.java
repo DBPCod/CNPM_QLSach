@@ -73,7 +73,7 @@ public class ClientHandle implements Runnable{
     public void run() {
         try{
             
-            byte[] buffer = new byte[1024*1024];
+            byte[] buffer = new byte[1024*1024 * 1024];
             int bytesRead;
             StringBuilder resultBuilder = new StringBuilder();
             while((bytesRead= input.read(buffer)) != -1)
@@ -288,6 +288,7 @@ public class ClientHandle implements Runnable{
                      break;
              case "PUTTLSP":
                     // them the loai cua san pham
+                 System.out.println("helo");
                     SachTheLoaiBLL stl = new SachTheLoaiBLL();
                     String MaSP1 = json.getString("MaSP");
                     String MaTL2 = json.getString("MaTL");

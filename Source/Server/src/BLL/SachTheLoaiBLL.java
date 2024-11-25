@@ -56,6 +56,7 @@ public class SachTheLoaiBLL {
         {   
             if(stl.getMaSP().equals(tl.getMaSP()))
             {
+                System.out.println(tl.getMaSP());
                 json.put("Trangthai", "true");
                 list.add(getTenTL(tl.getMaTL()));
             }
@@ -106,6 +107,6 @@ public class SachTheLoaiBLL {
 //    {
 //        SachTheLoaiBLL bll = new SachTheLoaiBLL();
 ////        bll.getSachTenTheLoai(new );SachTheLoaiDTO("SP_10",""));
-//        System.out.println(bll.getSachTenTheLoai(new SachTheLoaiDTO("SP_10","")));
+//        System.out.println(bll.getSachTenTheLoai(new SachTheLoaiDTO("SP_5","")));
 //    }
 }

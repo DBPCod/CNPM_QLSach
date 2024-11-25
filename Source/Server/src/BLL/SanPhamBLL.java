@@ -39,7 +39,6 @@ public class SanPhamBLL {
     public String getAnhBia(String MaAB)
     {
         SanPhamDAO spDAO = new SanPhamDAO();
-        spDAO.getAnh();
         JSONObject json = new JSONObject();
        json.put("Trangthai","true");
        for(SanPhamDTO x: spDAO.getAnh())
@@ -214,5 +213,12 @@ public class SanPhamBLL {
         json.put("Trangthai", "true");
         json.put("ketqua",spDAO.xoaSP(sp));
         return json.toString();
+    }
+    
+    public static void main(String []args)
+    {
+        SanPhamBLL sp = new SanPhamBLL();
+        System.out.println(sp.getAnhBia("SP_5"));
+        System.out.println(sp.getSanPham("SP_5"));
     }
 }

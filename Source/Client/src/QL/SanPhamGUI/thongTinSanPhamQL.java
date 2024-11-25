@@ -42,6 +42,7 @@ public class thongTinSanPhamQL extends javax.swing.JFrame {
     
     private void setUp()
     {
+        System.out.println(MaDT1 + "eeee");
         String data = client1.getDoiTuong("SanPham",MaDT1);
         String data1 = client1.getDoiTuong("AnhBia",MaDT1);
         client1.xuLiGetSachTheLoai("SachTheLoai", MaDT1);
@@ -53,9 +54,13 @@ public class thongTinSanPhamQL extends javax.swing.JFrame {
             InputStream is = new ByteArrayInputStream(imageBytes);
             BufferedImage bi1;
             bi1 = ImageIO.read(is);
-            Image img = bi1.getScaledInstance(185,238,Image.SCALE_SMOOTH);
-            ImageIcon icon = new ImageIcon(img);
-            lb_img.setIcon(icon);
+            if(bi1!=null)
+            {
+                Image img = bi1.getScaledInstance(185,238,Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(img);
+                lb_img.setIcon(icon);
+            }
+            
         } catch (IOException ex) {
             Logger.getLogger(thongTinSanPhamQL.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -81,11 +86,9 @@ public class thongTinSanPhamQL extends javax.swing.JFrame {
         json = new JSONObject(client1.xuLiGetTenSachTheLoai("TenSachTheLoai", MaDT1));
         //chuyen mang chuoi sang mang jsonArray
         JSONArray jsonArray = new JSONArray(json.getString("ketqua"));
-        System.out.println(jsonArray +" bbbb");
         for (int i = 0; i < jsonArray.length(); i++) {
             
                 JSONObject tacGiaObject = jsonArray.getJSONObject(i);
-                System.out.println(tacGiaObject+" aaa");
                 String TenTL = tacGiaObject.getString("tenTL");
                 
                 list.add(new TheLoaiDTO("",TenTL,1));
