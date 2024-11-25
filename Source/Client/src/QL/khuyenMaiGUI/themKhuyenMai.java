@@ -352,6 +352,11 @@ public class themKhuyenMai extends javax.swing.JFrame {
                 jButton2MouseClicked(evt);
             }
         });
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTableSPC.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -576,6 +581,11 @@ public class themKhuyenMai extends javax.swing.JFrame {
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         //chon san pham
+        if (obj1 == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn ít nhất 1 sản phẩm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            return; // Dừng thực hiện nếu chưa chọn sản phẩm
+        }
+        
         list.add(obj1);
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
         table.setRowCount(0);
@@ -726,6 +736,10 @@ public class themKhuyenMai extends javax.swing.JFrame {
     private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_timKiemFieldActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

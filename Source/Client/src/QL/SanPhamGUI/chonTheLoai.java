@@ -223,7 +223,7 @@ public class chonTheLoai extends javax.swing.JInternalFrame {
        //ham chon the loai cho san pham
        if(MaTL1.equals("") || TenTL1.equals(""))
        {
-           JOptionPane.showMessageDialog(null, "Chua chon doi tuong!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+           JOptionPane.showMessageDialog(null, "Chưa chọn thể loại!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
        }
        else
        {
