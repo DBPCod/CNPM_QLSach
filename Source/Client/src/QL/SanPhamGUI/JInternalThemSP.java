@@ -326,7 +326,18 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
 
         jTableTheLoai.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
             },
             new String [] {
                 "Thể loại"
@@ -727,6 +738,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
   
             if(sp.getAnhBia()!=null)
             {
+                System.out.println("hoanthanh");
                 String anhBiaBase64 = Base64.getEncoder().encodeToString(sp.getAnhBia());
                 json.put("AnhBia",anhBiaBase64);
                 json.put("SoLuong",sp.getSoLuong());
@@ -821,11 +833,24 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
             for(int j=0;j<col;j++)
             {
                 Object value = table.getValueAt(i, j);
-                json.put("MaTL", value);
+                json.put("MaTL",getMaTL(String.valueOf(value)));
                 // gui yeu cau toi server
                 client1.themDT(json.toString());
+                
             }
         }
+    }
+    
+    private String getMaTL(String tenTL)
+    {
+        for(TheLoaiDTO x : getListTL("ListTheLoai"))
+        {
+            if(x.getTenTL().equals(tenTL))
+            {
+                return x.getMaTL();
+            }
+        }
+        return "";
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

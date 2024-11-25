@@ -1330,6 +1330,8 @@ public class Client {
                 return xuLiGetCTPN("CTPhieuNhap",maDT);
             case "CTHoaDon":
                 return xuLiGetCTHD("CTHoaDon",maDT);
+            case "SachTheLoai":
+                return xuLiGetSachTheLoai("SachTheLoai",maDT);
       }
        return "";
        

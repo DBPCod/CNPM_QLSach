@@ -247,7 +247,10 @@ public class chonTheLoai1 extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jTableTheLoaiMouseClicked
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
-
+        JInternalSuaSP jSSP = new JInternalSuaSP(ssp1,client1,MaTL1,TenTL1,dt1,pnsp1,MaDT1);
+        ssp1.mainSSP.removeAll();
+        ssp1.mainSSP.add(jSSP).setVisible(true);
+        jSSP.setVisible(true);
     }//GEN-LAST:event_jButton3MouseClicked
 
 

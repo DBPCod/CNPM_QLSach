@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -36,6 +37,7 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
      */
     private static panelSanPham pnsp1;
     //byte[] dung de luu anh
+    private String maDT="0";
     byte[] imageInByteArray1=null;
     private Client client1;
     private suaSanPham ssp1;
@@ -51,6 +53,7 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         client1=client;
         MaDT1 = MaDT;
         dt1=dt;
+        System.out.println(dt1.list.size() +"soluong111");
         ssp1=ssp;
         pnsp1=pnsp;
         if(dt1.getList().size()==0)
@@ -96,13 +99,57 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
             for (Object[] x : newList) {
                 if(!x[0].equals(""))
                 {
-                    model.addRow(x);
+                    for(TheLoaiDTO x1 : getListTL("ListTheLoai"))
+                    {
+                        if(x1.getMaTL().equals(String.valueOf(x[0])))
+                        {
+                            model.addRow(new Object[]{x1.getTenTL()});
+                        }
+                    }
+                    
                 }
+                
             }
         }
+        
+    }
+    else
+    {
+        DefaultTableModel model = (DefaultTableModel) jTableTheLoai.getModel();
+        model.setRowCount(0);
     }
 }
 
+    // ham lay danh sach
+    private ArrayList<TheLoaiDTO> getListTL(String yeucau) 
+    {
+        JSONObject json;
+        
+        switch (yeucau) 
+        {
+            case "ListTheLoai":
+                ArrayList<TheLoaiDTO> list = new ArrayList<>();
+                json = new JSONObject(client1.getList(yeucau));
+                
+                // chuyen mang chuoi sang mang jsonArray
+                JSONArray jsonArray = json.getJSONArray("list");
+                for (int i = 0; i < jsonArray.length(); i++) 
+                {
+                    JSONObject tlObject = jsonArray.getJSONObject(i);
+                    String MaTL = tlObject.getString("maTL");
+                    String TenTL = tlObject.getString("tenTL");
+                    int Trangthai = tlObject.getInt("trangThai");
+                    // them vao arraylist
+                    // xem lai trang thai
+                    list.add(new TheLoaiDTO(MaTL, TenTL, Trangthai));
+                    
+                }
+                return list;
+        }
+                
+        return new ArrayList<>();
+    }
+    
    private void setUp()
     {
         String data = client1.getDoiTuong("SanPham",MaDT1);
@@ -152,16 +199,15 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         JSONArray jsonArray = new JSONArray(json.getString("ketqua"));
         for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject tacGiaObject = jsonArray.getJSONObject(i);
-                System.out.println(tacGiaObject + " alo");
-//                String TenTL = tacGiaObject.getString("tenTL");
                 String MaTL = tacGiaObject.getString("maTL");
                 list.add(new TheLoaiDTO(MaTL,"",1));
+                dt1.list.add(new Object[]{MaTL});
              }
         
         DefaultTableModel table = (DefaultTableModel) jTableTheLoai.getModel();
         for(TheLoaiDTO tl: list)
         {
-            table.addRow(new Object[]{tl.getMaTL()});
+            table.addRow(new Object[]{getTenTL(tl.getMaTL())});
         }
     }
 
@@ -199,6 +245,7 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         jButton4 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         txtTG = new javax.swing.JTextField();
+        jButton5 = new javax.swing.JButton();
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -253,6 +300,11 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
             }
         });
         jTableTheLoai.setPreferredSize(new java.awt.Dimension(75, 75));
+        jTableTheLoai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableTheLoaiMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableTheLoai);
 
         jLabel10.setText("Giá nhập");
@@ -325,6 +377,22 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         txtTG.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtTG.setEnabled(false);
 
+        jButton5.setBackground(new java.awt.Color(255, 12, 12));
+        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        jButton5.setText("Hủy thể loại");
+        jButton5.setBorder(null);
+        jButton5.setBorderPainted(false);
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -370,7 +438,8 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
                             .addComponent(txtSL, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(86, 86, 86))))
         );
         jPanel4Layout.setVerticalGroup(
@@ -412,7 +481,10 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
                                                         .addComponent(jLabel10)
                                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                         .addComponent(txtGN, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                 .addGap(0, 32, Short.MAX_VALUE))
                             .addComponent(panelIMG, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
@@ -487,7 +559,14 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
            
            for (int row = 0; row < table.getRowCount(); row++) {
                 String tenTL = String.valueOf(table.getValueAt(row, 0));
-                list.add(new Object[]{tenTL});
+                for(TheLoaiDTO x : getListTL("ListTheLoai"))
+                {
+                    if(x.getTenTL().equals(tenTL))
+                    {
+                        list.add(new Object[]{x.getMaTL()});
+                    }
+                }
+                
             }
            //tao doi tuong de truyen du lieu
            //de xet lai gia tri
@@ -527,7 +606,7 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
             for(int j=0;j<col;j++)
             {
                 String maTL = (String)table.getValueAt(i,j);
-                list.add(new TheLoaiDTO(maTL,"",1));
+                list.add(new TheLoaiDTO(getMaTL(maTL),"",1));
             }
         }
         JSONObject json = new JSONObject();
@@ -552,11 +631,75 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private String getMaTL(String tenTL)
+    {
+        for(TheLoaiDTO x : getListTL("ListTheLoai"))
+        {
+            if(x.getTenTL().equals(tenTL))
+            {
+                return x.getMaTL();
+            }
+        }
+        return "";
+    }
+    
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        // TODO add your handling code here:
+
+        if(!maDT.equals("0"))
+        {
+            Iterator<Object[]> iterator = dt1.list.iterator();
+            while (iterator.hasNext()) {
+                
+                Object[] x = iterator.next();
+                if (String.valueOf(x[0]).equals(getMaTL(maDT))) {
+                    System.out.println(String.valueOf(x[0])+"conlai");
+                    iterator.remove(); // Sử dụng iterator để xóa
+                }
+            }
+            
+            System.out.println(dt1.list.size()+"soluong");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+        }
+
+        setUpTL();
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    
+    private String getTenTL(String maTL)
+    {
+        for(TheLoaiDTO x : getListTL("ListTheLoai"))
+        {
+            if(x.getMaTL().equals(maTL))
+            {
+                return x.getTenTL();
+            }
+        }
+        return "";
+    }
+    
+    
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTableTheLoaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTheLoaiMouseClicked
+        // TODO add your handling code here:
+        DefaultTableModel table = (DefaultTableModel) jTableTheLoai.getModel();
+        int index = jTableTheLoai.getSelectedRow();
+        String value = table.getValueAt(index, 0).toString();
+        maDT=value;
+    }//GEN-LAST:event_jTableTheLoaiMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
