@@ -795,7 +795,6 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
             while (iterator.hasNext()) {
                 Object[] x = iterator.next();
                 if (String.valueOf(x[0]).equals(getTenTL(maDT))) {
-                    System.out.println("mmmm");
                     iterator.remove(); // Sử dụng iterator để xóa
                 }
             }
