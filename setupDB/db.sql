@@ -16,7 +16,7 @@ create table SanPham(
 	SoTrang int,
 	NgonNgu varchar(50),
 	GiaBia Double PRECISION,
-	AnhBia BLOB,
+	AnhBia LongBLOB,
 	Soluong Int,
 	GiaNhap double PRECISION,
 	MaTG Varchar(10),
