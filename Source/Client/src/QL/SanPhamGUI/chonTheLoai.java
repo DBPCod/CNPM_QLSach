@@ -250,6 +250,7 @@ public class chonTheLoai extends javax.swing.JInternalFrame {
         tsp1.mainTSP.removeAll();
         tsp1.mainTSP.add(jTSP).setVisible(true);
         jTSP.setVisible(true);
+        
     }//GEN-LAST:event_jButton3MouseClicked
 
 
