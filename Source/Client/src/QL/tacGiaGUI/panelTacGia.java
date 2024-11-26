@@ -6,6 +6,7 @@ package QL.tacGiaGUI;
 
 import Client.Client;
 import Customize.TimKiem;
+import DTO.SanPhamDTO;
 import DTO.TacGiaDTO;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
@@ -75,6 +76,48 @@ public class panelTacGia extends javax.swing.JInternalFrame {
                 
                     
         return new ArrayList<>();
+    }
+    
+    private ArrayList<SanPhamDTO> getListSP(String yeucau)
+    {
+        JSONObject json;
+        ArrayList<SanPhamDTO> list = new ArrayList<SanPhamDTO>();
+        switch (yeucau) {
+            case "ListSanPham": 
+
+                    json = new JSONObject(client1.getList(yeucau));
+                    //chuyen mang chuoi sang mang jsonArray
+                    JSONArray jsonArray = json.getJSONArray("list");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                          JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+                          String MaSP = tacGiaObject.getString("maSP");
+                          String TenSP = tacGiaObject.getString("tenSP");
+                          int SoTrang =  tacGiaObject.getInt("soTrang");
+                          String NgonNgu = tacGiaObject.getString("ngonNgu");
+                          Double GiaBia = tacGiaObject.getDouble("giaBia");
+                          int SoLuong = tacGiaObject.getInt("soLuong");
+                          int Trangthai = tacGiaObject.getInt("trangThai");
+                          Double giaNhap = tacGiaObject.getDouble("giaNhap");
+                          String maTG = tacGiaObject.getString("maTG");
+                          list.add(new SanPhamDTO(MaSP,  TenSP,  SoTrang,  NgonNgu,  GiaBia, null, SoLuong, giaNhap, maTG,Trangthai));
+                }
+                 return list;
+        }
+                    
+                   
+                   return new ArrayList<>();
+        }
+    
+    
+    private boolean checkProductsExist(String maTG) 
+    {
+        ArrayList<SanPhamDTO> productList = getListSP("ListSanPham"); // Lấy danh sách sản phẩm
+        for (SanPhamDTO product : productList) {
+            if (product.getMaTG().equals(maTG) && product.getTrangThai() == 1) {
+                return true; // Có sản phẩm với trạng thái hoạt động
+            }
+        }
+        return false; // Không có sản phẩm hoạt động
     }
     //ham thiet lap bang danh sach
     public void setUp()
@@ -498,6 +541,13 @@ public class panelTacGia extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
+            
+            // Kiểm tra sản phẩm còn hoạt động
+            if (checkProductsExist(MaDT)) {
+                JOptionPane.showMessageDialog(null, "Không thể xóa tác giả vì còn sản phẩm đang hoạt động!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
             JSONObject json = new JSONObject();
             json.put("method","DELETETG");
             json.put("MaDT",MaDT);
