@@ -651,6 +651,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
         }
         else
         {
+            setMaKM();
             String maKM = maLKM.getText();
             String tenKM = txtTenKM.getText();
             String phanTramKM = jTextFieldKM.getText();

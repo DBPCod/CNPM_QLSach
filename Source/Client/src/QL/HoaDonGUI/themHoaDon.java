@@ -852,7 +852,7 @@ public class themHoaDon extends javax.swing.JFrame {
         String maNV = getMaTK(getMaNV(MaNV.getText()));
         Date ngayNhap = ngayNhapDate.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
+        setMaHD();
         String thanhtien = thanhTien.getText().substring(0,thanhTien.getText().length()-1);
         String maHD = MaHD.getText();
         JSONObject json = new JSONObject();
