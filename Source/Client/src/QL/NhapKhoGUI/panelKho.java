@@ -584,7 +584,9 @@ public class panelKho extends javax.swing.JInternalFrame {
         locNXB.removeAllItems(); // Xóa các item cũ
         locNXB.addItem("Tất cả"); // Thêm tùy chọn mặc định
         for (NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan")) {
-            locNXB.addItem(nxb.getTenNXB());
+            if (nxb.getTrangThai() == 1) {
+                locNXB.addItem(nxb.getTenNXB());
+            }
         }
     }
     
@@ -731,6 +733,14 @@ public class panelKho extends javax.swing.JInternalFrame {
             locTienKT.setText(""); // Xóa giá trị không hợp lệ
         }
 
+        // Kiểm tra nếu cả hai ngày được nhập, ngày kết thúc phải sau hoặc bằng ngày bắt đầu
+        if (ngayBatDau != null && ngayKetThuc != null) {
+            if (ngayKetThuc.before(ngayBatDau)) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return; // Dừng xử lý nếu điều kiện không thỏa mãn
+            }
+        }
+        
         // Lọc danh sách hóa đơn
         for (PhieuNhapDTO pn : getList("ListPhieuNhap")) {
             if (pn.getTrangThai() == 1) { // Chỉ lọc hóa đơn có trạng thái hợp lệ

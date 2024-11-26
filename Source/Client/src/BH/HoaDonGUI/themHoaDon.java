@@ -25,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import Customize.TimKiem;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 /**
  *
@@ -54,7 +56,6 @@ public class themHoaDon extends javax.swing.JFrame {
         setMaHD();
         setUp();
         timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
-        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     
@@ -94,6 +95,7 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         }
     }
+    
     
     //ham lay gia khuyen mai cua san pham
     private double getGiaKMSP(String maSP,double giabia)
@@ -182,6 +184,7 @@ public class themHoaDon extends javax.swing.JFrame {
         return new ArrayList<>();
     }
     
+    
     //ham lay danh sach
     private ArrayList<ChiTietKhuyenMaiDTO> getListCTKM(String yeucau)
     {
@@ -203,6 +206,7 @@ public class themHoaDon extends javax.swing.JFrame {
         }
         return new ArrayList<>();
     }
+    
     
     //ham lay danh sach
     private ArrayList<SanPhamDTO> getList(String yeucau)
@@ -235,32 +239,57 @@ public class themHoaDon extends javax.swing.JFrame {
                    return new ArrayList<>();
         }
     
-    private void timKiem()
+    private void timKiem() 
     {
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
         DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
-        model.setRowCount(0); 
-        
+        model.setRowCount(0);  // Làm sạch bảng trước khi thêm dữ liệu mới
 
         ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
 
-        for (SanPhamDTO sp : allItems) {
-            if (sp.getTrangThai() == 1) {
-                
-                String MaSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
-                String TenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
-                
+        // Nếu searchText rỗng, hiển thị toàn bộ sản phẩm
+        if (searchText.isEmpty()) {
+            for (SanPhamDTO sanpham : allItems) {
+                if (sanpham.getTrangThai() == 1) {
+                    model.addRow(new Object[] {
+                        sanpham.getMaSP(),
+                        sanpham.getTenSP(),
+                        String.valueOf(sanpham.getSoLuong()),
+                        String.valueOf(sanpham.getGiaBia()),
+                        getGiaKMSP(sanpham.getMaSP(), sanpham.getGiaBia())
+                    });
+                }
+            }
+            return;  // Kết thúc phương thức nếu tìm kiếm rỗng
+        }
+
+        // Nếu có searchText, tìm kiếm các sản phẩm theo mã hoặc tên
+        boolean found = false;
+        for (SanPhamDTO sanpham : allItems) {
+            if (sanpham.getTrangThai() == 1) {
+                String MaSP = timkiem.KhongLayDau(sanpham.getMaSP().toLowerCase());
+                String TenSP = timkiem.KhongLayDau(sanpham.getTenSP().toLowerCase());
 
                 if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
-                    model.addRow(new Object[] {sp.getMaSP(),sp.getTenSP(),String.valueOf(sp.getSoLuong()),String.valueOf(sp.getGiaBia())});
+                    model.addRow(new Object[] {
+                        sanpham.getMaSP(),
+                        sanpham.getTenSP(),
+                        String.valueOf(sanpham.getSoLuong()),
+                        String.valueOf(sanpham.getGiaBia()),
+                        getGiaKMSP(sanpham.getMaSP(), sanpham.getGiaBia())
+                    });
+                    found = true;  // Đánh dấu là đã tìm thấy ít nhất 1 sản phẩm
                 }
             }
         }
 
-        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
-            // xu li thong bao khi khong tim thay
+        // Hiển thị thông báo nếu không tìm thấy sản phẩm nào
+        if (!found && !searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -296,6 +325,7 @@ public class themHoaDon extends javax.swing.JFrame {
         ngayNhapDate = new com.toedter.calendar.JDateChooser();
         jButton5 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        timkiembutton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -304,11 +334,6 @@ public class themHoaDon extends javax.swing.JFrame {
 
         timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
-        timKiemField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                timKiemFieldActionPerformed(evt);
-            }
-        });
 
         jTableSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -339,6 +364,11 @@ public class themHoaDon extends javax.swing.JFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -416,7 +446,7 @@ public class themHoaDon extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap(93, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -532,6 +562,18 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         });
 
+        timkiembutton.setText("Tìm kiếm");
+        timkiembutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timkiembuttonMouseClicked(evt);
+            }
+        });
+        timkiembutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timkiembuttonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -543,10 +585,12 @@ public class themHoaDon extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(timkiembutton))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -573,7 +617,8 @@ public class themHoaDon extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(timkiembutton))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -631,14 +676,29 @@ public class themHoaDon extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel table1 = (DefaultTableModel) jTableSP.getModel();
         int index = jTableSP.getSelectedRow();
-        int value = (int) jSpinner1.getValue();
-        if (value < 1) {
-        JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        return; // Dừng xử lý nếu giá trị không hợp lệ
+        
+        if (index == -1) { // Kiểm tra nếu không có sản phẩm nào được chọn
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một sản phẩm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+        
+        int value = (int) jSpinner1.getValue();
+        
+        if (value < 1) {
+            JOptionPane.showMessageDialog(this, "Số lượng không được nhỏ hơn 1!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return; // Dừng xử lý nếu giá trị không hợp lệ
+            }
+        
+        int soLuongKho = Integer.parseInt(table1.getValueAt(index, 2).toString()); // Lấy số lượng trong kho
+        if (value > soLuongKho) { // Kiểm tra nếu số lượng yêu cầu lớn hơn số lượng trong kho
+            JOptionPane.showMessageDialog(this, "Số lượng yêu cầu vượt quá số lượng trong kho!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return; // Dừng xử lý nếu số lượng không hợp lệ
+        }
+        
         String MaSP = table1.getValueAt(index, 0).toString();
         String TenSP = table1.getValueAt(index, 1).toString();
         String GiaBia1="";
+
         if(table1.getValueAt(index, 4).toString().equals("0.0"))
         {
              GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 3).toString()) * value);
@@ -646,7 +706,9 @@ public class themHoaDon extends javax.swing.JFrame {
         else
         {
             GiaBia1 = String.valueOf(Double.parseDouble(table1.getValueAt(index, 4).toString()) * value);
+
         }
+        
         Object[] obj1 = {MaSP,TenSP,value,GiaBia1};
         list.add(obj1);
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
@@ -858,14 +920,23 @@ public class themHoaDon extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton4MouseClicked
 
-    private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timKiemFieldActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         setUp();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void timkiembuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiembuttonMouseClicked
+        // TODO add your handling code here:
+        timKiem();
+    }//GEN-LAST:event_timkiembuttonMouseClicked
+
+    private void timkiembuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timkiembuttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timkiembuttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -930,5 +1001,6 @@ public class themHoaDon extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser ngayNhapDate;
     private javax.swing.JLabel thanhTien;
     private javax.swing.JTextField timKiemField;
+    private javax.swing.JButton timkiembutton;
     // End of variables declaration//GEN-END:variables
 }
