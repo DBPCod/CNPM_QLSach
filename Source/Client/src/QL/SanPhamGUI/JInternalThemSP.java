@@ -692,6 +692,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
     //gui du lieu toi server
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         //lay du lieu de them moi 1 san pham
+        setMaSP();
         String maSP = txtTMaSP.getText();
         String tenSP = txtTSP1.getText();
         int tenTG = comboboxTG.getSelectedIndex();

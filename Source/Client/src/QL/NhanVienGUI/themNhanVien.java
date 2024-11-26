@@ -380,6 +380,8 @@ public class themNhanVien extends javax.swing.JFrame {
 
     private void nutThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutThemActionPerformed
         // TODO add your handling code here:
+    setMaNV();
+    setMaTK();
     String tenNV = HoVaTen.getText();
     String maNV = MaNV.getText();
     String diaChiNV = DiaChi.getText();
