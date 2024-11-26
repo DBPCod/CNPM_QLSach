@@ -63,21 +63,19 @@
                   </Group>
                   <EmptySpace min="113" pref="113" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="DiaChi" alignment="0" pref="155" max="32767" attributes="0"/>
-                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="Email" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                              <Component id="jButton1" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
+                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="DiaChi" alignment="0" pref="155" max="32767" attributes="0"/>
+                              <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="Email" alignment="0" max="32767" attributes="0"/>
                           </Group>
-                          <Component id="GioiTinh" alignment="1" min="-2" pref="155" max="-2" attributes="0"/>
+                          <Component id="jButton1" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="MaTK" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
+                      <Component id="GioiTinh" min="-2" pref="155" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
               </Group>

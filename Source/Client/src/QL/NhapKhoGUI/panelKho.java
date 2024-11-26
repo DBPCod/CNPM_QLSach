@@ -733,6 +733,14 @@ public class panelKho extends javax.swing.JInternalFrame {
             locTienKT.setText(""); // Xóa giá trị không hợp lệ
         }
 
+        // Kiểm tra nếu cả hai ngày được nhập, ngày kết thúc phải sau hoặc bằng ngày bắt đầu
+        if (ngayBatDau != null && ngayKetThuc != null) {
+            if (ngayKetThuc.before(ngayBatDau)) {
+                JOptionPane.showMessageDialog(null, "Ngày kết thúc phải sau hoặc bằng ngày bắt đầu!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+                return; // Dừng xử lý nếu điều kiện không thỏa mãn
+            }
+        }
+        
         // Lọc danh sách hóa đơn
         for (PhieuNhapDTO pn : getList("ListPhieuNhap")) {
             if (pn.getTrangThai() == 1) { // Chỉ lọc hóa đơn có trạng thái hợp lệ
