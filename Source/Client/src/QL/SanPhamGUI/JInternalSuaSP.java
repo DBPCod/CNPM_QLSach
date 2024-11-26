@@ -53,7 +53,6 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         client1=client;
         MaDT1 = MaDT;
         dt1=dt;
-        System.out.println(dt1.list.size() +"soluong111");
         ssp1=ssp;
         pnsp1=pnsp;
         if(dt1.getList().size()==0)
@@ -69,9 +68,24 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
             spinnerST.setValue(dt1.getSoTrang());
             txtNN.setText(dt1.getNgonNgu());
             txtTG.setText(dt1.getTenTG());
+            byte[] imageInByteArray = dt1.getAnhBia();
+            imageInByteArray1=imageInByteArray;
+            InputStream is = new ByteArrayInputStream(imageInByteArray);
+            BufferedImage bi1;          
+            try {
+                bi1 = ImageIO.read(is);
+                Image img = bi1.getScaledInstance(185,238,Image.SCALE_SMOOTH);
+                ImageIcon icon = new ImageIcon(img);
+                lb_img.setIcon(icon);
+            } catch (IOException ex) {
+                Logger.getLogger(JInternalSuaSP.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            //hien thi anh len giao dien
             
             setUpTL();
         }
+//        setUp();
+//        setUpTL();
     }
     
     //ham thiet lap the loai cua san pham
