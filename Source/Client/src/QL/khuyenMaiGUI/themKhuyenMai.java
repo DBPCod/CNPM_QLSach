@@ -43,8 +43,8 @@ public class themKhuyenMai extends javax.swing.JFrame {
         setUp();
         setUpLKM();
         jDateChooserNBD.setDate(new Date());
-        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
-        timkiem.setUpSearchListener(timKiemField, this::timKiem);
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm tên...");
+//        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     
@@ -169,31 +169,50 @@ public class themKhuyenMai extends javax.swing.JFrame {
         return false; // Tên khuyến mãi chưa tồn tại
     }
     
-    private void timKiem()
+    private void timKiem() 
     {
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
         DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
-        // Nếu trường tìm kiếm rỗng, hiển thị lại toàn bộ danh sách sản phẩm
+        model.setRowCount(0);  // Làm sạch bảng trước khi thêm dữ liệu mới
+
+        ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
+
+        // Nếu searchText rỗng, hiển thị toàn bộ sản phẩm
         if (searchText.isEmpty()) {
-            model.setRowCount(0); // Xóa toàn bộ bảng
-            for (SanPhamDTO sp : getList("ListSanPham")) {
-                if (sp.getTrangThai() == 1) {
-                    model.addRow(new Object[] { sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaBia()) });
+            for (SanPhamDTO sanpham : allItems) {
+                if (sanpham.getTrangThai() == 1) {
+                    model.addRow(new Object[] {
+                        sanpham.getTenSP(),
+                        String.valueOf(sanpham.getSoLuong()),
+                        String.valueOf(sanpham.getGiaBia())
+                    });
                 }
             }
-        } else {
-            // Nếu có dữ liệu tìm kiếm, chỉ hiển thị những sản phẩm phù hợp
-            model.setRowCount(0); // Xóa bảng trước khi tìm kiếm
-            ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
-            for (SanPhamDTO sp : allItems) {
-                if (sp.getTrangThai() == 1) {
-                    String MaSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
-                    String TenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
-                    if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
-                        model.addRow(new Object[] { sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaBia()) });
-                    }
+            return;  // Kết thúc phương thức nếu tìm kiếm rỗng
+        }
+
+        // Nếu có searchText, tìm kiếm các sản phẩm theo mã hoặc tên
+        boolean found = false;
+        for (SanPhamDTO sanpham : allItems) {
+            if (sanpham.getTrangThai() == 1) {
+                String MaSP = timkiem.KhongLayDau(sanpham.getMaSP().toLowerCase());
+                String TenSP = timkiem.KhongLayDau(sanpham.getTenSP().toLowerCase());
+
+                if (MaSP.contains(searchText) || TenSP.contains(searchText)) {
+                    model.addRow(new Object[] {
+                        sanpham.getTenSP(),
+                        String.valueOf(sanpham.getSoLuong()),
+                        String.valueOf(sanpham.getGiaBia())
+                    });
+                    found = true;  // Đánh dấu là đã tìm thấy ít nhất 1 sản phẩm
                 }
             }
+        }
+
+        // Hiển thị thông báo nếu không tìm thấy sản phẩm nào
+        if (!found && !searchText.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
         }
     }
     
@@ -231,6 +250,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         maLKM = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        timkiembutton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -309,7 +329,6 @@ public class themKhuyenMai extends javax.swing.JFrame {
             }
         });
 
-        timKiemField.setText("Tìm kiếm...");
         timKiemField.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         timKiemField.setSelectionColor(new java.awt.Color(0, 0, 0));
         timKiemField.addActionListener(new java.awt.event.ActionListener() {
@@ -410,6 +429,18 @@ public class themKhuyenMai extends javax.swing.JFrame {
             }
         });
 
+        timkiembutton.setText("Tìm kiếm");
+        timkiembutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timkiembuttonMouseClicked(evt);
+            }
+        });
+        timkiembutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                timkiembuttonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -422,18 +453,21 @@ public class themKhuyenMai extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(timkiembutton)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(92, 92, 92)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                     .addComponent(maLKM, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtTenKM)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -492,7 +526,8 @@ public class themKhuyenMai extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(timkiembutton))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -742,6 +777,15 @@ public class themKhuyenMai extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void timkiembuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timkiembuttonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timkiembuttonActionPerformed
+
+    private void timkiembuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiembuttonMouseClicked
+        // TODO add your handling code here:
+        timKiem();
+    }//GEN-LAST:event_timkiembuttonMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -802,6 +846,7 @@ public class themKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldKM;
     private javax.swing.JTextField maLKM;
     private javax.swing.JTextField timKiemField;
+    private javax.swing.JButton timkiembutton;
     private javax.swing.JTextField txtTenKM;
     // End of variables declaration//GEN-END:variables
 }
