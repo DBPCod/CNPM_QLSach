@@ -584,7 +584,9 @@ public class panelKho extends javax.swing.JInternalFrame {
         locNXB.removeAllItems(); // Xóa các item cũ
         locNXB.addItem("Tất cả"); // Thêm tùy chọn mặc định
         for (NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan")) {
-            locNXB.addItem(nxb.getTenNXB());
+            if (nxb.getTrangThai() == 1) {
+                locNXB.addItem(nxb.getTenNXB());
+            }
         }
     }
     

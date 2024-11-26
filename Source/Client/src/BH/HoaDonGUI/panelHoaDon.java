@@ -191,7 +191,9 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         locNV.removeAllItems(); // Xóa các item cũ
         locNV.addItem("Tất cả"); // Thêm tùy chọn mặc định
         for (NhanVienDTO nv : getListNV("ListNhanVien")) {
-            locNV.addItem(nv.getHoVaTen());
+            if (nv.getTrangThai() == 1) {
+                locNV.addItem(nv.getHoVaTen());
+            }
         }
     }
 
