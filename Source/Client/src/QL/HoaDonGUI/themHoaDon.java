@@ -282,16 +282,10 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         }
 
-<<<<<<< HEAD
         // Hiển thị thông báo nếu không tìm thấy sản phẩm nào
         if (!found && !searchText.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             setUp();
-=======
-        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
-            // xu li thong bao khi khong tim thay
-            
->>>>>>> main
         }
     }
 

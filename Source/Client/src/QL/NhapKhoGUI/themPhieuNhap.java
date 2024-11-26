@@ -327,30 +327,12 @@ public class themPhieuNhap extends javax.swing.JFrame {
     {
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
         DefaultTableModel model = (DefaultTableModel) jTableSP.getModel();
-<<<<<<< HEAD
         model.setRowCount(0);  // Làm sạch bảng trước khi thêm dữ liệu mới
 
         ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
 
         // Nếu searchText rỗng, hiển thị toàn bộ sản phẩm
         if (searchText.isEmpty()) {
-=======
-        // Nếu trường tìm kiếm rỗng, hiển thị lại toàn bộ danh sách sản phẩm
-        
-        if (searchText.isEmpty()) {
-            System.out.println("aaaaaaa");
-            model.setRowCount(0); // Xóa toàn bộ bảng
-            for (SanPhamDTO sp : getList("ListSanPham")) {
-                if (sp.getTrangThai() == 1) {
-                    model.addRow(new Object[] { sp.getMaSP(),sp.getTenSP(), String.valueOf(sp.getSoLuong()), String.valueOf(sp.getGiaNhap()) });
-                }
-            }
-        
-        } else if(!searchText.isEmpty()){
-            // Nếu có dữ liệu tìm kiếm, chỉ hiển thị những sản phẩm phù hợp
-            model.setRowCount(0); // Xóa bảng trước khi tìm kiếm
-            ArrayList<SanPhamDTO> allItems = getList("ListSanPham");
->>>>>>> main
             for (SanPhamDTO sanpham : allItems) {
                 if (sanpham.getTrangThai() == 1) {
                     model.addRow(new Object[] {
@@ -958,7 +940,6 @@ public class themPhieuNhap extends javax.swing.JFrame {
         setUp();
     }//GEN-LAST:event_jButton3ActionPerformed
 
-<<<<<<< HEAD
     private void timKiemFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timKiemFieldActionPerformed
          // TODO add your handling code here:
     }//GEN-LAST:event_timKiemFieldActionPerformed
@@ -968,8 +949,6 @@ public class themPhieuNhap extends javax.swing.JFrame {
         timKiem();
     }//GEN-LAST:event_timkiembuttonMouseClicked
 
-=======
->>>>>>> main
     /**
      * @param args the command line arguments
      */
