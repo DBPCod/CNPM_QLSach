@@ -214,7 +214,7 @@ public class themTacGia extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        
+        setMaTG();
         String tentacgia = tenTG.getText();
         String matacgia = maTG.getText();
         String quoctich = quocTich.getText();

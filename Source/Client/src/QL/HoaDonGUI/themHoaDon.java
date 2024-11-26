@@ -282,10 +282,16 @@ public class themHoaDon extends javax.swing.JFrame {
             }
         }
 
+<<<<<<< HEAD
         // Hiển thị thông báo nếu không tìm thấy sản phẩm nào
         if (!found && !searchText.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             setUp();
+=======
+        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
+            // xu li thong bao khi khong tim thay
+            
+>>>>>>> main
         }
     }
 
@@ -879,7 +885,7 @@ public class themHoaDon extends javax.swing.JFrame {
         String maNV = getMaTK(getMaNV(MaNV.getText()));
         Date ngayNhap = ngayNhapDate.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
+        setMaHD();
         String thanhtien = thanhTien.getText().substring(0,thanhTien.getText().length()-1);
         String maHD = MaHD.getText();
         JSONObject json = new JSONObject();

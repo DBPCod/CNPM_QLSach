@@ -228,6 +228,7 @@ public class themNhaXuatBan extends javax.swing.JFrame {
 
     private void nutThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutThemActionPerformed
         String tenNXB = TenNXB.getText().trim();
+        setMaNXB();
         String maNXB = MaNXB.getText();
         String diaChiNXB = DiaChiNXB.getText().trim();
         String sdtNXB = SdtNXB.getText().trim();
