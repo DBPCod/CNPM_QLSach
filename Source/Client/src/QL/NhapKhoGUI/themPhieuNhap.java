@@ -849,6 +849,7 @@ public class themPhieuNhap extends javax.swing.JFrame {
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         // TODO add your handling code here:
+        setMaPN();
         String maNV = getMaTK(getMaNV(MNV.getText()));
         String maNXB = getMaNXB((String) comboboxNXB.getSelectedItem());
         Date ngayNhap = ngayNhapDate.getDate();

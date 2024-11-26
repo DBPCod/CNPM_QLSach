@@ -236,6 +236,7 @@ public class themTheLoai extends javax.swing.JFrame {
     }//GEN-LAST:event_MaTLActionPerformed
 
     private void nutThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutThemActionPerformed
+        setMaTL();
         String tenTL = TenTL.getText().trim();
         String maTL = MaTL.getText();
 
