@@ -152,7 +152,9 @@ public class themKhuyenMai extends javax.swing.JFrame {
 //        jComboBoxLKM.addItem("Tự nhập");
         for(LoaiKhuyenMaiDTO khuyenmaiDTO : getListLKM("ListLoaiKhuyenMai"))
         {
-            jComboBoxLKM.addItem(khuyenmaiDTO.getTenLoaiKM());
+            if (khuyenmaiDTO.getTrangThai() == 1) {
+                jComboBoxLKM.addItem(khuyenmaiDTO.getTenLoaiKM());
+            }
         }
     }
     

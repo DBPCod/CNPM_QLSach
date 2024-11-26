@@ -172,7 +172,7 @@ public class thongTinSanPhamBH extends javax.swing.JFrame {
         txtTMaSP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtTMaSP.setEnabled(false);
 
-        jLabel3.setText("Bút danh");
+        jLabel3.setText("Tác giả");
 
         jLabel6.setText("Số trang");
 

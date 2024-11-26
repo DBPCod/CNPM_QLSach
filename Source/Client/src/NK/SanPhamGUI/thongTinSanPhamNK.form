@@ -257,7 +257,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
-                <Property name="text" type="java.lang.String" value="B&#xfa;t danh"/>
+                <Property name="text" type="java.lang.String" value="T&#xe1;c gi&#x1ea3;"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
