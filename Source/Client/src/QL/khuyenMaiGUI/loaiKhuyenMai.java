@@ -523,6 +523,10 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Sửa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
             }
         }
+        txtMaLKM.setText("");
+        txtLKM.setText("");
+        jSpinnerLKM.setValue(0);
+        jSpinnerLKM.repaint();
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void txtLKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLKMActionPerformed
