@@ -229,6 +229,8 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         jButton3 = new javax.swing.JButton();
         comboboxTG = new javax.swing.JComboBox<>();
         spinnerST = new javax.swing.JSpinner();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableTheLoai = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtGN = new javax.swing.JTextField();
@@ -237,7 +239,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         jButton5 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTableTheLoai = new javax.swing.JTable();
+        jTableTheLoai1 = new javax.swing.JTable();
 
         jToggleButton1.setText("jToggleButton1");
 
@@ -283,7 +285,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         );
         panelIMGLayout.setVerticalGroup(
             panelIMGLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lb_img, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lb_img, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
         );
 
         jButton2.setBackground(new java.awt.Color(102, 255, 102));
@@ -332,6 +334,41 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
 
         spinnerST.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
+        jTableTheLoai.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Thể loại"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTableTheLoai.setPreferredSize(new java.awt.Dimension(75, 75));
+        jTableTheLoai.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableTheLoaiMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableTheLoai);
+
         jButton4.setBackground(new java.awt.Color(102, 255, 102));
         jButton4.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jButton4.setText("Chọn thể loại");
@@ -374,7 +411,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        jTableTheLoai.setModel(new javax.swing.table.DefaultTableModel(
+        jTableTheLoai1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null},
                 {null},
@@ -393,16 +430,16 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableTheLoai.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTableTheLoai1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableTheLoaiMouseClicked(evt);
             }
         });
-        jScrollPane4.setViewportView(jTableTheLoai);
-        if (jTableTheLoai.getColumnModel().getColumnCount() > 0) {
-            jTableTheLoai.getColumnModel().getColumn(0).setMinWidth(150);
-            jTableTheLoai.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jTableTheLoai.getColumnModel().getColumn(0).setMaxWidth(150);
+        jScrollPane4.setViewportView(jTableTheLoai1);
+        if (jTableTheLoai1.getColumnModel().getColumnCount() > 0) {
+            jTableTheLoai1.getColumnModel().getColumn(0).setMinWidth(150);
+            jTableTheLoai1.getColumnModel().getColumn(0).setPreferredWidth(150);
+            jTableTheLoai1.getColumnModel().getColumn(0).setMaxWidth(150);
         }
 
         jScrollPane3.setViewportView(jScrollPane4);
@@ -486,7 +523,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8)
                                     .addComponent(jLabel10)
@@ -510,12 +547,11 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
                                                 .addComponent(spinnerST, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
                                             .addComponent(jButton4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))))))
-                    .addComponent(panelIMG, javax.swing.GroupLayout.DEFAULT_SIZE, 224, Short.MAX_VALUE))
+                    .addComponent(panelIMG, javax.swing.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
                 .addGap(47, 47, 47))
@@ -886,10 +922,12 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTableTheLoai;
+    private javax.swing.JTable jTableTheLoai1;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lb_img;
     private javax.swing.JPanel panelIMG;
