@@ -73,7 +73,7 @@ public class ClientHandle implements Runnable{
     public void run() {
         try{
             
-            byte[] buffer = new byte[1024*1024 * 1024];
+            byte[] buffer = new byte[8921];
             int bytesRead;
             StringBuilder resultBuilder = new StringBuilder();
             while((bytesRead= input.read(buffer)) != -1)
