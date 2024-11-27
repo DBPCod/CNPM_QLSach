@@ -319,11 +319,6 @@ Color customColor = Color.decode("#C2F2E9");
         jLabel25.setBackground(new java.awt.Color(255, 255, 255));
         jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel25.setText("Đăng xuất");
-        jLabel25.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel25MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout panel11Layout = new javax.swing.GroupLayout(panel11);
         panel11.setLayout(panel11Layout);
@@ -535,7 +530,7 @@ Color customColor = Color.decode("#C2F2E9");
         panelChange.add(tk).setVisible(true);
     }//GEN-LAST:event_panel10MouseClicked
 
-    private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
+    private void panel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel11MouseClicked
         // TODO add your handling code here:
         panel11.setBackground(Color.RED);
         panel1.setBackground(Color.WHITE);
@@ -546,10 +541,7 @@ Color customColor = Color.decode("#C2F2E9");
         
         panel10.setBackground(Color.WHITE);
         panelTT.setBackground(Color.WHITE);
-    }//GEN-LAST:event_jLabel25MouseClicked
-
-    private void panel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel11MouseClicked
-        // TODO add your handling code here:
+        
         this.setVisible(false);
         System.out.println("a");
         Login login = new Login();
