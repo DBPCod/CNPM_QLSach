@@ -318,17 +318,17 @@ public class Login extends javax.swing.JFrame {
 
         if (json.getString("Trangthai").equals("true")) {
             switch (getMaVT(json.getString("MaTK"))) {
-                case "VT001":
+                case "VT_1":
                     Main main = new Main(json.getString("MaTK"), client);
                     main.setVisible(true);
                     this.dispose();
                     break;
-                case "VT002":
+                case "VT_2":
                     MainNhapKho mainnk = new MainNhapKho(json.getString("MaTK"), client);
                     mainnk.setVisible(true);
                     this.dispose();
                     break;
-                case "VT003":
+                case "VT_3":
                     MainBanHang mainbh = new MainBanHang(json.getString("MaTK"), client);
                     mainbh.setVisible(true);
                     this.dispose();

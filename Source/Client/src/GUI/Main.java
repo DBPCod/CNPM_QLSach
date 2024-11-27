@@ -568,11 +568,6 @@ Color customColor = Color.decode("#C2F2E9");
         jLabel25.setBackground(new java.awt.Color(255, 255, 255));
         jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel25.setText("Đăng xuất");
-        jLabel25.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel25MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout panel11Layout = new javax.swing.GroupLayout(panel11);
         panel11.setLayout(panel11Layout);
@@ -938,23 +933,6 @@ Color customColor = Color.decode("#C2F2E9");
         
     }//GEN-LAST:event_panel10MouseClicked
 
-    private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
-        // TODO add your handling code here:
-        panel11.setBackground(Color.RED);
-        panel1.setBackground(Color.WHITE);
-        panel2.setBackground(Color.WHITE);
-        panel3.setBackground(Color.WHITE);
-        panel4.setBackground(Color.WHITE);
-        panel5.setBackground(Color.WHITE);
-        panel6.setBackground(Color.WHITE);
-        panel7.setBackground(Color.WHITE);
-        panel8.setBackground(Color.WHITE);
-        panel9.setBackground(Color.WHITE);
-        panel10.setBackground(Color.WHITE);
-        panelTT.setBackground(Color.WHITE);
-        panel12.setBackground(Color.WHITE);
-    }//GEN-LAST:event_jLabel25MouseClicked
-
     private void panelTTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelTTMouseClicked
         // TODO add your handling code here:
         panelTT.setBackground(customColor);
@@ -997,6 +975,20 @@ Color customColor = Color.decode("#C2F2E9");
 
     private void panel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel11MouseClicked
         // TODO add your handling code here:
+        panel11.setBackground(Color.RED);
+        panel1.setBackground(Color.WHITE);
+        panel2.setBackground(Color.WHITE);
+        panel3.setBackground(Color.WHITE);
+        panel4.setBackground(Color.WHITE);
+        panel5.setBackground(Color.WHITE);
+        panel6.setBackground(Color.WHITE);
+        panel7.setBackground(Color.WHITE);
+        panel8.setBackground(Color.WHITE);
+        panel9.setBackground(Color.WHITE);
+        panel10.setBackground(Color.WHITE);
+        panelTT.setBackground(Color.WHITE);
+        panel12.setBackground(Color.WHITE);
+        
         this.setVisible(false);
         System.out.println("a");
         Login login = new Login();

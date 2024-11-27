@@ -217,7 +217,9 @@ public class themPhieuNhap extends javax.swing.JFrame {
     {
         for(NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan"))
         {
-            comboboxNXB.addItem(nxb.getTenNXB());
+            if (nxb.getTrangThai() == 1) {
+                comboboxNXB.addItem(nxb.getTenNXB());            
+            }
         }
     }
     
