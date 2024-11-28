@@ -32,6 +32,7 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
         client1=client;
         setUp();
         timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên loại...");
+//        timkiem.setPlaceholder(txtLKM, "Nhập tên loại khuyến mãi");
         timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
@@ -491,7 +492,7 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 setUp();
-                txtLKM.setText("Nhập tên loại khuyến mãi");
+//                txtLKM.setText("Nhập tên loại khuyến mãi");
                 jSpinnerLKM.setValue(0);
                 jSpinnerLKM.repaint();
             }

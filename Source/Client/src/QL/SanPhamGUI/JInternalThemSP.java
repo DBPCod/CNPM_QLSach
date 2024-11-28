@@ -163,15 +163,25 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
     
     
     //ham thiet lap but danh cua tac gia
-    private void setButDanh()
-    {
+    private void setButDanh() {
+        // Xóa các item cũ trong combobox để tránh bị thêm lặp lại
+        comboboxTG.removeAllItems();
+
+        // Lấy danh sách tác giả từ server
         JSONObject json = new JSONObject(client1.getList("ListTacGia"));
         JSONArray jsonArray = json.getJSONArray("list");
-        for(int i=0;i<jsonArray.length();i++)
-        {
+
+        for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tacGiaObject = jsonArray.getJSONObject(i);
-            String chuoi = tacGiaObject.getString("butDanh");
-            comboboxTG.addItem(chuoi);
+
+            // Lấy trạng thái tác giả
+            int trangThai = tacGiaObject.getInt("trangThai");
+
+            // Kiểm tra nếu trạng thái là 1 thì mới thêm vào combobox
+            if (trangThai == 1) {
+                String chuoi = tacGiaObject.getString("butDanh");
+                comboboxTG.addItem(chuoi);
+            }
         }
     }
     //ham thiet lap cho giao dien
@@ -249,7 +259,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         txtTMaSP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtTMaSP.setEnabled(false);
 
-        jLabel3.setText("Bút danh");
+        jLabel3.setText("Tác giả");
 
         jLabel6.setText("Số trang");
 
@@ -415,7 +425,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
                             .addComponent(txtTSP1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel9)
                                 .addGap(107, 107, 107))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -511,7 +521,9 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

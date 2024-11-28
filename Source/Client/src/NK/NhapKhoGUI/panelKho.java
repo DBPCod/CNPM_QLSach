@@ -51,7 +51,7 @@ public class panelKho extends javax.swing.JInternalFrame {
         client1=client;
         nguoiNhap1=nguoiNhap;
         setUp();
-        setUpComboBoxNXB();
+//        setUpComboBoxNXB();
     }
 
     /**
@@ -82,8 +82,6 @@ public class panelKho extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTablePN = new javax.swing.JTable();
-        locNXB = new javax.swing.JComboBox<>();
-        jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -283,7 +281,7 @@ public class panelKho extends javax.swing.JInternalFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(328, 328, 328)
                 .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -298,17 +296,17 @@ public class panelKho extends javax.swing.JInternalFrame {
         jTablePN.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jTablePN.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"TG01", "ádsad", "ádasd", "ád"},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"TG01", "ádsad", "ádasd"},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Mã phiếu nhập", "Ngày nhập", "Thành tiền", "Tên nhà xuất bản"
+                "Mã phiếu nhập", "Ngày nhập", "Thành tiền"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -325,15 +323,6 @@ public class panelKho extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTablePN);
-
-        locNXB.setPreferredSize(new java.awt.Dimension(72, 40));
-        locNXB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                locNXBActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setText("Nhà xuất bản");
 
         jLabel13.setText("Từ ngày");
 
@@ -379,24 +368,20 @@ public class panelKho extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
+                        .addGap(27, 27, 27)
                         .addComponent(nutLoc))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(locTienBD, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel12)
-                                .addComponent(jLabel13)
-                                .addComponent(jLabel14)
-                                .addComponent(jLabel15)
-                                .addComponent(jLabel16)
-                                .addComponent(locNXB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(locNBD, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
-                                .addComponent(locNKT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                    .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(locTienBD, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel13)
+                        .addComponent(jLabel14)
+                        .addComponent(jLabel15)
+                        .addComponent(jLabel16)
+                        .addComponent(locNBD, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(locNKT, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 697, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
@@ -406,12 +391,7 @@ public class panelKho extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(locNXB, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(5, 5, 5)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(locNBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -428,8 +408,9 @@ public class panelKho extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(nutLoc)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                        .addComponent(nutLoc))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -487,12 +468,12 @@ public class panelKho extends javax.swing.JInternalFrame {
                             Double Thanhtien = tacGiaObject.getDouble("thanhTien");
                             int Trangthai = tacGiaObject.getInt("trangThai");
                             String MaTK = tacGiaObject.getString("maTK");
-                            String MaNXB=tacGiaObject.getString("maNXB");;
-                            for(NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan"))
+//                            String MaNXB=tacGiaObject.getString("maNXB");;
+                            for(NhanVienDTO nv : getListNV("ListNhanVien"))
                             {
-                                if(MaNXB.equals(nxb.getMaNXB()))
+                                if(MaTK.equals(nv.getMaTK()))
                                 {
-                                    list.add(new PhieuNhapDTO(MaPN, NgayNhap, Thanhtien, Trangthai, MaTK, nxb.getTenNXB()));
+                                    list.add(new PhieuNhapDTO(MaPN, NgayNhap, Thanhtien, Trangthai, MaTK, nv.getMaTK()));
                                 }
                             }
                             
@@ -528,7 +509,7 @@ public class panelKho extends javax.swing.JInternalFrame {
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayNhap = formatter.format(phieunhap.getNgayNhap());
-                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaNXB()});
+                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaTK()});
             }
         }
     }
@@ -598,7 +579,7 @@ public class panelKho extends javax.swing.JInternalFrame {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayNhap = formatter.format(phieunhap.getNgayNhap());
                 System.out.println(phieunhap.getMaPN());
-                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaNXB()});
+                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaTK()});
             }
         }
     }
@@ -635,14 +616,16 @@ public class panelKho extends javax.swing.JInternalFrame {
         return new ArrayList<>();
     }
     
-    private void setUpComboBoxNXB() 
-    {
-        locNXB.removeAllItems(); // Xóa các item cũ
-        locNXB.addItem("Tất cả"); // Thêm tùy chọn mặc định
-        for (NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan")) {
-            locNXB.addItem(nxb.getTenNXB());
-        }
-    }
+//    private void setUpComboBoxNXB() 
+//    {
+//        locNXB.removeAllItems(); // Xóa các item cũ
+//        locNXB.addItem("Tất cả"); // Thêm tùy chọn mặc định
+//        for (NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan")) {
+//            if (nxb.getTrangThai() == 1) {
+//                locNXB.addItem(nxb.getTenNXB());
+//            }
+//        }
+//    }
     
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
@@ -750,7 +733,7 @@ public class panelKho extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) jTablePN.getModel();
         model.setRowCount(0);
 
-        String tenNXB = locNXB.getSelectedItem().toString();
+//        String tenNXB = locNXB.getSelectedItem().toString();
         Date ngayBatDau = locNBD.getDate();
         Date ngayKetThuc = locNKT.getDate();
         Double soTienBatDau = null;
@@ -779,7 +762,7 @@ public class panelKho extends javax.swing.JInternalFrame {
         for (PhieuNhapDTO pn : getList("ListPhieuNhap")) {
             if (pn.getTrangThai() == 1) { // Chỉ lọc hóa đơn có trạng thái hợp lệ
 
-                boolean tenNXBThoaMan = tenNXB.equals("Tất cả") || pn.getMaNXB().equals(tenNXB);
+                boolean tenNXBThoaMan = getMaTK(nguoiNhap1).equals(pn.getMaTK());
                 boolean ngayThoaMan = (ngayBatDau == null || ngayKetThuc == null ||
                                        (!pn.getNgayNhap().before(ngayBatDau) && !pn.getNgayNhap().after(ngayKetThuc)));
                 boolean tienThoaMan = (soTienBatDau == null || pn.getThanhTien() >= soTienBatDau) &&
@@ -795,7 +778,7 @@ public class panelKho extends javax.swing.JInternalFrame {
         }
 
         // Xóa các trường nhập sau khi lọc
-        locNXB.setSelectedIndex(0); // Đặt lại về "Tất cả"
+//        locNXB.setSelectedIndex(0); // Đặt lại về "Tất cả"
         locNBD.setDate(null);
         locNKT.setDate(null);
         locTienBD.setText("");
@@ -804,16 +787,9 @@ public class panelKho extends javax.swing.JInternalFrame {
         // Hiển thị thông báo nếu không có kết quả nào
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
         }
     }//GEN-LAST:event_nutLocActionPerformed
-
-    private void locNXBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locNXBActionPerformed
-        // Lấy tên nxb được chọn và lưu vào biến
-        locTenNXB = locNXB.getSelectedItem().toString();
-        if (locTenNXB.equals("Tất cả")) {
-            locTenNXB = null; // Không áp dụng điều kiện nếu chọn "Tất cả"
-        }
-    }//GEN-LAST:event_locNXBActionPerformed
 
     private void locNBDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_locNBDPropertyChange
         locNgayBatDau = locNBD.getDate();
@@ -859,7 +835,6 @@ public class panelKho extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -882,7 +857,6 @@ public class panelKho extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTablePN;
     private com.toedter.calendar.JDateChooser locNBD;
     private com.toedter.calendar.JDateChooser locNKT;
-    private javax.swing.JComboBox<String> locNXB;
     private javax.swing.JTextField locTienBD;
     private javax.swing.JTextField locTienKT;
     private javax.swing.JButton nutLoc;

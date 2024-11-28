@@ -390,7 +390,7 @@
                                       <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="locNXB" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="locNV" alignment="0" max="32767" attributes="0"/>
                                       <Component id="locNBD" alignment="0" pref="140" max="32767" attributes="0"/>
                                       <Component id="locNKT" alignment="0" max="32767" attributes="0"/>
                                   </Group>
@@ -412,7 +412,7 @@
                           <Group type="102" attributes="0">
                               <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="locNXB" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="locNV" min="-2" pref="35" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -473,13 +473,37 @@
                           <Data value="null"/>
                           <Data value="null"/>
                         </Column>
-                        <Column editable="false" title="T&#xea;n nh&#xe0; xu&#x1ea5;t b&#x1ea3;n" type="java.lang.Object">
+                        <Column editable="false" title="T&#xea;n nh&#xe2;n vi&#xea;n nh&#x1ead;p" type="java.lang.Object">
                           <Data value="&#xe1;d"/>
                           <Data value="null"/>
                           <Data value="null"/>
                           <Data value="null"/>
                         </Column>
                       </Table>
+                    </Property>
+                    <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
+                      <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
+                      </TableColumnModel>
                     </Property>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="gridColor" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -501,14 +525,14 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JComboBox" name="locNXB">
+            <Component class="javax.swing.JComboBox" name="locNV">
               <Properties>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[72, 40]"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="locNXBActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="locNVActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -516,7 +540,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel12">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Nh&#xe0; xu&#x1ea5;t b&#x1ea3;n"/>
+                <Property name="text" type="java.lang.String" value="Nh&#xe2;n vi&#xea;n nh&#x1ead;p"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel13">

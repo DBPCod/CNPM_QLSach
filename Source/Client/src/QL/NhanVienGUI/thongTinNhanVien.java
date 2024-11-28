@@ -45,7 +45,21 @@ public class thongTinNhanVien extends javax.swing.JFrame {
             e.printStackTrace();
         }
         GioiTinh.setSelectedItem(json.getString("GioiTinh"));
-        MaVT.setSelectedItem(json.getString("MaVT"));
+        String maVT = json.getString("MaVT");
+        switch (maVT) {
+            case "VT_1":
+                MaVT.setSelectedItem("Quản Lý");
+                break;
+            case "VT_2":
+                MaVT.setSelectedItem("Nhập Kho");
+                break;
+            case "VT_3":
+                MaVT.setSelectedItem("Bán Hàng");
+                break;
+            default:
+                MaVT.setSelectedItem("Không xác định");
+                break;
+        }
         Email.setText(json.getString("Email"));
         SoDienThoai.setText(json.getString("Sodienthoai"));
     }
@@ -146,10 +160,10 @@ public class thongTinNhanVien extends javax.swing.JFrame {
             }
         });
 
-        GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "nam", "nữ" }));
+        GioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
         GioiTinh.setEnabled(false);
 
-        MaVT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nhân viên bán hàng", "Nhân viên nhập kho" }));
+        MaVT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản Lý", "Nhập Kho", "Bán Hàng" }));
         MaVT.setEnabled(false);
 
         NgaySinh.setEnabled(false);

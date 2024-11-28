@@ -45,7 +45,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         client1 = client;
         nguoiNhap1=nguoiNhap;
         setUp();
-        setUpComboBoxNhanVien();
+//        setUpComboBoxNhanVien();
     }
     
     
@@ -153,7 +153,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayLapHD = formatter.format(hd.getNgayLapHoaDon());
                 System.out.println(hd.getMaHD());
-                model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, hd.getThanhTien(), hd.getMaTK()});
+                model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, hd.getThanhTien()});
             }
         }
     }
@@ -169,6 +169,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         }
         return "";
     }
+    
     public void setUpDelete() 
     {
         DefaultTableModel model = (DefaultTableModel) jTableHD.getModel();
@@ -181,19 +182,21 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayLapHD = formatter.format(hd.getNgayLapHoaDon());
                 System.out.println(hd.getMaHD());
-                model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, hd.getThanhTien(), hd.getMaTK()});
+                model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, hd.getThanhTien()});
             }
         }
     }
     
-    private void setUpComboBoxNhanVien() 
-    {
-        locNV.removeAllItems(); // Xóa các item cũ
-        locNV.addItem("Tất cả"); // Thêm tùy chọn mặc định
-        for (NhanVienDTO nv : getListNV("ListNhanVien")) {
-            locNV.addItem(nv.getHoVaTen());
-        }
-    }
+//    private void setUpComboBoxNhanVien() 
+//    {
+//        locNV.removeAllItems(); // Xóa các item cũ
+//        locNV.addItem("Tất cả"); // Thêm tùy chọn mặc định
+//        for (NhanVienDTO nv : getListNV("ListNhanVien")) {
+//            if (nv.getTrangThai() == 1) {
+//                locNV.addItem(nv.getHoVaTen());
+//            }
+//        }
+//    }
 
 
     /**
@@ -224,14 +227,12 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableHD = new javax.swing.JTable();
-        jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         locNBD = new com.toedter.calendar.JDateChooser();
         locNKT = new com.toedter.calendar.JDateChooser();
-        locNV = new javax.swing.JComboBox<>();
         locTienBD = new javax.swing.JTextField();
         locTienKT = new javax.swing.JTextField();
         nutLoc = new javax.swing.JButton();
@@ -444,7 +445,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Mã hóa đơn", "Ngày lập hóa đơn", "Thành tiền", "Nhân viên"
+                "Mã hóa đơn", "Ngày lập hóa đơn", "Thành tiền"
             }
         ));
         jTableHD.setFocusable(false);
@@ -457,8 +458,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             }
         });
         jScrollPane1.setViewportView(jTableHD);
-
-        jLabel11.setText("Nhân viên bán");
 
         jLabel13.setText("Từ ngày");
 
@@ -477,13 +476,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         locNKT.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 locNKTPropertyChange(evt);
-            }
-        });
-
-        locNV.setPreferredSize(new java.awt.Dimension(72, 40));
-        locNV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                locNVActionPerformed(evt);
             }
         });
 
@@ -513,12 +505,10 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel11)
                     .addComponent(jLabel13)
                     .addComponent(jLabel14)
                     .addComponent(jLabel15)
                     .addComponent(jLabel16)
-                    .addComponent(locNV, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(locNBD, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
                     .addComponent(locNKT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(locTienBD)
@@ -535,12 +525,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(locNV, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(locNBD, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -557,8 +542,9 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(locTienKT, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(nutLoc)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                        .addComponent(nutLoc))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -696,14 +682,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         setUp();
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void locNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_locNVActionPerformed
-        // Lấy tên nhân viên được chọn và lưu vào biến
-        locTenNhanVien = locNV.getSelectedItem().toString();
-        if (locTenNhanVien.equals("Tất cả")) {
-            locTenNhanVien = null; // Không áp dụng điều kiện nếu chọn "Tất cả"
-        }
-    }//GEN-LAST:event_locNVActionPerformed
-
     private void locNBDPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_locNBDPropertyChange
         locNgayBatDau = locNBD.getDate(); 
     }//GEN-LAST:event_locNBDPropertyChange
@@ -731,7 +709,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         DefaultTableModel model = (DefaultTableModel) jTableHD.getModel();
         model.setRowCount(0);
 
-        String tenNhanVien = locNV.getSelectedItem().toString();
+//        String tenNhanVien = locNV.getSelectedItem().toString();
         Date ngayBatDau = locNBD.getDate();
         Date ngayKetThuc = locNKT.getDate();
         Double soTienBatDau = null;
@@ -760,7 +738,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         for (HoaDonDTO hd : getList("ListHoaDon")) {
             if (hd.getTrangThai() == 1) { // Chỉ lọc hóa đơn có trạng thái hợp lệ
 
-                boolean tenNhanVienThoaMan = tenNhanVien.equals("Tất cả") || hd.getMaTK().equals(tenNhanVien);
+                boolean tenNhanVienThoaMan = getMaTK(nguoiNhap1).equals(hd.getMaTK()); 
                 boolean ngayThoaMan = (ngayBatDau == null || ngayKetThuc == null ||
                                        (!hd.getNgayLapHoaDon().before(ngayBatDau) && !hd.getNgayLapHoaDon().after(ngayKetThuc)));
                 boolean tienThoaMan = (soTienBatDau == null || hd.getThanhTien() >= soTienBatDau) &&
@@ -776,7 +754,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         }
 
         // Xóa các trường nhập sau khi lọc
-        locNV.setSelectedIndex(0); // Đặt lại về "Tất cả"
+//        locNV.setSelectedIndex(0); // Đặt lại về "Tất cả"
         locNBD.setDate(null);
         locNKT.setDate(null);
         locTienBD.setText("");
@@ -785,6 +763,7 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         // Hiển thị thông báo nếu không có kết quả nào
         if (model.getRowCount() == 0) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy kết quả phù hợp!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            setUp();
         }
     }//GEN-LAST:event_nutLocMouseClicked
 
@@ -810,7 +789,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     private javax.swing.JPanel huyButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -830,7 +808,6 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
     private javax.swing.JTable jTableHD;
     private com.toedter.calendar.JDateChooser locNBD;
     private com.toedter.calendar.JDateChooser locNKT;
-    private javax.swing.JComboBox<String> locNV;
     private javax.swing.JTextField locTienBD;
     private javax.swing.JTextField locTienKT;
     private javax.swing.JButton nutLoc;

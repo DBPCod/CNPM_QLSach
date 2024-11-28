@@ -551,6 +551,22 @@ public class panelSanPham extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
+            
+            ArrayList<SanPhamDTO> list = getList("ListSanPham");
+            boolean isTonKho = false;
+            
+            for (SanPhamDTO sp : list) {
+                if (sp.getMaSP().equals(MaDT) && sp.getSoLuong() > 0) {
+                    isTonKho = true;
+                    break;
+                }
+            }
+            
+            if (isTonKho) {
+                JOptionPane.showMessageDialog(null, "Không thể xóa vì vẫn còn sản phẩm!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
             JSONObject json = new JSONObject();
             json.put("method","DELETESP");
             json.put("MaSP",MaDT);

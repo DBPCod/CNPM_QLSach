@@ -268,7 +268,7 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         txtTMaSP.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         txtTMaSP.setEnabled(false);
 
-        jLabel3.setText("Bút danh");
+        jLabel3.setText("Tác giả");
 
         jLabel6.setText("Số trang");
 
@@ -375,11 +375,6 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton5MouseClicked(evt);
-            }
-        });
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
             }
         });
 
@@ -696,10 +691,6 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
     }
     
     
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jTableTheLoaijTableTheLoaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTheLoaijTableTheLoaiMouseClicked
         // TODO add your handling code here:
         DefaultTableModel table = (DefaultTableModel) jTableTheLoai.getModel();
