@@ -456,6 +456,22 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private boolean isDuplicateName(String tenLoaiKM) {
+        ArrayList<LoaiKhuyenMaiDTO> allDiscountType = getList("ListLoaiKhuyenMai");
+        for (LoaiKhuyenMaiDTO khuyenmai : allDiscountType) {
+            if (khuyenmai.getTrangThai() == 1 && khuyenmai.getTenLoaiKM().equalsIgnoreCase(tenLoaiKM)) {
+                return true; // Tên đã tồn tại
+            }
+        }
+        return false; // Tên không trùng
+    }
+    
+    private void resetFields() {
+        txtLKM.setText(""); // Đặt tên loại khuyến mãi về trống
+        txtMaLKM.setText(setMaLKM()); // Tạo lại mã loại khuyến mãi mới
+        jSpinnerLKM.setValue(0); // Đặt giá trị của JSpinner về 0
+        jSpinnerLKM.repaint(); // Cập nhật lại giao diện của JSpinner (nếu cần)
+    }
     
     private String setMaLKM()
     {
@@ -476,52 +492,83 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
         return ("LKM_"+ String.valueOf(max+1));
     }
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
-        //Ham them mot the loai khuyen mai  
-        String txtLKM1 = txtLKM.getText();
+        try {
+            // Cập nhật giá trị trong JSpinner
+            jSpinnerLKM.commitEdit();
+        } catch (java.text.ParseException e) {
+            JOptionPane.showMessageDialog(null, "Giá trị không hợp lệ trong spinner!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Lấy giá trị từ JSpinner sau khi commit
         int value = (Integer) jSpinnerLKM.getValue();
-        
-        if (value < 0) {
-            JOptionPane.showMessageDialog(null, "Phần trăm giảm không thể nhỏ hơn 0!", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        } else {
+        String txtLKM1 = txtLKM.getText();
+
+         if (value <= 0 || value >= 100) {
+                JOptionPane.showMessageDialog(null, "Phần trăm giảm phải lớn hơn 0 và nhỏ hơn 100!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            } else if (isDuplicateName(txtLKM1)) {
+                JOptionPane.showMessageDialog(null, "Tên loại khuyến mãi đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+            } else {
             JSONObject json = new JSONObject();
             json.put("method","PUTLKM");
             json.put("MaLoaiKM",setMaLKM());
             json.put("TenLoaiKM",txtLKM1);
             json.put("Phantram",value);
-            if(client1.themDT(json.toString()).equals("thanhcong"))
-            {
+            if(client1.themDT(json.toString()).equals("thanhcong")) {
                 JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
                 setUp();
-//                txtLKM.setText("Nhập tên loại khuyến mãi");
-                jSpinnerLKM.setValue(0);
-                jSpinnerLKM.repaint();
+                resetFields(); // Đặt lại các trường nhập liệu
             }
         }
     }//GEN-LAST:event_jPanel7MouseClicked
 
     private void jPanel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel9MouseClicked
-        //ham sua doi tuong
-        String maLKM = txtMaLKM.getText();
-        String txtLKM1 = txtLKM.getText();
-        int value = (Integer) jSpinnerLKM.getValue();
-        
-        // Kiểm tra nếu phần trăm giảm bé hơn 0
-        if (value < 0) {
-            JOptionPane.showMessageDialog(null, "Phần trăm giảm không thể nhỏ hơn 0!", "Thông báo", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JSONObject json = new JSONObject();
-            json.put("method", "UPDATELKM");
-            json.put("MaLoaiKM", maLKM);
-            json.put("TenLoaiKM", txtLKM1);
-            json.put("Phantram", value);
+            try {
+            jSpinnerLKM.commitEdit(); // Cập nhật giá trị của JSpinner
+        } catch (java.text.ParseException e) {
+            JOptionPane.showMessageDialog(null, "Phần trăm giảm phải lớn hơn 0 và nhỏ hơn 100!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
-            // Tạo JSON để lấy kết quả xử lý cập nhật đối tượng
-            JSONObject json1 = new JSONObject(client1.suaDT(json.toString()));
-            if (json1.getString("ketqua").equals("true")) {
-                JOptionPane.showMessageDialog(null, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                setUp();
+        int value = (Integer) jSpinnerLKM.getValue();
+        String maLKM = txtMaLKM.getText();
+        String txtLKM1 = txtLKM.getText().trim();
+
+        if (value <= 0 || value >= 100) {
+            JOptionPane.showMessageDialog(null, "Phần trăm giảm phải lớn hơn 0 và nhỏ hơn 100!", "Thông báo", JOptionPane.ERROR_MESSAGE);
+        } else {
+            ArrayList<LoaiKhuyenMaiDTO> allDiscountType = getList("ListLoaiKhuyenMai");
+            boolean isDuplicate = false;
+
+            for (LoaiKhuyenMaiDTO khuyenmai : allDiscountType) {
+                if (khuyenmai.getTrangThai() == 1 
+                    && khuyenmai.getMaLoaiKM().equalsIgnoreCase(maLKM)) {
+                    continue; // Bỏ qua loại khuyến mãi đang sửa
+                }
+                if (khuyenmai.getTrangThai() == 1 
+                    && khuyenmai.getTenLoaiKM().equalsIgnoreCase(txtLKM1)) {
+                    isDuplicate = true;
+                    break;
+                }
+            }
+
+            if (isDuplicate) {
+                JOptionPane.showMessageDialog(null, "Tên loại khuyến mãi đã tồn tại!", "Thông báo", JOptionPane.WARNING_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Sửa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                JSONObject json = new JSONObject();
+                json.put("method", "UPDATELKM");
+                json.put("MaLoaiKM", maLKM);
+                json.put("TenLoaiKM", txtLKM1);
+                json.put("Phantram", value);
+
+                JSONObject json1 = new JSONObject(client1.suaDT(json.toString()));
+                if (json1.getString("ketqua").equals("true")) {
+                    JOptionPane.showMessageDialog(null, "Sửa thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    setUp(); // Cập nhật danh sách
+                    resetFields(); // Đặt lại các trường nhập liệu
+                } else {
+                    JOptionPane.showMessageDialog(null, "Sửa không thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_jPanel9MouseClicked

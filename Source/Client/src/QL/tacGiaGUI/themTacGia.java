@@ -5,7 +5,9 @@
 package QL.tacGiaGUI;
 
 import Client.Client;
+import DTO.TacGiaDTO;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
@@ -49,7 +51,27 @@ public class themTacGia extends javax.swing.JFrame {
         maTG.setText("TG_"+ String.valueOf(max+1));
     }
     
-    
+    private boolean kiemTraTenTacGiaTonTai(String tenTacGia) {
+        JSONObject json = new JSONObject(client1.getList("ListTacGia"));
+        JSONArray jsonArray = json.getJSONArray("list");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject tacGiaObject = jsonArray.getJSONObject(i);
+
+            // Check if the "Hovaten" field exists and compare it
+            if (tacGiaObject.has("hoVaTen") && tacGiaObject.getString("hoVaTen").equalsIgnoreCase(tenTacGia)) {
+                int trangThai = tacGiaObject.getInt("trangThai");
+
+                if (trangThai == 1) {
+                    // If the author is active (trangThai = 1), do not allow adding
+                    return true; // Tên tác giả đã tồn tại và đang hoạt động
+                }
+                // If the author is inactive (trangThai = 0), allow adding the same name
+                // We can still add this author if the status is 0
+            }
+        }
+        return false; // Tên tác giả chưa tồn tại hoặc đã xóa
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -233,6 +255,12 @@ public class themTacGia extends javax.swing.JFrame {
             return;
         }
 
+        // Kiểm tra tên tác giả đã tồn tại chưa
+        if (kiemTraTenTacGiaTonTai(tentacgia)) {
+            JOptionPane.showMessageDialog(null, "Tên tác giả đã tồn tại trong hệ thống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+       
         // Kiểm tra quốc tịch (chỉ cho phép chữ cái và khoảng trắng)
         if (quoctich.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Quốc tịch không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);

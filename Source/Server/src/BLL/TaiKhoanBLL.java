@@ -9,7 +9,9 @@ package BLL;
  * @author PC
  */
 import ConnectDB.ConnectDB;
+import DAO.NhanVienDAO;
 import DAO.TaiKhoanDAO;
+import DTO.NhanVienDTO;
 import DTO.TaiKhoanDTO;
 import java.util.ArrayList;
 import org.json.JSONObject;
@@ -20,49 +22,84 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class TaiKhoanBLL {
     ConnectDB database = new ConnectDB();
-    public String login(String data)
-    {
+    
+//    public String login(String data)
+//    {
+//        JSONObject json = new JSONObject(data);
+//        JSONObject json1 = new JSONObject();
+//        String taikhoan = json.getString("taikhoan");
+//        String matkhau = json.getString("matkhau");
+//        TaiKhoanDAO tkDAO = new TaiKhoanDAO();
+//        
+//        boolean taiKhoanTonTai = false; // Cờ kiểm tra tồn tại tài khoản
+//        for (TaiKhoanDTO x : tkDAO.getAll()) {
+//            if (x.getTenTK().equals(taikhoan)) {
+//                taiKhoanTonTai = true; // Tài khoản tồn tại
+//                if (x.getMatKhauTK().equals(matkhau)) {
+//                    json1.put("Trangthai", "true");
+//                    json1.put("MaTK", x.getMaTK());
+//                    return json1.toString(0);
+//                }
+//            }
+//        }
+//
+//        // Nếu tài khoản không tồn tại hoặc sai mật khẩu
+//        json1.put("Trangthai", "false");
+//        if (!taiKhoanTonTai) {
+//            json1.put("Thongbao", "Tên tài khoản không tồn tại");
+//        } else {
+//            json1.put("Thongbao", "Mật khẩu không chính xác");
+//        }
+//        return json1.toString(0);
+////        for(TaiKhoanDTO x : tkDAO.getAll())
+////        {
+////            
+////            if(x.getTenTK().equals(taikhoan) && x.getMatKhauTK().equals(matkhau))
+////            {
+////                json1.put("Trangthai","true");
+////                json1.put("MaTK",x.getMaTK());
+////                
+////                return json1.toString(0);
+////            }
+////        }
+////        json1.put("trangthai","false");
+////        return json1.toString(0);
+//    }
+    
+        public String login(String data) {
         JSONObject json = new JSONObject(data);
         JSONObject json1 = new JSONObject();
         String taikhoan = json.getString("taikhoan");
         String matkhau = json.getString("matkhau");
         TaiKhoanDAO tkDAO = new TaiKhoanDAO();
-        
-        boolean taiKhoanTonTai = false; // Cờ kiểm tra tồn tại tài khoản
+        NhanVienDAO nvDAO = new NhanVienDAO();
+
+        TaiKhoanDTO activeTK = null;
+
+        // Lọc tài khoản active có thông tin đăng nhập đúng
         for (TaiKhoanDTO x : tkDAO.getAll()) {
-            if (x.getTenTK().equals(taikhoan)) {
-                taiKhoanTonTai = true; // Tài khoản tồn tại
-                if (x.getMatKhauTK().equals(matkhau)) {
-                    json1.put("Trangthai", "true");
-                    json1.put("MaTK", x.getMaTK());
-                    return json1.toString(0);
+            if (x.getTenTK().equals(taikhoan) && x.getMatKhauTK().equals(matkhau)) {
+                for (NhanVienDTO nv : nvDAO.getAll()) {
+                    if (nv.getMaTK().equals(x.getMaTK()) && nv.getTrangThai() == 1) {
+                        activeTK = x;
+                        break;
+                    }
                 }
+                if (activeTK != null) break;
             }
         }
 
-        // Nếu tài khoản không tồn tại hoặc sai mật khẩu
-        json1.put("Trangthai", "false");
-        if (!taiKhoanTonTai) {
-            json1.put("Thongbao", "Tên tài khoản không tồn tại");
-        } else {
-            json1.put("Thongbao", "Mật khẩu không chính xác");
+        if (activeTK != null) {
+            json1.put("Trangthai", "true");
+            json1.put("MaTK", activeTK.getMaTK());
+            return json1.toString(0);
         }
+
+        json1.put("Trangthai", "false");
+        json1.put("Thongbao", "Thông tin đăng nhập không chính xác hoặc tài khoản đã bị vô hiệu hóa");
         return json1.toString(0);
-//        for(TaiKhoanDTO x : tkDAO.getAll())
-//        {
-//            
-//            if(x.getTenTK().equals(taikhoan) && x.getMatKhauTK().equals(matkhau))
-//            {
-//                json1.put("Trangthai","true");
-//                json1.put("MaTK",x.getMaTK());
-//                
-//                return json1.toString(0);
-//            }
-//        }
-//        json1.put("trangthai","false");
-//        return json1.toString(0);
     }
-    
+
     public String getList()
     {
         TaiKhoanDAO tkDAO = new TaiKhoanDAO();

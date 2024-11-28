@@ -621,6 +621,33 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton2MouseClicked
 
     
+    private boolean kiemTraTenSanPhamTonTai(String tenSanPham) {
+        JSONObject json = new JSONObject(client1.getList("ListSanPham"));
+        JSONArray jsonArray = json.getJSONArray("list");
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject sanPhamObject = jsonArray.getJSONObject(i);
+
+            // Get the product name
+            String tenSP = sanPhamObject.getString("tenSP");
+
+            // Check if the product name matches
+            if (tenSP.equalsIgnoreCase(tenSanPham)) {
+                int trangThai = sanPhamObject.getInt("trangThai");
+
+                // If the product is active (trangThai = 1), do not allow adding the same product
+                if (trangThai == 1) {
+                    return true; // Product name already exists and is active
+                }
+
+                // If the product is inactive (trangThai = 0), you can allow adding the same name
+                // This means the product is deleted or inactive, and you can still add it
+            }
+        }
+
+        return false; // Product name does not exist or is inactive
+    }
+    
     //ham xu li lay ma tac gia
     private String getMaTG(String butDanh)
     {
@@ -669,6 +696,11 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
             // Kiểm tra tên sản phẩm
     if (tenSP.isEmpty()) {
         JOptionPane.showMessageDialog(null, "Tên sản phẩm không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+    
+    if (kiemTraTenSanPhamTonTai(tenSP)) {
+        JOptionPane.showMessageDialog(null, "Tên sản phẩm đã tồn tại và đang hoạt động!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         return;
     }
 

@@ -159,17 +159,22 @@ public class themKhuyenMai extends javax.swing.JFrame {
     }
     
     private boolean kiemTraTenKMTonTai(String tenKM) {
-        JSONObject json = new JSONObject(client1.getList("ListKhuyenMai"));
-        JSONArray jsonArray = json.getJSONArray("list");
+    JSONObject json = new JSONObject(client1.getList("ListKhuyenMai"));
+    JSONArray jsonArray = json.getJSONArray("list");
 
-        for(int i = 0; i < jsonArray.length(); i++) {
-            JSONObject kmObject = jsonArray.getJSONObject(i);
-            if (kmObject.getString("tenKM").equalsIgnoreCase(tenKM)) {
-                return true; // Tên khuyến mãi đã tồn tại
-            }
+    for (int i = 0; i < jsonArray.length(); i++) {
+        JSONObject kmObject = jsonArray.getJSONObject(i);
+
+        // Chỉ kiểm tra các khuyến mãi có trạng thái = 1
+        if (kmObject.getInt("trangThai") == 1 
+                && kmObject.getString("tenKM").equalsIgnoreCase(tenKM)) {
+            return true; // Tên khuyến mãi đã tồn tại với trạng thái hoạt động
         }
-        return false; // Tên khuyến mãi chưa tồn tại
     }
+    
+    return false; // Tên khuyến mãi chưa tồn tại hoặc đã bị xóa (trạng thái = 0)
+}
+
     
     private void timKiem() 
     {
