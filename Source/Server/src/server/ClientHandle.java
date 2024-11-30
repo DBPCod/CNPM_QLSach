@@ -156,7 +156,8 @@ public class ClientHandle implements Runnable{
                     String maTK1 = json.getString("MaTK");
                     String tenTK = json.getString("TenTK");
                     String matKhauTK = json.getString("MatkhauTK");
-                    sendMessage(tkBLL2.themTK(new TaiKhoanDTO( maTK1, tenTK, matKhauTK,1)));
+                    int trangthai = json.getInt("TrangThai");
+                    sendMessage(tkBLL2.themTK(new TaiKhoanDTO( maTK1, tenTK, matKhauTK,trangthai)));
                     break;
             case "PUTTG":
                 //them doi tuong tac gia
