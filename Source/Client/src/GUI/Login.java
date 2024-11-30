@@ -303,8 +303,58 @@ public class Login extends javax.swing.JFrame {
         return new ArrayList<>();
     }
     
-    private void handleLogin() 
-    {
+//        private void handleLogin() {
+//        String taikhoan = txtTK.getText();
+//        String matkhau = txtMK.getText();
+//
+//        if (taikhoan.isEmpty() || matkhau.isEmpty()) {
+//            JOptionPane.showMessageDialog(null, "Tên đăng nhập và mật khẩu không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            return;
+//        }
+//
+//        // Lấy danh sách nhân viên trước
+//        ArrayList<NhanVienDTO> nhanVienList = getList("ListNhanVien");
+//        boolean hasActiveAccount = false;
+//        String maTK = "";
+//
+//        // Kiểm tra xem có tài khoản active không
+//        String check = client.dangNhap(taikhoan, matkhau);
+//        JSONObject json = new JSONObject(check);
+//
+//        if (json.getString("Trangthai").equals("true")) {
+//            maTK = json.getString("MaTK");
+//
+//            for (NhanVienDTO nv : nhanVienList) {
+//                if (nv.getMaTK().equals(maTK) && nv.getTrangThai() == 1) {
+//                    hasActiveAccount = true;
+//                    switch (nv.getMaVT()) {
+//                        case "VT_1":
+//                            Main main = new Main(maTK, client);
+//                            main.setVisible(true);
+//                            this.dispose();
+//                            return;
+//                        case "VT_2":
+//                            MainNhapKho mainnk = new MainNhapKho(maTK, client);
+//                            mainnk.setVisible(true);
+//                            this.dispose();
+//                            return;
+//                        case "VT_3":
+//                            MainBanHang mainbh = new MainBanHang(maTK, client);
+//                            mainbh.setVisible(true);
+//                            this.dispose();
+//                            return;
+//                    }
+//                }
+//            }
+//        }
+//
+//        // Nếu không tìm thấy tài khoản active hoặc đăng nhập thất bại
+//        String errorMessage = !hasActiveAccount ? "Tài khoản đã bị vô hiệu hóa" : 
+//                             json.optString("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");
+//        JOptionPane.showMessageDialog(this, errorMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
+//    }
+    
+    private void handleLogin() {
         String taikhoan = txtTK.getText();
         String matkhau = txtMK.getText();
 
@@ -313,33 +363,49 @@ public class Login extends javax.swing.JFrame {
             return;
         }
 
-        String check = client.dangNhap(taikhoan, matkhau);
-        JSONObject json = new JSONObject(check);
+        // Lấy danh sách nhân viên trước
+        ArrayList<NhanVienDTO> nhanVienList = getList("ListNhanVien");
 
+        // Gửi yêu cầu đăng nhập tới server
+        String response = client.dangNhap(taikhoan, matkhau);
+        JSONObject json = new JSONObject(response);
+
+        // Xử lý phản hồi từ server
         if (json.getString("Trangthai").equals("true")) {
-            switch (getMaVT(json.getString("MaTK"))) {
-                case "VT_1":
-                    Main main = new Main(json.getString("MaTK"), client);
-                    main.setVisible(true);
-                    this.dispose();
-                    break;
-                case "VT_2":
-                    MainNhapKho mainnk = new MainNhapKho(json.getString("MaTK"), client);
-                    mainnk.setVisible(true);
-                    this.dispose();
-                    break;
-                case "VT_3":
-                    MainBanHang mainbh = new MainBanHang(json.getString("MaTK"), client);
-                    mainbh.setVisible(true);
-                    this.dispose();
-                    break;
-            }
-        } else {
-            String errorMessage = json.optString("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");
-            JOptionPane.showMessageDialog(this, errorMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    }
+            String maTK = json.getString("MaTK");
 
+            // Tìm nhân viên có mã tài khoản khớp và trạng thái kích hoạt
+            for (NhanVienDTO nv : nhanVienList) {
+                if (nv.getMaTK().equals(maTK) && nv.getTrangThai() == 1) {
+                    switch (nv.getMaVT()) {
+                        case "VT_1":
+                            Main main = new Main(maTK, client);
+                            main.setVisible(true);
+                            this.dispose();
+                            return;
+                        case "VT_2":
+                            MainNhapKho mainnk = new MainNhapKho(maTK, client);
+                            mainnk.setVisible(true);
+                            this.dispose();
+                            return;
+                        case "VT_3":
+                            MainBanHang mainbh = new MainBanHang(maTK, client);
+                            mainbh.setVisible(true);
+                            this.dispose();
+                            return;
+                    }
+                }
+            }
+
+            // Nếu không tìm thấy nhân viên, thông báo lỗi
+            JOptionPane.showMessageDialog(this, "Tài khoản đã bị vô hiệu hóa", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Nếu đăng nhập thất bại
+        String errorMessage = json.optString("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");
+        JOptionPane.showMessageDialog(this, errorMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
     
     private String getMaVT(String MaTK)
     {

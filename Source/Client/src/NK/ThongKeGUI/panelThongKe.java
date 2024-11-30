@@ -4,7 +4,6 @@
  */
 package NK.ThongKeGUI;
 
-import BH.ThongKeGUI.*;
 import QL.ThongKeGUI.*;
 import Client.Client;
 import java.awt.Color;
@@ -194,6 +193,9 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         tongquan.setBackground(Color.WHITE);
         doanhthu.setBackground(Color.WHITE);
         banchay.setBackground(customColor);
+        loiNhuanGUI ln = new loiNhuanGUI(client1);
+        panelChinh.removeAll();
+        panelChinh.add(ln).setVisible(true);
     }//GEN-LAST:event_banchayMouseClicked
 
 

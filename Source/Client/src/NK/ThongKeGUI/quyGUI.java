@@ -4,7 +4,6 @@
  */
 package NK.ThongKeGUI;
 
-import BH.ThongKeGUI.*;
 import QL.ThongKeGUI.*;
 import Client.Client;
 import DTO.HoaDonDTO;

@@ -4,6 +4,10 @@
  */
 package QL.ThongKeGUI;
 
+import Client.Client;
+import java.awt.Color;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
+
 /**
  *
  * @author PC
@@ -13,8 +17,14 @@ public class loiNhuanGUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form loiNhuanGUI
      */
-    public loiNhuanGUI() {
+    Client client1;
+    Color customColor = Color.decode("#C2F2E9");
+    public loiNhuanGUI(Client client) {
         initComponents();
+         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
+        BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
+        bui.setNorthPane(null);
+        client1=client;
     }
 
     /**
@@ -27,51 +37,67 @@ public class loiNhuanGUI extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        thang = new javax.swing.JComboBox<>();
-        nam = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        LnTheoNam = new javax.swing.JButton();
+        LnTheoThang = new javax.swing.JButton();
+        mainLoiNhuan = new javax.swing.JPanel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Tháng");
+        LnTheoNam.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        LnTheoNam.setText("Lợi nhuận theo năm");
+        LnTheoNam.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        LnTheoNam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LnTheoNamMouseClicked(evt);
+            }
+        });
 
-        jLabel2.setText("Năm");
+        LnTheoThang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        LnTheoThang.setText("Lợi nhuận theo tháng");
+        LnTheoThang.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        LnTheoThang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LnTheoThangMouseClicked(evt);
+            }
+        });
+        LnTheoThang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LnTheoThangActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("Thống kê");
+        mainLoiNhuan.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout mainLoiNhuanLayout = new javax.swing.GroupLayout(mainLoiNhuan);
+        mainLoiNhuan.setLayout(mainLoiNhuanLayout);
+        mainLoiNhuanLayout.setHorizontalGroup(
+            mainLoiNhuanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        mainLoiNhuanLayout.setVerticalGroup(
+            mainLoiNhuanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 494, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(thang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(nam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addComponent(LnTheoNam, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(LnTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 683, Short.MAX_VALUE))
+            .addComponent(mainLoiNhuan, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
+                    .addComponent(LnTheoNam, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(LnTheoThang, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(thang, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nam, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addComponent(mainLoiNhuan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -88,13 +114,33 @@ public class loiNhuanGUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void LnTheoNamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LnTheoNamMouseClicked
+        // TODO add your handling code here:
+        LnTheoNam.setBackground(customColor);
+        LnTheoThang.setBackground(Color.WHITE);
+        loiNhuanTheoNamGUI lntn = new loiNhuanTheoNamGUI(client1);
+        mainLoiNhuan.removeAll();
+        mainLoiNhuan.add(lntn).setVisible(true);
+    }//GEN-LAST:event_LnTheoNamMouseClicked
+
+    private void LnTheoThangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LnTheoThangMouseClicked
+        // TODO add your handling code here:
+        LnTheoNam.setBackground(Color.WHITE);
+        LnTheoThang.setBackground(customColor);
+        loiNhuanTheoThangTrongNamGUI ln = new loiNhuanTheoThangTrongNamGUI(client1);
+        mainLoiNhuan.removeAll();
+        mainLoiNhuan.add(ln).setVisible(true);
+    }//GEN-LAST:event_LnTheoThangMouseClicked
+
+    private void LnTheoThangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LnTheoThangActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LnTheoThangActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton LnTheoNam;
+    private javax.swing.JButton LnTheoThang;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JComboBox<String> nam;
-    private javax.swing.JComboBox<String> thang;
+    private javax.swing.JPanel mainLoiNhuan;
     // End of variables declaration//GEN-END:variables
 }
