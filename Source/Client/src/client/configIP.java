@@ -16,7 +16,7 @@ public class configIP {
     String ip;
     configIP()
     {
-        String fileName = "src/client/config.txt";
+        String fileName = "config.txt";
   
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -27,7 +27,5 @@ public class configIP {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    
+    }  
 }

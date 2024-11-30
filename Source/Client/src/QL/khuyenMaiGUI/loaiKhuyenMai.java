@@ -571,6 +571,10 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
                 }
             }
         }
+        txtMaLKM.setText("");
+        txtLKM.setText("");
+        jSpinnerLKM.setValue(0);
+        jSpinnerLKM.repaint();
     }//GEN-LAST:event_jPanel9MouseClicked
 
     private void txtLKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLKMActionPerformed
