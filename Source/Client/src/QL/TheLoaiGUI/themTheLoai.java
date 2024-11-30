@@ -268,20 +268,21 @@ public class themTheLoai extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_nutThemActionPerformed
     
-    // ham kiem tra trung ten the loai
     private boolean kiemtraTrungTL(String tenTL) {
         JSONObject json = new JSONObject(client1.getList("ListTheLoai"));
         JSONArray jsonArray = json.getJSONArray("list");
-        
+
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject tlObject = jsonArray.getJSONObject(i);
             String existingName = tlObject.getString("tenTL").trim().toLowerCase();
+            int trangThai = tlObject.getInt("trangThai"); // Get the status (1 for active, 0 for inactive)
 
-            if (existingName.equals(tenTL.toLowerCase())) {
-                return true;
+            // Check if the name matches and ensure the status is active (trangThai = 1)
+            if (existingName.equals(tenTL.toLowerCase()) && trangThai == 1) {
+                return true; // Found a match and the status is active
             }
         }
-        return false;
+        return false; // No match or all matches have inactive status
     }
     
     private void nutHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutHuyActionPerformed

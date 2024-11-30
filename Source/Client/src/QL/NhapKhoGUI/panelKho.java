@@ -620,16 +620,18 @@ public class panelKho extends javax.swing.JInternalFrame {
         return new ArrayList<>();
     }
     
-    private void setUpComboBoxNhanVien() 
+        private void setUpComboBoxNhanVien() 
     {
         locNV.removeAllItems(); // Xóa các item cũ
         locNV.addItem("Tất cả"); // Thêm tùy chọn mặc định
         for (NhanVienDTO nv : getListNV("ListNhanVien")) {
-            if (nv.getTrangThai() == 1) {
+            if (nv.getTrangThai() == 1 && 
+               (nv.getMaVT().equals("VT_1") || nv.getMaVT().equals("VT_2"))) {
                 locNV.addItem(nv.getHoVaTen());
             }
         }
     }
+
     
 //    private void setUpComboBoxNXB() 
 //    {

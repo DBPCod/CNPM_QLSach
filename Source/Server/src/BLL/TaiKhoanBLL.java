@@ -9,7 +9,9 @@ package BLL;
  * @author PC
  */
 import ConnectDB.ConnectDB;
+import DAO.NhanVienDAO;
 import DAO.TaiKhoanDAO;
+import DTO.NhanVienDTO;
 import DTO.TaiKhoanDTO;
 import java.util.ArrayList;
 import org.json.JSONObject;
@@ -20,49 +22,53 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 public class TaiKhoanBLL {
     ConnectDB database = new ConnectDB();
-    public String login(String data)
-    {
+
+    public String login(String data) {
         JSONObject json = new JSONObject(data);
         JSONObject json1 = new JSONObject();
         String taikhoan = json.getString("taikhoan");
         String matkhau = json.getString("matkhau");
         TaiKhoanDAO tkDAO = new TaiKhoanDAO();
-        
-        boolean taiKhoanTonTai = false; // Cờ kiểm tra tồn tại tài khoản
+        NhanVienDAO nvDAO = new NhanVienDAO();
+
+        TaiKhoanDTO matchedTK = null;
+        boolean isActive = false;
+
+        // Kiểm tra thông tin đăng nhập
         for (TaiKhoanDTO x : tkDAO.getAll()) {
-            if (x.getTenTK().equals(taikhoan)) {
-                taiKhoanTonTai = true; // Tài khoản tồn tại
-                if (x.getMatKhauTK().equals(matkhau)) {
-                    json1.put("Trangthai", "true");
-                    json1.put("MaTK", x.getMaTK());
-                    return json1.toString(0);
+            if (x.getTenTK().equals(taikhoan) && x.getMatKhauTK().equals(matkhau)) {
+                matchedTK = x;
+                break;
+            }
+        }
+
+        // Nếu tài khoản đúng, kiểm tra trạng thái
+        if (matchedTK != null) {
+            for (NhanVienDTO nv : nvDAO.getAll()) {
+                if (nv.getMaTK().equals(matchedTK.getMaTK()) && nv.getTrangThai() == 1) {
+                    isActive = true;
+                    break;
                 }
             }
         }
 
-        // Nếu tài khoản không tồn tại hoặc sai mật khẩu
-        json1.put("Trangthai", "false");
-        if (!taiKhoanTonTai) {
-            json1.put("Thongbao", "Tên tài khoản không tồn tại");
+        // Xử lý kết quả
+        if (matchedTK != null && isActive) {
+            json1.put("Trangthai", "true");
+            json1.put("MaTK", matchedTK.getMaTK());
+            return json1.toString(0);
+        }
+
+        if (matchedTK != null && !isActive) {
+            json1.put("Trangthai", "false");
+            json1.put("Thongbao", "Tài khoản đã bị vô hiệu hóa");
         } else {
-            json1.put("Thongbao", "Mật khẩu không chính xác");
+            json1.put("Trangthai", "false");
+            json1.put("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");
         }
         return json1.toString(0);
-//        for(TaiKhoanDTO x : tkDAO.getAll())
-//        {
-//            
-//            if(x.getTenTK().equals(taikhoan) && x.getMatKhauTK().equals(matkhau))
-//            {
-//                json1.put("Trangthai","true");
-//                json1.put("MaTK",x.getMaTK());
-//                
-//                return json1.toString(0);
-//            }
-//        }
-//        json1.put("trangthai","false");
-//        return json1.toString(0);
     }
-    
+
     public String getList()
     {
         TaiKhoanDAO tkDAO = new TaiKhoanDAO();

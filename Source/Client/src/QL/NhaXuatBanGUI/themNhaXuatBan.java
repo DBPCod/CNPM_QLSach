@@ -286,7 +286,7 @@ public class themNhaXuatBan extends javax.swing.JFrame {
     }//GEN-LAST:event_nutThemActionPerformed
 
     private boolean kiemtraTrungNXB(String tenNXB, String sdtNXB, String emailNXB) {
-        JSONObject json = new JSONObject(client1.getList("ListNhaXuatBan"));
+         JSONObject json = new JSONObject(client1.getList("ListNhaXuatBan"));
         JSONArray jsonArray = json.getJSONArray("list");
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -294,12 +294,14 @@ public class themNhaXuatBan extends javax.swing.JFrame {
             String existingName = nxbObject.getString("tenNXB").trim().toLowerCase();
             String existingPhone = nxbObject.getString("soDienThoai").trim();
             String existingEmail = nxbObject.getString("email").trim().toLowerCase();
+            int trangThai = nxbObject.getInt("trangThai"); // Get the status (1 for active, 0 for inactive)
 
-            if (existingName.equals(tenNXB.toLowerCase()) || existingPhone.equals(sdtNXB) || existingEmail.equals(emailNXB.toLowerCase())) {
-                return true;
+            // Check if the name, phone number, or email match, and ensure the status is active (trangThai = 1)
+            if ((existingName.equals(tenNXB.toLowerCase()) || existingPhone.equals(sdtNXB) || existingEmail.equals(emailNXB.toLowerCase())) && trangThai == 1) {
+                return true; // Found a match and the status is active
             }
         }
-        return false;
+        return false; // No match or all matches have inactive status
     }
     
     private void nutHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutHuyActionPerformed

@@ -192,6 +192,9 @@ public class panelThongKe extends javax.swing.JInternalFrame {
         tongquan.setBackground(Color.WHITE);
         doanhthu.setBackground(Color.WHITE);
         banchay.setBackground(customColor);
+        loiNhuanGUI ln = new loiNhuanGUI(client1);
+        panelChinh.removeAll();
+        panelChinh.add(ln).setVisible(true);
     }//GEN-LAST:event_banchayMouseClicked
 
 

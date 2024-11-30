@@ -5,7 +5,10 @@
 package NK.ThongKeGUI;
 
 import BH.ThongKeGUI.*;
+import Client.Client;
 import QL.ThongKeGUI.*;
+import java.awt.Color;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 
 /**
  *
@@ -16,8 +19,14 @@ public class loiNhuanGUI extends javax.swing.JInternalFrame {
     /**
      * Creates new form loiNhuanGUI
      */
-    public loiNhuanGUI() {
+    Client client1;
+    Color customColor = Color.decode("#C2F2E9");
+    public loiNhuanGUI_1(Client client) {
         initComponents();
+         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
+        BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
+        bui.setNorthPane(null);
+        client1=client;
     }
 
     /**
