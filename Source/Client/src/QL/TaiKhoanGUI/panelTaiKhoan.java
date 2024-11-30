@@ -77,7 +77,6 @@ public class panelTaiKhoan extends javax.swing.JInternalFrame {
         model.setRowCount(0);
         for(TaiKhoanDTO taikhoan : getList("ListTaiKhoan"))
         {
-            System.out.println(taikhoan.getTrangThai());
             //them tung doi tuong vao bang
             if(taikhoan.getTrangThai()==1)
             {

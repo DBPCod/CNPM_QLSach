@@ -476,7 +476,14 @@ public class themNhanVien extends javax.swing.JFrame {
     json1.put("MaTK", setMaTK());
     json1.put("TenTK",soDienThoai.getText());
     json1.put("MatkhauTK","123456");
-    
+    if(getMaVT(vaitro).equals("VT_1"))
+    {
+        json1.put("TrangThai",2);
+    }
+    else
+    {
+        json1.put("TrangThai",1);
+    }
     
     JSONObject json = new JSONObject();
     json.put("method", "PUTNV");

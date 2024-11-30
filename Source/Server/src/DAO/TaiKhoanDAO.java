@@ -78,7 +78,7 @@ public String themTK(TaiKhoanDTO tk) {
         pstmt.setString(1, tk.getMaTK());
         pstmt.setString(2, tk.getTenTK());
         pstmt.setString(3, tk.getMatKhauTK());
-        pstmt.setInt(4, 1);
+        pstmt.setInt(4, tk.getTrangThai());
         if (pstmt.executeUpdate() > 0) {
             return "true";
         }
