@@ -340,7 +340,6 @@ public class themNhanVien extends javax.swing.JFrame {
 
     private String getMaVT(String tenVT)
     {
-        System.out.println(tenVT +" aaaa");
         JSONObject json = new JSONObject(client1.getList("ListVaiTro"));
         JSONArray jsonArray = json.getJSONArray("list");
         
