@@ -289,20 +289,19 @@ public class suaNhaXuatBan extends javax.swing.JFrame {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject nxbObject = jsonArray.getJSONObject(i);
-            String existingMaNXB = nxbObject.getString("maNXB"); 
             String existingName = nxbObject.getString("tenNXB").trim().toLowerCase();
             String existingPhone = nxbObject.getString("soDienThoai").trim();
             String existingEmail = nxbObject.getString("email").trim().toLowerCase();
-            
-             // Nếu đối tượng không phải là đối tượng hiện tại (so sánh theo MaNXB), kiểm tra trùng lặp
-            if (!existingMaNXB.equals(MaDT1)) {
-                if (existingName.equals(tenNXB.toLowerCase()) || existingPhone.equals(sdtNXB) || existingEmail.equals(emailNXB.toLowerCase())) {
-                    return true;
-                }
+            int trangThai = nxbObject.getInt("trangThai"); // Get the status (1 for active, 0 for inactive)
+
+            // Check if the name, phone number, or email match, and ensure the status is active (trangThai = 1)
+            if ((existingName.equals(tenNXB.toLowerCase()) || existingPhone.equals(sdtNXB) || existingEmail.equals(emailNXB.toLowerCase())) && trangThai == 1) {
+                return true; // Found a match and the status is active
             }
         }
-        return false;
+        return false; // No match or all matches have inactive status
     }
+
     
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:

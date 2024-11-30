@@ -358,17 +358,17 @@ public class themNhanVien extends javax.swing.JFrame {
     }
     
     private boolean kiemTraSoDienThoaiTonTai(String soDienThoai) {
-    JSONObject json = new JSONObject(client1.getList("ListNhanVien"));
-    JSONArray jsonArray = json.getJSONArray("list");
-    
-    for(int i = 0; i < jsonArray.length(); i++) {
-        JSONObject nvObject = jsonArray.getJSONObject(i);
-        if (nvObject.getString("soDienThoai").equals(soDienThoai)) {
-            return true; // Số điện thoại đã tồn tại
+        JSONObject json = new JSONObject(client1.getList("ListNhanVien"));
+        JSONArray jsonArray = json.getJSONArray("list");
+
+        for(int i = 0; i < jsonArray.length(); i++) {
+            JSONObject nvObject = jsonArray.getJSONObject(i);
+            if (nvObject.getInt("trangThai") == 1 && nvObject.getString("soDienThoai").equals(soDienThoai)) {
+                return true; // Số điện thoại đã tồn tại
+            }
         }
+        return false; // Số điện thoại chưa tồn tại
     }
-    return false; // Số điện thoại chưa tồn tại
-}
     
     private void MaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MaNVActionPerformed
         // TODO add your handling code here:

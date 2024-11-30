@@ -4,7 +4,6 @@
  */
 package NK.ThongKeGUI;
 
-import BH.ThongKeGUI.*;
 import QL.ThongKeGUI.*;
 import Client.Client;
 import DTO.ChiTietHoaDonDTO;
@@ -22,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -41,6 +41,9 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
     private Client client1;
     public sanPhamBanChayGUI(Client client) {
         initComponents();
+         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
+        BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
+        bui.setNorthPane(null);
         client1=client;
         setUpCombobox();
         getSLSP();
@@ -64,11 +67,6 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
 
         for (Map.Entry<String, Double> entry : mapTong.entrySet()) {
             list1.add(new Object[]{entry.getKey(), String.valueOf(entry.getValue())});
-        }
-
-        System.out.println("A");
-        for (Object[] x : list1) {
-            System.out.println(x[0] + " " + x[1]);
         }
 
         DefaultPieDataset dataset = new DefaultPieDataset();
