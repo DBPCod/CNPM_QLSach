@@ -47,18 +47,11 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="timKiemField" min="-2" pref="216" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="timkiembutton1" min="-2" max="-2" attributes="0"/>
+                          <Component id="timkiembutton" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="jScrollPane1" min="-2" pref="813" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="60" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="433" max="-2" attributes="0"/>
-                      <Component id="timkiembutton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="433" max="32767" attributes="0"/>
-                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -66,21 +59,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="timKiemField" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
-                      <Component id="timkiembutton1" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jButton1" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
+                          <Component id="timkiembutton" alignment="3" min="-2" pref="42" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="timKiemField" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace pref="20" max="32767" attributes="0"/>
-              </Group>
-              <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="246" max="-2" attributes="0"/>
-                      <Component id="timkiembutton" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="247" max="32767" attributes="0"/>
-                  </Group>
               </Group>
           </Group>
         </DimensionLayout>
@@ -153,14 +141,6 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="timkiembuttonMouseClicked"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JButton" name="timkiembutton1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
-          </Properties>
-          <Events>
-            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="timkiembutton1MouseClicked"/>
           </Events>
         </Component>
       </SubComponents>
