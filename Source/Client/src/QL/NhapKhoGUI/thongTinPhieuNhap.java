@@ -11,6 +11,7 @@ import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
 import DTO.SanPhamDTO;
 import com.formdev.flatlaf.FlatLightLaf;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -307,7 +308,22 @@ public class thongTinPhieuNhap extends javax.swing.JFrame {
                 jTextFieldNXB.setText(getTenNXB(phieunhap.getMaNXB()));
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 jTextFieldNN.setText(formatter.format(phieunhap.getNgayNhap()));
-                jLabelThanhTien.setText(String.valueOf(phieunhap.getThanhTien()) + "Đ");
+                if(phieunhap.getThanhTien() >= 1000000 && phieunhap.getThanhTien() < 1000000000)
+                {
+        //            thanhTien.setText(formattedMoney+" triệu");
+                    jLabelThanhTien.setText(String.valueOf(phieunhap.getThanhTien() / 1000000)+" triệu");
+                }
+                else if(phieunhap.getThanhTien() >= 1000000000)
+                {
+                    jLabelThanhTien.setText(String.valueOf(phieunhap.getThanhTien() / 1000000000)+" tỷ");
+                }
+                else
+                {
+                    DecimalFormat df = new DecimalFormat("#,###");
+                    String formattedMoney = df.format(phieunhap.getThanhTien());
+                    jLabelThanhTien.setText(formattedMoney+" ngàn");
+                }
+//                jLabelThanhTien.setText(String.valueOf(phieunhap.getThanhTien()) + "Đ");
                 setUpSP(MaDT1);
             }
         }
@@ -323,7 +339,18 @@ public class thongTinPhieuNhap extends javax.swing.JFrame {
                 String soluong = String.valueOf(ctpn.getSoLuongNhap());
                 String dongia = String.valueOf(ctpn.getDonGia());
                 String MaSP = ctpn.getMaSP();
-               list.add(new Object[]{getTenSP(MaSP),soluong,getGiaNhapSP(MaSP),dongia});
+                if(ctpn.getDonGia() >= 1000000 && ctpn.getDonGia() < 1000000000)
+                {
+                    list.add(new Object[]{getTenSP(MaSP),soluong,getGiaNhapSP(MaSP),(ctpn.getDonGia()/ 1000000)+" triệu"});
+                }
+                else if(ctpn.getDonGia() >= 1000000000)
+                {
+                    list.add(new Object[]{getTenSP(MaSP),soluong,getGiaNhapSP(MaSP),(ctpn.getDonGia()/ 1000000000)+" tỷ"});
+                }
+                else
+                {
+                    list.add(new Object[]{getTenSP(MaSP),soluong,getGiaNhapSP(MaSP),(ctpn.getDonGia()/ 1000)+" ngàn"});
+                }
             }
         }
         

@@ -95,11 +95,10 @@ public class thongTinHoaDon extends javax.swing.JFrame {
                 jTextFieldMNV.setText(getTenNV(hoadon.getMaTK()));
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 jTextFieldNN.setText(formatter.format(hoadon.getNgayLapHoaDon()));
-                if(hoadon.getThanhTien() >= 1000000 || hoadon.getThanhTien() < 100000000)
+                if(hoadon.getThanhTien() >= 1000000 && hoadon.getThanhTien() < 100000000)
                 {
                     jLabelThanhTien.setText((hoadon.getThanhTien() / 1000000 )+" triệu");
 //                    table.addRow(new Object[]{maSP,ten,SoLuong,String.valueOf(Double.parseDouble(GiaBia) / 1000000)+" triệu"});
-
                 }
                 else if(hoadon.getThanhTien() >= 1000000000)
                 {

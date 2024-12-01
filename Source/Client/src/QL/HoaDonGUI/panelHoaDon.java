@@ -176,8 +176,19 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayLapHD = formatter.format(hd.getNgayLapHoaDon());
-                System.out.println(hd.getMaHD());
-                model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, hd.getThanhTien(), hd.getMaTK()});
+                if(hd.getThanhTien() >= 1000000 && hd.getThanhTien() < 1000000000)
+                {
+                     model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, String.valueOf(hd.getThanhTien() / 1000000)+" triệu", hd.getMaTK()});
+        //            thanhTien.setText(formattedMoney+" triệu");
+                }
+                else if(hd.getThanhTien() >= 1000000000)
+                {
+                     model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, String.valueOf(hd.getThanhTien() / 1000000000)+" tỷ", hd.getMaTK()});
+                }
+                else
+                {
+                    model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, String.valueOf(hd.getThanhTien() / 1000)+" ngàn", hd.getMaTK()});
+                }
             }
         }
     }
