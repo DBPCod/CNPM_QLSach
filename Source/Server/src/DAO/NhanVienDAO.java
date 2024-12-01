@@ -76,7 +76,7 @@ public class NhanVienDAO {
             pstmt.setString(7, nv.getDiaChi());
             pstmt.setString(8, nv.getMaTK());
             pstmt.setString(9, nv.getMaVT());
-            pstmt.setInt(10, 1);
+            pstmt.setInt(10, nv.getTrangThai());
             if (pstmt.executeUpdate() > 0)
             {
                 return "true";

@@ -84,6 +84,14 @@ public class NhanVienBLL {
     {
         NhanVienDAO nvDAO = new NhanVienDAO();
         JSONObject json = new JSONObject();
+        if(nv.getMaVT().equals("VT_1"))
+        {
+            nv.setTrangThai(2);
+        }
+        else
+        {
+            nv.setTrangThai(1);
+        }
         json.put("Trangthai", "true");
         json.put("ketqua",nvDAO.themNV(nv));
         return json.toString();

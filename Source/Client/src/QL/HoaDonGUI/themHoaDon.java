@@ -908,7 +908,6 @@ public class themHoaDon extends javax.swing.JFrame {
             json2.put("method","UPDATESLSP");
             json2.put("theloai","hoadon");
             json2.put("list",jsonArray.toString());
-            System.out.println(json2.toString() + "aaaa");
             if(client1.themDT(json.toString()).equals("thanhcong"))
             {
                 JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
