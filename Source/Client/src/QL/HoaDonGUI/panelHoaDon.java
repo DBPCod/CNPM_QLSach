@@ -6,6 +6,7 @@ import DTO.NhanVienDTO;
 import QL.NhanVienGUI.panelNhanVien;
 import QL.NhapKhoGUI.thongTinPhieuNhap;
 import com.toedter.calendar.JDateChooser;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -142,14 +143,24 @@ public class panelHoaDon extends javax.swing.JInternalFrame {
         model.setRowCount(0);
         for (HoaDonDTO hd : getList("ListHoaDon")) 
         {
-            System.out.println(hd.getTrangThai());
             // them tung doi tuong vao bang
             if (hd.getTrangThai() == 1) 
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayLapHD = formatter.format(hd.getNgayLapHoaDon());
-                System.out.println(hd.getMaHD());
-                model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, hd.getThanhTien(), hd.getMaTK()});
+                if(hd.getThanhTien() >= 1000000 && hd.getThanhTien() < 1000000000)
+                {
+                     model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, String.valueOf(hd.getThanhTien() / 1000000)+" triệu", hd.getMaTK()});
+        //            thanhTien.setText(formattedMoney+" triệu");
+                }
+                else if(hd.getThanhTien() >= 1000000000)
+                {
+                     model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, String.valueOf(hd.getThanhTien() / 1000000000)+" tỷ", hd.getMaTK()});
+                }
+                else
+                {
+                    model.addRow(new Object[] {hd.getMaHD(), ngayLapHD, String.valueOf(hd.getThanhTien() / 1000)+" ngàn", hd.getMaTK()});
+                }
             }
         }
     }

@@ -743,7 +743,7 @@ public class themHoaDon extends javax.swing.JFrame {
         }
 
 
-        if(thanhTien1 >= 1000000 || thanhTien1 < 1000000000)
+        if(thanhTien1 >= 1000000 && thanhTien1 < 1000000000)
         {
 //            thanhTien.setText(formattedMoney+" triệu");
             thanhTien.setText(String.valueOf(thanhTien1 / 1000000)+" triệu");
@@ -958,13 +958,29 @@ public class themHoaDon extends javax.swing.JFrame {
         Date ngayNhap = ngayNhapDate.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         setMaHD();
-        String thanhtien = thanhTien.getText().substring(0,thanhTien.getText().length()-1);
-        String maHD = MaHD.getText();
         JSONObject json = new JSONObject();
+        String thanhtien = thanhTien.getText();
+        if(thanhtien.contains("triệu"))
+        {
+            String result = thanhtien.replace(" triệu", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000000));
+        }
+        else if(thanhtien.contains("tỷ"))
+        {
+            String result = thanhtien.replace(" tỷ", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000000000));
+        }
+        else
+        {
+            String result = thanhtien.replace(" ngàn", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000));
+        }
+
+        String maHD = MaHD.getText();
+        
         json.put("method","PUTHD");
         json.put("maNV",maNV);
         json.put("ngayNhap",dateFormat.format(ngayNhap));
-        json.put("thanhtien",thanhtien);
         json.put("maHD",maHD);
         
         //xet dieu kien dau vao
