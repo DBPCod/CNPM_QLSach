@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import Customize.TimKiem;
+import javax.swing.JTextField;
 
 /**
  *
@@ -466,6 +467,16 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
         return false; // Tên không trùng
     }
     
+    private boolean isFieldEmpty(JTextField textField, String fieldName) {
+    String value = textField.getText().trim(); // Lấy giá trị và loại bỏ khoảng trắng
+    if (value.isEmpty()) {
+        JOptionPane.showMessageDialog(null, fieldName + " không được để trống!", "Thông báo", JOptionPane.WARNING_MESSAGE);
+        return true; // Trả về true nếu trường bị bỏ trống
+    }
+    return false; // Trả về false nếu trường không bị bỏ trống
+}
+
+    
     private void resetFields() {
         txtLKM.setText(""); // Đặt tên loại khuyến mãi về trống
         txtMaLKM.setText(setMaLKM()); // Tạo lại mã loại khuyến mãi mới
@@ -500,6 +511,11 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
             return;
         }
 
+            // Kiểm tra nếu trường nhập tên khuyến mãi bị bỏ trống
+        if (isFieldEmpty(txtLKM, "Tên loại khuyến mãi")) {
+            return; // Kết thúc hàm nếu tên bị bỏ trống
+        }
+        
         // Lấy giá trị từ JSpinner sau khi commit
         int value = (Integer) jSpinnerLKM.getValue();
         String txtLKM1 = txtLKM.getText();
@@ -530,6 +546,11 @@ public class loaiKhuyenMai extends javax.swing.JFrame {
             return;
         }
 
+            // Kiểm tra nếu trường nhập tên khuyến mãi bị bỏ trống
+        if (isFieldEmpty(txtLKM, "Tên loại khuyến mãi")) {
+            return; // Kết thúc hàm nếu tên bị bỏ trống
+        }    
+            
         int value = (Integer) jSpinnerLKM.getValue();
         String maLKM = txtMaLKM.getText();
         String txtLKM1 = txtLKM.getText().trim();

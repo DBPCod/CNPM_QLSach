@@ -669,6 +669,26 @@ public class themKhuyenMai extends javax.swing.JFrame {
     private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
         // TODO add your handling code here:
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
+        
+        // Kiểm tra danh sách sản phẩm có rỗng không
+        if (list.isEmpty()) {
+            JOptionPane.showMessageDialog(null, 
+                "Chưa có sản phẩm nào trong danh sách để xóa!", 
+                "Thông báo", 
+                JOptionPane.WARNING_MESSAGE);
+            return; // Dừng xử lý nếu danh sách rỗng
+        }
+
+        // Kiểm tra xem người dùng đã chọn sản phẩm chưa
+        int selectedRow = jTableSPC.getSelectedRow();
+        if (selectedRow == -1) { // Không có dòng nào được chọn
+            JOptionPane.showMessageDialog(null, 
+                "Vui lòng chọn sản phẩm cần bỏ!", 
+                "Thông báo", 
+                JOptionPane.WARNING_MESSAGE);
+            return; // Dừng xử lý nếu chưa chọn sản phẩm
+        }
+        
         for(int i=0;i<list.size();i++)
         {
             if(list.get(i)[0].equals((String) objRemove[0]))
