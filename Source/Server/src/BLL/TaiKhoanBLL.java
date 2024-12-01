@@ -45,7 +45,7 @@ public class TaiKhoanBLL {
         // Nếu tài khoản đúng, kiểm tra trạng thái
         if (matchedTK != null) {
             for (NhanVienDTO nv : nvDAO.getAll()) {
-                if (nv.getMaTK().equals(matchedTK.getMaTK()) && nv.getTrangThai() == 1 && nv.getTrangThai()!=0) {
+                if (nv.getMaTK().equals(matchedTK.getMaTK()) && nv.getTrangThai() != 0) {
                     isActive = true;
                     break;
                 }

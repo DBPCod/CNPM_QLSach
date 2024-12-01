@@ -376,7 +376,7 @@ public class Login extends javax.swing.JFrame {
 
             // Tìm nhân viên có mã tài khoản khớp và trạng thái kích hoạt
             for (NhanVienDTO nv : nhanVienList) {
-                if (nv.getMaTK().equals(maTK) && nv.getTrangThai() == 1 && nv.getTrangThai()!=0) {
+                if (nv.getMaTK().equals(maTK) && nv.getTrangThai() != 0) {
                     switch (nv.getMaVT()) {
                         case "VT_1":
                             Main main = new Main(maTK, client);

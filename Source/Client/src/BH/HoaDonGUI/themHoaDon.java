@@ -754,20 +754,60 @@ public class themHoaDon extends javax.swing.JFrame {
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         // TODO add your handling code here:
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
-        for(int i=0;i<list.size();i++)
-        {
-            if(list.get(i)[0].equals((String) objRemove[0]))
-            {
-                thanhTien1-= (Double.parseDouble((String) list.get(i)[3]));
-                list.remove(list.get(i));
+
+        // Kiểm tra danh sách sản phẩm có rỗng không
+        if (list.isEmpty()) {
+            JOptionPane.showMessageDialog(null, 
+                "Chưa có sản phẩm nào trong danh sách để xóa!", 
+                "Thông báo", 
+                JOptionPane.WARNING_MESSAGE);
+            return; // Dừng xử lý nếu danh sách rỗng
+        }
+
+        // Kiểm tra xem người dùng đã chọn sản phẩm chưa
+        int selectedRow = jTableSPC.getSelectedRow();
+        if (selectedRow == -1) { // Không có dòng nào được chọn
+            JOptionPane.showMessageDialog(null, 
+                "Vui lòng chọn sản phẩm cần bỏ!", 
+                "Thông báo", 
+                JOptionPane.WARNING_MESSAGE);
+            return; // Dừng xử lý nếu chưa chọn sản phẩm
+        }
+
+        // Lấy thông tin sản phẩm cần xóa từ bảng
+        Object[] objRemove = new Object[table.getColumnCount()];
+        for (int i = 0; i < objRemove.length; i++) {
+            objRemove[i] = table.getValueAt(selectedRow, i);
+        }
+
+        // Xóa sản phẩm nếu tìm thấy trong danh sách
+        boolean daXoa = false; // Cờ để kiểm tra xem có sản phẩm nào bị xóa hay không
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i)[0].equals((String) objRemove[0])) {
+                thanhTien1 -= (Double.parseDouble((String) list.get(i)[3]) * Integer.parseInt((String) list.get(i)[2]));
+                list.remove(i);
+                daXoa = true; // Đánh dấu đã xóa sản phẩm
+                break; // Thoát vòng lặp sau khi xóa
             }
         }
-        table.setRowCount(0);
-        for(Object[] obj2 : list)
-        {
+
+        // Nếu không tìm thấy sản phẩm cần xóa
+        if (!daXoa) {
+            JOptionPane.showMessageDialog(null, 
+                "Sản phẩm cần bỏ không tồn tại trong danh sách!", 
+                "Thông báo", 
+                JOptionPane.WARNING_MESSAGE);
+            return; // Dừng xử lý nếu không tìm thấy sản phẩm
+        }
+
+        // Cập nhật lại bảng hiển thị
+        table.setRowCount(0); // Xóa toàn bộ dữ liệu cũ trong bảng
+        for (Object[] obj2 : list) {
             table.addRow(obj2);
         }
-         thanhTien.setText(String.valueOf(thanhTien1)+" Đ");
+
+        // Cập nhật lại tổng tiền
+        thanhTien.setText(String.valueOf(thanhTien1) + " Đ");
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jTableSPCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSPCMouseClicked
@@ -879,7 +919,7 @@ public class themHoaDon extends javax.swing.JFrame {
         String maNV = getMaTK(getMaNV(MaNV.getText()));
         Date ngayNhap = ngayNhapDate.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
+        setMaHD();
         String thanhtien = thanhTien.getText().substring(0,thanhTien.getText().length()-1);
         String maHD = MaHD.getText();
         JSONObject json = new JSONObject();
@@ -908,7 +948,6 @@ public class themHoaDon extends javax.swing.JFrame {
             json2.put("method","UPDATESLSP");
             json2.put("theloai","hoadon");
             json2.put("list",jsonArray.toString());
-            System.out.println(json2.toString() + "aaaa");
             if(client1.themDT(json.toString()).equals("thanhcong"))
             {
                 JOptionPane.showMessageDialog(null, "Thêm thành công!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);

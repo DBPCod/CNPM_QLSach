@@ -606,6 +606,28 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
         // nhan gui du lieu vua sua toi server
         String maSP = txtTMaSP.getText();
         String giaBia = txtGB.getText();
+        String giaNhap = txtGN.getText();
+        
+        // Kiểm tra giá bìa
+        if (giaBia.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Giá bìa không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        } else if (!giaBia.matches("^\\d+(\\.\\d{1,2})?$")) {
+            JOptionPane.showMessageDialog(null, "Giá bìa phải là số dương và có thể có tối đa 2 chữ số sau dấu thập phân!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        double giaNhapDouble = Double.parseDouble(giaNhap);
+        if (giaNhapDouble <= 0) {
+            JOptionPane.showMessageDialog(null, "Giá nhập phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        double giaBiaDouble = Double.parseDouble(giaBia);
+        if (giaBiaDouble <= giaNhapDouble) {
+            JOptionPane.showMessageDialog(null, "Giá bìa phải lớn hơn giá nhập!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         DefaultTableModel table = (DefaultTableModel) jTableTheLoai.getModel();
         int row = table.getRowCount();
         int col = table.getColumnCount();
@@ -618,6 +640,11 @@ public class JInternalSuaSP extends javax.swing.JInternalFrame {
                 list.add(new TheLoaiDTO(getMaTL(maTL),"",1));
             }
         }
+        
+        if (jTableTheLoai.getRowCount() == 0) {
+        JOptionPane.showMessageDialog(null, "Vui lòng chọn ít nhất một thể loại cho sản phẩm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+        }   
         JSONObject json = new JSONObject();
         json.put("method","UPDATESP");
         json.put("MaSP",maSP);

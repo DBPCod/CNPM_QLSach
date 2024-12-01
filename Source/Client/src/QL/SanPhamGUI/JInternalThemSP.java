@@ -723,6 +723,10 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
     }
     
     double giaNhapDouble = Double.parseDouble(giaNhap);
+    if (giaNhapDouble <= 0) {
+        JOptionPane.showMessageDialog(null, "Giá nhập phải lớn hơn 0!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
     double giaBiaDouble = Double.parseDouble(giaBia);
     if (giaBiaDouble <= giaNhapDouble) {
         JOptionPane.showMessageDialog(null, "Giá bìa phải lớn hơn giá nhập!", "Lỗi", JOptionPane.ERROR_MESSAGE);
@@ -747,7 +751,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
     if (jTableTheLoai.getRowCount() == 0) {
     JOptionPane.showMessageDialog(null, "Vui lòng chọn ít nhất một thể loại cho sản phẩm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
     return;
-}
+    }   
     
 
     // Kiểm tra tác giả
@@ -814,7 +818,7 @@ public class JInternalThemSP extends javax.swing.JInternalFrame {
 
     private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
         // TODO add your handling code here:
-//        setTL();
+        tsp1.setVisible(false);
     }//GEN-LAST:event_jButton3MouseClicked
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked

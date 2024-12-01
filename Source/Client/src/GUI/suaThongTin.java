@@ -145,7 +145,6 @@ public class suaThongTin extends javax.swing.JFrame {
 
         jLabel7.setText("Số điện thoại");
 
-        email.setEditable(false);
         email.setBackground(new java.awt.Color(255, 255, 255));
         email.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
@@ -279,6 +278,19 @@ public class suaThongTin extends javax.swing.JFrame {
         String gioitinh1 = (String) gioitinh.getSelectedItem();
         String Email = email.getText();
         String Vaitro = (String) vaitro.getSelectedItem();
+        
+        // Kiểm tra địa chỉ
+        if (DiaChi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Địa chỉ không được để trống!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Kiểm tra email
+        if (!Email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+            JOptionPane.showMessageDialog(this, "Địa chỉ email không hợp lệ!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         JSONObject json = new JSONObject();
         json.put("method","UPDATENV");
         json.put("MaNV", getMaNV(MaTK1));
