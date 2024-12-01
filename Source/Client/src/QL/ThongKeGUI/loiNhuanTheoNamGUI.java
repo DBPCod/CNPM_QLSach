@@ -225,9 +225,6 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
             for(int i=Integer.parseInt(nambd);i<=Integer.parseInt(namkt);i++)
             {
                 
-                System.out.println(getTongTienPN(i, Integer.parseInt(namkt)) + "phieunhap");
-                System.out.println(getTongTienHD(i, Integer.parseInt(namkt)) +"hoadon");
-                
                 dataset.addValue(getTongTienPN(i, Integer.parseInt(namkt)),"Vốn",String.valueOf(i));
                 dataset.addValue(getTongTienHD(i, Integer.parseInt(namkt)),"Doanh thu",String.valueOf(i));
                 double loilo=0;
