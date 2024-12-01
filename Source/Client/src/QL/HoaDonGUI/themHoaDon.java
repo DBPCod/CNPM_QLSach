@@ -784,7 +784,8 @@ public class themHoaDon extends javax.swing.JFrame {
         boolean daXoa = false; // Cờ để kiểm tra xem có sản phẩm nào bị xóa hay không
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i)[0].equals((String) objRemove[0])) {
-                thanhTien1 -= (Double.parseDouble((String) list.get(i)[3]) * Integer.parseInt((String) list.get(i)[2]));
+//                  * Integer.parseInt((String) list.get(i)[2])
+                thanhTien1 -= (Double.parseDouble((String) list.get(i)[3]));
                 list.remove(i);
                 daXoa = true; // Đánh dấu đã xóa sản phẩm
                 break; // Thoát vòng lặp sau khi xóa
@@ -805,7 +806,6 @@ public class themHoaDon extends javax.swing.JFrame {
         for (Object[] obj2 : list) {
             table.addRow(obj2);
         }
-
         // Cập nhật lại tổng tiền
         thanhTien.setText(String.valueOf(thanhTien1) + " Đ");
     }//GEN-LAST:event_jButton5MouseClicked
