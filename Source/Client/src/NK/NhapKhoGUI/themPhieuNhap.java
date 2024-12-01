@@ -30,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import Customize.TimKiem;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -839,10 +840,23 @@ public class themPhieuNhap extends javax.swing.JFrame {
             String SoLuong = String.valueOf(list.get(i)[2]);
             String GiaNhap = (String) list.get(i)[3];
             thanhTien1+= (Double.parseDouble(GiaNhap) * Integer.parseInt(SoLuong));
-            System.out.println(thanhTien1+"a");
         }
-        System.out.println(thanhTien1);
-        thanhTien.setText(String.valueOf(thanhTien1)+" Đ");
+        if(thanhTien1 >= 1000000 && thanhTien1 < 1000000000)
+        {
+//            thanhTien.setText(formattedMoney+" triệu");
+            thanhTien.setText(String.valueOf(thanhTien1 / 1000000)+" triệu");
+        }
+        else if(thanhTien1 >= 1000000000)
+        {
+            thanhTien.setText(String.valueOf(thanhTien1 / 1000000000)+" tỷ");
+        }
+        else
+        {
+            DecimalFormat df = new DecimalFormat("#,###");
+            String formattedMoney = df.format(thanhTien1);
+            thanhTien.setText(formattedMoney+" ngàn");
+        }
+//        thanhTien.setText(String.valueOf(thanhTien1)+" Đ");
         jSpinner1.setValue(0);
         jTextField2.setText("");
         jTextField3.setText("");
@@ -930,14 +944,29 @@ public class themPhieuNhap extends javax.swing.JFrame {
         Date ngayNhap = ngayNhapDate.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         
-        String thanhtien = thanhTien.getText().substring(0,thanhTien.getText().length()-1);
+        String thanhtien = thanhTien.getText();
         String maPN = MaPN.getText();
         JSONObject json = new JSONObject();
+        if(thanhtien.contains("triệu"))
+        {
+            String result = thanhtien.replace(" triệu", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000000));
+        }
+        else if(thanhtien.contains("tỷ"))
+        {
+            String result = thanhtien.replace(" tỷ", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000000000));
+        }
+        else
+        {
+            String result = thanhtien.replace(" ngàn", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000));
+        }
         json.put("method","PUTPN");
         json.put("maNV",maNV);
         json.put("maNXB",maNXB);
         json.put("ngayNhap",dateFormat.format(ngayNhap));
-        json.put("thanhtien",thanhtien);
+//        json.put("thanhtien",thanhtien);
         json.put("maPN",maPN);
         
         

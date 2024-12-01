@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import Customize.TimKiem;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.text.DecimalFormat;
 
 /**
  *
@@ -498,11 +499,11 @@ public class themHoaDon extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(thanhTien, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(46, Short.MAX_VALUE)
+                .addContainerGap(56, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -562,7 +563,6 @@ public class themHoaDon extends javax.swing.JFrame {
         });
 
         timkiembutton.setText("Tìm kiếm");
-        timkiembutton.setPreferredSize(new java.awt.Dimension(79, 23));
         timkiembutton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 timkiembuttonMouseClicked(evt);
@@ -590,7 +590,7 @@ public class themHoaDon extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(timkiembutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(timkiembutton))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -618,7 +618,7 @@ public class themHoaDon extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(timkiembutton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(timkiembutton))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -709,6 +709,7 @@ public class themHoaDon extends javax.swing.JFrame {
 
         }
         
+        
         Object[] obj1 = {MaSP,TenSP,value,GiaBia1};
         list.add(obj1);
         DefaultTableModel table = (DefaultTableModel) jTableSPC.getModel();
@@ -733,10 +734,7 @@ public class themHoaDon extends javax.swing.JFrame {
         }
         list.clear();
         list.addAll(newList);
-        for(Object[] obj2 : list)
-        {     
-            table.addRow(obj2);
-        }
+        
         thanhTien1=0;
         for (int i = 0; i < list.size(); i++) {
             String SoLuong = String.valueOf(list.get(i)[2]);
@@ -744,8 +742,48 @@ public class themHoaDon extends javax.swing.JFrame {
             thanhTien1+= Double.parseDouble(GiaBia);
         }
 
-        System.out.println(thanhTien1);
-        thanhTien.setText(String.valueOf(thanhTien1)+" Đ");
+
+        if(thanhTien1 >= 1000000 && thanhTien1 < 1000000000)
+        {
+//            thanhTien.setText(formattedMoney+" triệu");
+            thanhTien.setText(String.valueOf(thanhTien1 / 1000000)+" triệu");
+        }
+        else if(thanhTien1 >= 1000000000)
+        {
+            thanhTien.setText(String.valueOf(thanhTien1 / 1000000000)+" tỷ");
+        }
+        else
+        {
+            DecimalFormat df = new DecimalFormat("#,###");
+            String formattedMoney = df.format(thanhTien1);
+            thanhTien.setText(formattedMoney+" ngàn");
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            String maSP = (String) list.get(i)[0]; // Lấy giá trị từ cột đầu tiên của mỗi đối tượng
+            String ten = (String) list.get(i)[1]; 
+            String SoLuong = String.valueOf(list.get(i)[2]);
+            String GiaBia = (String) list.get(i)[3];
+            DecimalFormat df1 = new DecimalFormat("#,###");
+            String formattedMoney1 = df1.format(Double.parseDouble(GiaBia));
+            if(Double.parseDouble(GiaBia) >= 1000000 || Double.parseDouble(GiaBia) < 100000000)
+            {
+                table.addRow(new Object[]{maSP,ten,SoLuong,String.valueOf(Double.parseDouble(GiaBia) / 1000000)+" triệu"});
+                
+            }
+            else if(Double.parseDouble(GiaBia) >= 1000000000)
+            {
+                table.addRow(new Object[]{maSP,ten,SoLuong,String.valueOf(Double.parseDouble(GiaBia) / 1000000000)+" tỷ"});
+            }
+            else
+            {
+                DecimalFormat df = new DecimalFormat("#,###");
+                String formattedMoney = df.format(thanhTien1);
+                table.addRow(new Object[]{maSP,ten,SoLuong,formattedMoney+" ngàn"});
+            }
+        }
+//        thanhTien.setText(formattedMoney+" Đ");
+//        thanhTien.setText(String.valueOf(thanhTien1)+" Đ");
         jSpinner1.setValue(0);
         jTextField2.setText("");
         jTextField3.setText("");
@@ -920,13 +958,29 @@ public class themHoaDon extends javax.swing.JFrame {
         Date ngayNhap = ngayNhapDate.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         setMaHD();
-        String thanhtien = thanhTien.getText().substring(0,thanhTien.getText().length()-1);
-        String maHD = MaHD.getText();
         JSONObject json = new JSONObject();
+        String thanhtien = thanhTien.getText();
+        if(thanhtien.contains("triệu"))
+        {
+            String result = thanhtien.replace(" triệu", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000000));
+        }
+        else if(thanhtien.contains("tỷ"))
+        {
+            String result = thanhtien.replace(" tỷ", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000000000));
+        }
+        else
+        {
+            String result = thanhtien.replace(" ngàn", "");
+            json.put("thanhtien",String.valueOf(Double.parseDouble(result) * 1000));
+        }
+
+        String maHD = MaHD.getText();
+        
         json.put("method","PUTHD");
         json.put("maNV",maNV);
         json.put("ngayNhap",dateFormat.format(ngayNhap));
-        json.put("thanhtien",thanhtien);
         json.put("maHD",maHD);
         
         //xet dieu kien dau vao

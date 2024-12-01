@@ -529,7 +529,20 @@ public class panelKho extends javax.swing.JInternalFrame {
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayNhap = formatter.format(phieunhap.getNgayNhap());
-                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaTK()});
+                if(phieunhap.getThanhTien() >= 1000000 && phieunhap.getThanhTien() < 1000000000)
+                {
+                    model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,(phieunhap.getThanhTien()/ 1000000)+" triệu",phieunhap.getMaTK()});
+   
+        //            thanhTien.setText(formattedMoney+" triệu");
+                }
+                else if(phieunhap.getThanhTien() >= 1000000000)
+                {
+                     model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,(phieunhap.getThanhTien()/ 1000000000)+" tỷ",phieunhap.getMaTK()});
+                }
+                else
+                {
+                    model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,(phieunhap.getThanhTien()/ 1000)+" ngàn",phieunhap.getMaTK()});
+                }
             }
         }
     }
@@ -547,8 +560,21 @@ public class panelKho extends javax.swing.JInternalFrame {
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngayNhap = formatter.format(phieunhap.getNgayNhap());
-                System.out.println(phieunhap.getMaPN());
-                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaTK()});
+                if(phieunhap.getThanhTien() >= 1000000 && phieunhap.getThanhTien() < 1000000000)
+                {
+                    model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,(phieunhap.getThanhTien()/ 1000000)+" triệu",phieunhap.getMaTK()});
+   
+        //            thanhTien.setText(formattedMoney+" triệu");
+                }
+                else if(phieunhap.getThanhTien() >= 1000000000)
+                {
+                     model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,(phieunhap.getThanhTien()/ 1000000000)+" tỷ",phieunhap.getMaTK()});
+                }
+                else
+                {
+                    model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,(phieunhap.getThanhTien()/ 1000)+" ngàn",phieunhap.getMaTK()});
+                }
+//                model.addRow(new Object[] {phieunhap.getMaPN(),ngayNhap,phieunhap.getThanhTien(),phieunhap.getMaTK()});
             }
         }
     }
