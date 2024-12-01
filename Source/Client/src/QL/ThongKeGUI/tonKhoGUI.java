@@ -74,6 +74,7 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jtable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

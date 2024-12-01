@@ -136,6 +136,7 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableLN.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableLN);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);

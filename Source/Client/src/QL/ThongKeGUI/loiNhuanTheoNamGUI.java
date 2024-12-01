@@ -101,14 +101,22 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTableLN.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableLN);
+        if (jTableLN.getColumnModel().getColumnCount() > 0) {
+            jTableLN.getColumnModel().getColumn(0).setResizable(false);
+            jTableLN.getColumnModel().getColumn(1).setResizable(false);
+            jTableLN.getColumnModel().getColumn(2).setResizable(false);
+            jTableLN.getColumnModel().getColumn(3).setResizable(false);
+            jTableLN.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         javax.swing.GroupLayout mainLNTNLayout = new javax.swing.GroupLayout(mainLNTN);
         mainLNTN.setLayout(mainLNTNLayout);
