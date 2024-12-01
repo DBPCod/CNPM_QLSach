@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,6 +33,9 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
     private Client client1;
     public tonKhoGUI(Client client) {
         initComponents();
+        this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
+        BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
+        bui.setNorthPane(null);
         client1=client;
         getSLSP();
     }
@@ -156,7 +160,6 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         for(Object[] x : list3)
         {
             model.addRow(x);
-            System.out.println(x[0] +" and " + x[1]+" and "+x[2] );
         }
         
         

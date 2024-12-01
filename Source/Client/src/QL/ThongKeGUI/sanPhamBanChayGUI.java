@@ -40,7 +40,7 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
     private Client client1;
     public sanPhamBanChayGUI(Client client) {
         initComponents();
-         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
+        this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
         BasicInternalFrameUI bui = (BasicInternalFrameUI) this.getUI();
         bui.setNorthPane(null);
         client1=client;

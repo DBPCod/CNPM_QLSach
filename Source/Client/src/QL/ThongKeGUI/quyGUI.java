@@ -62,14 +62,12 @@ public class quyGUI extends javax.swing.JInternalFrame {
 
     
     private void setUp(int year)
-    {
-        System.out.println(year+"a");
-        
+    { 
         ArrayList<Double> list = tinhQuy(String.valueOf(year));
-        for(double x : list)
-        {System.out.println(x);
-            
-        }
+//        for(double x : list)
+//        {System.out.println(x);
+//            
+//        }
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             dataset.addValue(list.get(0), "Doanh số", "Quý 1");
             dataset.addValue(list.get(1), "Doanh số", "Quý 2");
