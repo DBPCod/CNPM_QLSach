@@ -10,6 +10,7 @@ import DTO.NhanVienDTO;
 import DTO.PhieuNhapDTO;
 import QL.NhanVienGUI.panelNhanVien;
 import com.formdev.flatlaf.FlatLightLaf;
+import com.toedter.calendar.JDateChooser;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
@@ -343,12 +345,14 @@ public class panelKho extends javax.swing.JInternalFrame {
 
         jLabel16.setText("Đến số tiền");
 
+        locNBD.setDateFormatString("yyyy-MM-dd");
         locNBD.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 locNBDPropertyChange(evt);
             }
         });
 
+        locNKT.setDateFormatString("yyyy-MM-dd");
         locNKT.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 locNKTPropertyChange(evt);
@@ -752,6 +756,28 @@ public class panelKho extends javax.swing.JInternalFrame {
         
         client1.suaDT(json2.toString());
     }
+    
+    private Date validateDateInput(JDateChooser dateChooser, String fieldName) {
+        try {
+            if (dateChooser.getDate() != null) {
+                return dateChooser.getDate(); // Nếu ngày hợp lệ, trả về giá trị ngày
+            }
+            String input = ((JTextField) dateChooser.getDateEditor().getUiComponent()).getText().trim();
+            if (!input.isEmpty()) {
+                // Kiểm tra định dạng ngày với SimpleDateFormat
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                formatter.setLenient(false); // Không cho phép ngày không hợp lệ (ví dụ: 2023-02-30)
+                return formatter.parse(input);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, 
+                fieldName + " không hợp lệ! Vui lòng nhập đúng định dạng ngày (yyyy-MM-dd).", 
+                "Thông báo", 
+                JOptionPane.ERROR_MESSAGE);
+        }
+        return null; // Trả về null nếu ngày không hợp lệ
+    }
+    
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         check=true;
@@ -763,10 +789,27 @@ public class panelKho extends javax.swing.JInternalFrame {
         model.setRowCount(0);
 
         String tenNV = locNV.getSelectedItem().toString();
-        Date ngayBatDau = locNBD.getDate();
-        Date ngayKetThuc = locNKT.getDate();
+        Date ngayBatDau = validateDateInput(locNBD, "Ngày bắt đầu");
+        Date ngayKetThuc = validateDateInput(locNKT, "Ngày kết thúc");
         Double soTienBatDau = null;
         Double soTienKetThuc = null;
+        
+        // Nếu ngày bắt đầu hoặc ngày kết thúc không hợp lệ, dừng lại
+        if (ngayBatDau == null && !((JTextField) locNBD.getDateEditor().getUiComponent()).getText().trim().isEmpty()) {
+            return;
+        }
+        if (ngayKetThuc == null && !((JTextField) locNKT.getDateEditor().getUiComponent()).getText().trim().isEmpty()) {
+            return;
+        }
+
+        // Kiểm tra logic ngày bắt đầu và ngày kết thúc
+        if (ngayBatDau != null && ngayKetThuc != null && ngayBatDau.after(ngayKetThuc)) {
+            JOptionPane.showMessageDialog(null, 
+                "Ngày bắt đầu không được sau ngày kết thúc!", 
+                "Thông báo", 
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         // Lấy giá trị lọc số tiền
         try {
@@ -800,8 +843,8 @@ public class panelKho extends javax.swing.JInternalFrame {
             if (pn.getTrangThai() == 1) { // Chỉ lọc hóa đơn có trạng thái hợp lệ
 
                 boolean tenNVThoaMan = tenNV.equals("Tất cả") || pn.getMaTK().equals(tenNV);
-                boolean ngayThoaMan = (ngayBatDau == null || ngayKetThuc == null ||
-                                       (!pn.getNgayNhap().before(ngayBatDau) && !pn.getNgayNhap().after(ngayKetThuc)));
+                boolean ngayThoaMan = (ngayBatDau == null || !pn.getNgayNhap().before(ngayBatDau)) &&
+                                      (ngayKetThuc == null || !pn.getNgayNhap().after(ngayKetThuc));
                 boolean tienThoaMan = (soTienBatDau == null || pn.getThanhTien() >= soTienBatDau) &&
                                       (soTienKetThuc == null || pn.getThanhTien() <= soTienKetThuc);
 

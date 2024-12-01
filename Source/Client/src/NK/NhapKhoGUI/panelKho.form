@@ -525,11 +525,17 @@
               </Properties>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="locNBD">
+              <Properties>
+                <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+              </Properties>
               <Events>
                 <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="locNBDPropertyChange"/>
               </Events>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="locNKT">
+              <Properties>
+                <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+              </Properties>
               <Events>
                 <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="locNKTPropertyChange"/>
               </Events>
