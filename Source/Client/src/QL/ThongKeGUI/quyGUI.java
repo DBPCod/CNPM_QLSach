@@ -81,10 +81,6 @@ public class quyGUI extends javax.swing.JInternalFrame {
                 dataset.addValue(list.get(2), "Doanh số (Triệu)", "Quý 3");
                 dataset.addValue(list.get(3), "Doanh số (Triệu)", "Quý 4");
             }
-//            dataset.addValue(list.get(0), "Doanh số (Triệu)", "Quý 1");
-//            dataset.addValue(list.get(1), "Doanh số (Triệu)", "Quý 2");
-//            dataset.addValue(list.get(2), "Doanh số (Triệu)", "Quý 3");
-//            dataset.addValue(list.get(3), "Doanh số (Triệu)", "Quý 4");
        
 
         

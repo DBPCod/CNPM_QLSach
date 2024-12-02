@@ -191,10 +191,7 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
                         soluong+=cthd.getSoLuong();
                     }
                 }
-//                if(x.getMaSP().equals(cthd.getMaSP()))
-//                {
-//                    soluong+=cthd.getSoLuong();
-//                }
+
             }
             list1.add(new Object[] {x.getMaSP(),soluong});
         }
