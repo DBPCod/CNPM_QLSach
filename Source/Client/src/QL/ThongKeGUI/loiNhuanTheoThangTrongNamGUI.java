@@ -193,31 +193,30 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-     private ArrayList<HoaDonDTO> getTTHD(int nambd)
+     private ArrayList<HoaDonDTO> getTTHD(int nambd,ArrayList<HoaDonDTO> listHD)
     {
-        ArrayList<HoaDonDTO> listHD = new ArrayList<HoaDonDTO>();
-        for(HoaDonDTO x : getListHD("ListHoaDon"))
+        ArrayList<HoaDonDTO> listHD1 = new ArrayList<HoaDonDTO>();
+        for(HoaDonDTO x : listHD)
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(x.getNgayLapHoaDon());
             int year = calendar.get(Calendar.YEAR);
-            System.out.println(year);
             if(year == nambd)
             {
                 if(x.getTrangThai()!=0)
                 {
-                    listHD.add(x);
+                    listHD1.add(x);
                 }
             }
         }
-        return listHD;
+        return listHD1;
     }
     
-     private double getTongTienHD(int nambd,int thang)
+     private double getTongTienHD(int nambd,int thang,ArrayList<HoaDonDTO> listHD)
     {
         double tong=0;
-        for(HoaDonDTO x : getTTHD(nambd))
+        for(HoaDonDTO x : getTTHD(nambd,listHD))
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -232,10 +231,10 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
         return tong;
     }
      
-    private double getTongTienPN(int nambd,int thang)
+    private double getTongTienPN(int nambd,int thang,ArrayList<PhieuNhapDTO> listPN)
     {
         double tong=0;
-        for(PhieuNhapDTO x : getTTPN(nambd))
+        for(PhieuNhapDTO x : getTTPN(nambd,listPN))
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -250,10 +249,10 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
         return tong;
     }
     
-    private ArrayList<PhieuNhapDTO> getTTPN(int nambd)
+    private ArrayList<PhieuNhapDTO> getTTPN(int nambd,ArrayList<PhieuNhapDTO> listPN)
     {
-        ArrayList<PhieuNhapDTO> listPN = new ArrayList<PhieuNhapDTO>();
-        for(PhieuNhapDTO x : getListPN("ListPhieuNhap"))
+        ArrayList<PhieuNhapDTO> listPN1 = new ArrayList<PhieuNhapDTO>();
+        for(PhieuNhapDTO x : listPN)
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -263,11 +262,11 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
             {
                 if(x.getTrangThai()!=0)
                 {
-                    listPN.add(x);
+                    listPN1.add(x);
                 }
             }
         }  
-        return listPN;
+        return listPN1;
     }
      
     private ArrayList<PhieuNhapDTO> getListPN(String yeucau)
@@ -426,23 +425,25 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
         String nambd = String.valueOf(nam2.getSelectedItem());
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         DefaultTableModel model = (DefaultTableModel) jTableLN.getModel();
+        ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
+        ArrayList<PhieuNhapDTO> listPN = getListPN("ListPhieuNhap");
         model.setRowCount(0);
             for(int i=1;i<=12;i++)
             {   
-                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i),"Vốn",String.valueOf(nambd));
-                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i),"Doanh thu",String.valueOf(nambd));
+                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i,listPN),"Vốn",String.valueOf(nambd));
+                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i,listHD),"Doanh thu",String.valueOf(nambd));
                 double loilo=0;
-                if(getTongTienPN(Integer.parseInt(nambd), i) > getTongTienHD(Integer.parseInt(nambd),i))
+                if(getTongTienPN(Integer.parseInt(nambd), i,listPN) > getTongTienHD(Integer.parseInt(nambd),i,listHD))
                 {
-                    loilo =getTongTienPN(Integer.parseInt(nambd), i) - getTongTienHD(Integer.parseInt(nambd),i);
+                    loilo =getTongTienPN(Integer.parseInt(nambd), i,listPN) - getTongTienHD(Integer.parseInt(nambd),i,listHD);
                     dataset.addValue(loilo ,"Lỗ",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(Integer.parseInt(nambd), i)),String.valueOf(getTongTienHD(Integer.parseInt(nambd),i)),0,loilo});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(Integer.parseInt(nambd), i,listPN)),String.valueOf(getTongTienHD(Integer.parseInt(nambd),i,listHD)),0,loilo});
                 }
                 else
                 {
-                    loilo =getTongTienHD(Integer.parseInt(nambd), i) - getTongTienPN(Integer.parseInt(nambd),i);
+                    loilo =getTongTienHD(Integer.parseInt(nambd), i,listHD) - getTongTienPN(Integer.parseInt(nambd),i,listPN);
                     dataset.addValue(loilo ,"Lời",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienHD(Integer.parseInt(nambd), i)),String.valueOf(getTongTienPN(Integer.parseInt(nambd),i)),loilo,0});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienHD(Integer.parseInt(nambd), i,listHD)),String.valueOf(getTongTienPN(Integer.parseInt(nambd),i,listPN)),loilo,0});
                 }
                 
                 
@@ -471,22 +472,24 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         DefaultTableModel model = (DefaultTableModel) jTableLN.getModel();
         model.setRowCount(0);
+        ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
+        ArrayList<PhieuNhapDTO> listPN = getListPN("ListPhieuNhap");
             for(int i=1;i<=12;i++)
             {   
-                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i),"Vốn",String.valueOf(nambd));
-                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i),"Doanh thu",String.valueOf(nambd));
+                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i,listPN),"Vốn",String.valueOf(nambd));
+                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i,listHD),"Doanh thu",String.valueOf(nambd));
                 double loilo=0;
-                if(getTongTienPN(Integer.parseInt(nambd), i) > getTongTienHD(Integer.parseInt(nambd),i))
+                if(getTongTienPN(Integer.parseInt(nambd), i,listPN) > getTongTienHD(Integer.parseInt(nambd),i,listHD))
                 {
-                    loilo =getTongTienPN(Integer.parseInt(nambd), i) - getTongTienHD(Integer.parseInt(nambd),i);
+                    loilo =getTongTienPN(Integer.parseInt(nambd), i,listPN) - getTongTienHD(Integer.parseInt(nambd),i,listHD);
                     dataset.addValue(loilo ,"Lỗ",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(Integer.parseInt(nambd), i)),String.valueOf(getTongTienHD(Integer.parseInt(nambd),i)),0,loilo});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(Integer.parseInt(nambd), i,listPN)),String.valueOf(getTongTienHD(Integer.parseInt(nambd),i,listHD)),0,loilo});
                 }
                 else
                 {
-                    loilo =getTongTienHD(Integer.parseInt(nambd), i) - getTongTienPN(Integer.parseInt(nambd),i);
+                    loilo =getTongTienHD(Integer.parseInt(nambd), i,listHD) - getTongTienPN(Integer.parseInt(nambd),i,listPN);
                     dataset.addValue(loilo ,"Lời",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienHD(Integer.parseInt(nambd), i)),String.valueOf(getTongTienPN(Integer.parseInt(nambd),i)),loilo,0});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienHD(Integer.parseInt(nambd), i,listHD)),String.valueOf(getTongTienPN(Integer.parseInt(nambd),i,listPN)),loilo,0});
                 }
                 
                 

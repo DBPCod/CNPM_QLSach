@@ -176,16 +176,25 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
     private void getSLSP()
     {
         ArrayList<SanPhamDTO> list = getListSP("ListSanPham");
+        ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
         ArrayList<Object[]> list1 = new ArrayList<Object[]>();
         for(SanPhamDTO x : list)
         {
             int soluong = 0;
             for(ChiTietHoaDonDTO cthd : getListCTHD("ListCTHD"))
             {
-                if(x.getMaSP().equals(cthd.getMaSP()))
+                for(HoaDonDTO hd : listHD)
                 {
-                    soluong+=cthd.getSoLuong();
+                   
+                    if(x.getMaSP().equals(cthd.getMaSP()) && hd.getTrangThai()!=0 && hd.getMaHD().equals(cthd.getMaCTHD()))
+                    {
+                        soluong+=cthd.getSoLuong();
+                    }
                 }
+//                if(x.getMaSP().equals(cthd.getMaSP()))
+//                {
+//                    soluong+=cthd.getSoLuong();
+//                }
             }
             list1.add(new Object[] {x.getMaSP(),soluong});
         }
