@@ -227,26 +227,28 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
         String namkt = String.valueOf(nam3.getSelectedItem());
         DefaultTableModel model = (DefaultTableModel) jTableLN.getModel();
         model.setRowCount(0);
+        ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
+        ArrayList<PhieuNhapDTO> listPN = getListPN("ListPhieuNhap");
         if(Integer.parseInt(nambd) < Integer.parseInt(namkt) || Integer.parseInt(nambd) == Integer.parseInt(namkt))
         {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for(int i=Integer.parseInt(nambd);i<=Integer.parseInt(namkt);i++)
             {
                 
-                dataset.addValue(getTongTienPN(i, Integer.parseInt(namkt)),"Vốn",String.valueOf(i));
-                dataset.addValue(getTongTienHD(i, Integer.parseInt(namkt)),"Doanh thu",String.valueOf(i));
+                dataset.addValue(getTongTienPN(i, Integer.parseInt(namkt),listPN),"Vốn",String.valueOf(i));
+                dataset.addValue(getTongTienHD(i, Integer.parseInt(namkt),listHD),"Doanh thu",String.valueOf(i));
                 double loilo=0;
-                if(getTongTienPN(i, Integer.parseInt(namkt)) > getTongTienHD(i, Integer.parseInt(namkt)))
+                if(getTongTienPN(i, Integer.parseInt(namkt),listPN) > getTongTienHD(i, Integer.parseInt(namkt),listHD))
                 {
-                    loilo =getTongTienPN(i, Integer.parseInt(namkt)) - getTongTienHD(i, Integer.parseInt(namkt));
+                    loilo =getTongTienPN(i, Integer.parseInt(namkt),listPN) - getTongTienHD(i, Integer.parseInt(namkt),listHD);
                     dataset.addValue(loilo ,"Lỗ",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt))),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt))),0,loilo});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt),listPN)),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt),listHD)),0,loilo});
                 }
                 else
                 {
-                    loilo =getTongTienHD(i, Integer.parseInt(namkt)) - getTongTienPN(i, Integer.parseInt(namkt));
+                    loilo =getTongTienHD(i, Integer.parseInt(namkt),listHD) - getTongTienPN(i, Integer.parseInt(namkt),listPN);
                     dataset.addValue(loilo ,"Lời",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt))),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt))),loilo,0});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt),listPN)),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt),listHD)),loilo,0});
                 }
                 
                 
@@ -261,10 +263,10 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
 
     
     
-    private ArrayList<HoaDonDTO> getTTHD(int nambd,int namkt)
+    private ArrayList<HoaDonDTO> getTTHD(int nambd,int namkt,ArrayList<HoaDonDTO> listHD)
     {
-        ArrayList<HoaDonDTO> listHD = new ArrayList<HoaDonDTO>();
-        for(HoaDonDTO x : getListHD("ListHoaDon"))
+        ArrayList<HoaDonDTO> listHD1 = new ArrayList<HoaDonDTO>();
+        for(HoaDonDTO x : listHD)
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -275,17 +277,17 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
             {
                 if(x.getTrangThai()!=0)
                 {
-                    listHD.add(x);
+                    listHD1.add(x);
                 }
             }
         }
-        return listHD;
+        return listHD1;
     }
     
-    private ArrayList<PhieuNhapDTO> getTTPN(int nambd,int namkt)
+    private ArrayList<PhieuNhapDTO> getTTPN(int nambd,int namkt,ArrayList<PhieuNhapDTO> listPN)
     {
-        ArrayList<PhieuNhapDTO> listPN = new ArrayList<PhieuNhapDTO>();
-        for(PhieuNhapDTO x : getListPN("ListPhieuNhap"))
+        ArrayList<PhieuNhapDTO> listPN1 = new ArrayList<PhieuNhapDTO>();
+        for(PhieuNhapDTO x : listPN)
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -295,17 +297,17 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
             {
                 if(x.getTrangThai()!=0)
                 {
-                    listPN.add(x);
+                    listPN1.add(x);
                 }
             }
         }  
-        return listPN;
+        return listPN1;
     }
 
-    private double getTongTienHD(int nambd,int namkt)
+    private double getTongTienHD(int nambd,int namkt,ArrayList<HoaDonDTO> listHD)
     {
         double tong=0;
-        for(HoaDonDTO x : getTTHD(nambd,namkt))
+        for(HoaDonDTO x : getTTHD(nambd,namkt,listHD))
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -319,10 +321,10 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
         return tong;
     }
     
-    private double getTongTienPN(int nambd,int namkt)
+    private double getTongTienPN(int nambd,int namkt,ArrayList<PhieuNhapDTO> listPN)
     {
         double tong=0;
-        for(PhieuNhapDTO x : getTTPN(nambd,namkt))
+        for(PhieuNhapDTO x : getTTPN(nambd,namkt,listPN))
         {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -514,29 +516,27 @@ public class loiNhuanTheoNamGUI extends javax.swing.JInternalFrame {
         String namkt = String.valueOf(nam3.getSelectedItem());
         DefaultTableModel model = (DefaultTableModel) jTableLN.getModel();
         model.setRowCount(0);
+        ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
+        ArrayList<PhieuNhapDTO> listPN = getListPN("ListPhieuNhap");
         if(Integer.parseInt(nambd) < Integer.parseInt(namkt) || Integer.parseInt(nambd) == Integer.parseInt(namkt))
         {
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for(int i=Integer.parseInt(nambd);i<=Integer.parseInt(namkt);i++)
-            {
-                
-                System.out.println(getTongTienPN(i, Integer.parseInt(namkt)) + "phieunhap");
-                System.out.println(getTongTienHD(i, Integer.parseInt(namkt)) +"hoadon");
-                
-                dataset.addValue(getTongTienPN(i, Integer.parseInt(namkt)),"Vốn",String.valueOf(i));
-                dataset.addValue(getTongTienHD(i, Integer.parseInt(namkt)),"Doanh thu",String.valueOf(i));
+            {                
+                dataset.addValue(getTongTienPN(i, Integer.parseInt(namkt),listPN),"Vốn",String.valueOf(i));
+                dataset.addValue(getTongTienHD(i, Integer.parseInt(namkt),listHD),"Doanh thu",String.valueOf(i));
                 double loilo=0;
-                if(getTongTienPN(i, Integer.parseInt(namkt)) > getTongTienHD(i, Integer.parseInt(namkt)))
+                if(getTongTienPN(i, Integer.parseInt(namkt),listPN) > getTongTienHD(i, Integer.parseInt(namkt),listHD))
                 {
-                    loilo =getTongTienPN(i, Integer.parseInt(namkt)) - getTongTienHD(i, Integer.parseInt(namkt));
+                    loilo =getTongTienPN(i, Integer.parseInt(namkt),listPN) - getTongTienHD(i, Integer.parseInt(namkt),listHD);
                     dataset.addValue(loilo ,"Lỗ",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt))),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt))),0,loilo});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt),listPN)),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt),listHD)),0,loilo});
                 }
                 else
                 {
-                    loilo =getTongTienHD(i, Integer.parseInt(namkt)) - getTongTienPN(i, Integer.parseInt(namkt));
+                    loilo =getTongTienHD(i, Integer.parseInt(namkt),listHD) - getTongTienPN(i, Integer.parseInt(namkt),listPN);
                     dataset.addValue(loilo ,"Lời",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt))),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt))),loilo,0});
+                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(i, Integer.parseInt(namkt),listPN)),String.valueOf(getTongTienHD(i, Integer.parseInt(namkt),listHD)),loilo,0});
                 }
                 
                 
