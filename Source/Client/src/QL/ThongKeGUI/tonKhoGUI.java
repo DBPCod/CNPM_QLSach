@@ -17,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.plaf.basic.BasicInternalFrameUI;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
@@ -42,7 +43,7 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         client1=client;
         getSLSP();
         timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
-        timkiem.setUpSearchListener(timKiemField, this::timKiem);
+//        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     /**
@@ -60,7 +61,6 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         jtable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         timkiembutton = new javax.swing.JButton();
-        timkiembutton1 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -99,13 +99,6 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
             }
         });
 
-        timkiembutton1.setText("Tìm kiếm");
-        timkiembutton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                timkiembutton1MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -118,31 +111,22 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(timkiembutton1))
+                        .addComponent(timkiembutton))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 813, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(60, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(433, 433, 433)
-                    .addComponent(timkiembutton)
-                    .addContainerGap(433, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(timkiembutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(timkiembutton, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(timKiemField))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addGap(246, 246, 246)
-                    .addComponent(timkiembutton)
-                    .addContainerGap(247, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,10 +152,6 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         timKiem();
     }//GEN-LAST:event_timkiembuttonMouseClicked
-
-    private void timkiembutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiembutton1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_timkiembutton1MouseClicked
 
     private void getSLSP()
     {
@@ -233,30 +213,69 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         
     }
 
-        private void timKiem() {        
+    private void timKiem() {
         String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
         DefaultTableModel model = (DefaultTableModel) jtable.getModel();
-        model.setRowCount(0); // Xóa tất cả các dòng trong bảng
+        model.setRowCount(0); // Làm sạch bảng
 
-        ArrayList<SanPhamDTO> listSP = getListSP("ListSanPham");
+        // Lấy danh sách sản phẩm và tính toán số lượng
+        ArrayList<Object[]> stockInfo = getStockInfo(getListSP("ListSanPham"));
 
-        for (SanPhamDTO sp : listSP) {
-            if (sp.getTrangThai() == 1) { // Điều kiện hiển thị (nếu cần)
-                String maSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
-                String tenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
+        if (searchText.isEmpty()) {
+            // Hiển thị tất cả sản phẩm nếu không có từ khóa tìm kiếm
+            for (Object[] product : stockInfo) {
+                model.addRow(product);
+            }
+            return;
+        }
 
-                if (maSP.contains(searchText) || tenSP.contains(searchText)) {
-                    model.addRow(new Object[]{sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(), /* thêm dữ liệu khác nếu cần */});
-                }
+        boolean found = false;
+        for (Object[] product : stockInfo) {
+            String maSP = timkiem.KhongLayDau(String.valueOf(product[0]).toLowerCase());
+            String tenSP = timkiem.KhongLayDau(String.valueOf(product[1]).toLowerCase());
+
+            if (maSP.contains(searchText) || tenSP.contains(searchText)) {
+                model.addRow(product);
+                found = true;
             }
         }
 
-        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
-            // Hiển thị thông báo nếu không tìm thấy kết quả
-            javax.swing.JOptionPane.showMessageDialog(this, "Không tìm thấy kết quả nào!", "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        if (!found) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy sản phẩm nào!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+            // Hiển thị lại toàn bộ danh sách
+            for (Object[] product : stockInfo) {
+                model.addRow(product);
+            }
         }
     }
 
+    private ArrayList<Object[]> getStockInfo(ArrayList<SanPhamDTO> products) {
+        ArrayList<Object[]> stockInfo = new ArrayList<>();
+        ArrayList<ChiTietHoaDonDTO> orderDetails = getListCTHD("ListCTHD");
+
+        for (SanPhamDTO product : products) {
+            // Tính tổng số lượng đã bán
+            int totalSold = orderDetails.stream()
+                .filter(detail -> detail.getMaSP().equals(product.getMaSP()))
+                .mapToInt(ChiTietHoaDonDTO::getSoLuong)
+                .sum();
+
+            // Số lượng ban đầu là số lượng hiện tại cộng với số lượng đã bán
+            int initialStock = product.getSoLuong() + totalSold;
+
+            // Số lượng tồn kho là số lượng hiện tại trong database
+            int currentStock = product.getSoLuong();
+
+            stockInfo.add(new Object[]{
+                product.getMaSP(),    // Mã sản phẩm
+                product.getTenSP(),   // Tên sản phẩm
+                initialStock,         // Số lượng ban đầu
+                currentStock         // Số lượng tồn kho hiện tại
+            });
+        }
+
+        return stockInfo;
+    }
      // ham lay danh sach
     private ArrayList<HoaDonDTO> getListHD(String yeucau)
     {
@@ -367,6 +386,5 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
     private javax.swing.JTable jtable;
     private javax.swing.JTextField timKiemField;
     private javax.swing.JButton timkiembutton;
-    private javax.swing.JButton timkiembutton1;
     // End of variables declaration//GEN-END:variables
 }

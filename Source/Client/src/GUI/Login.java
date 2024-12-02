@@ -195,8 +195,9 @@ public class Login extends javax.swing.JFrame {
         });
         jPanel5.add(myButton2);
 
-        chkShowPassword.setBackground(new java.awt.Color(153, 153, 153));
+        chkShowPassword.setBackground(new java.awt.Color(51, 51, 51));
         chkShowPassword.setText("Hiển thị mật khẩu");
+        chkShowPassword.setContentAreaFilled(false);
         chkShowPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkShowPasswordActionPerformed(evt);
@@ -302,58 +303,7 @@ public class Login extends javax.swing.JFrame {
         }    
         return new ArrayList<>();
     }
-    
-//        private void handleLogin() {
-//        String taikhoan = txtTK.getText();
-//        String matkhau = txtMK.getText();
-//
-//        if (taikhoan.isEmpty() || matkhau.isEmpty()) {
-//            JOptionPane.showMessageDialog(null, "Tên đăng nhập và mật khẩu không được để trống", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            return;
-//        }
-//
-//        // Lấy danh sách nhân viên trước
-//        ArrayList<NhanVienDTO> nhanVienList = getList("ListNhanVien");
-//        boolean hasActiveAccount = false;
-//        String maTK = "";
-//
-//        // Kiểm tra xem có tài khoản active không
-//        String check = client.dangNhap(taikhoan, matkhau);
-//        JSONObject json = new JSONObject(check);
-//
-//        if (json.getString("Trangthai").equals("true")) {
-//            maTK = json.getString("MaTK");
-//
-//            for (NhanVienDTO nv : nhanVienList) {
-//                if (nv.getMaTK().equals(maTK) && nv.getTrangThai() == 1) {
-//                    hasActiveAccount = true;
-//                    switch (nv.getMaVT()) {
-//                        case "VT_1":
-//                            Main main = new Main(maTK, client);
-//                            main.setVisible(true);
-//                            this.dispose();
-//                            return;
-//                        case "VT_2":
-//                            MainNhapKho mainnk = new MainNhapKho(maTK, client);
-//                            mainnk.setVisible(true);
-//                            this.dispose();
-//                            return;
-//                        case "VT_3":
-//                            MainBanHang mainbh = new MainBanHang(maTK, client);
-//                            mainbh.setVisible(true);
-//                            this.dispose();
-//                            return;
-//                    }
-//                }
-//            }
-//        }
-//
-//        // Nếu không tìm thấy tài khoản active hoặc đăng nhập thất bại
-//        String errorMessage = !hasActiveAccount ? "Tài khoản đã bị vô hiệu hóa" : 
-//                             json.optString("Thongbao", "Tên tài khoản hoặc mật khẩu không chính xác");
-//        JOptionPane.showMessageDialog(this, errorMessage, "Lỗi", JOptionPane.ERROR_MESSAGE);
-//    }
-    
+
     private void handleLogin() {
         String taikhoan = txtTK.getText();
         String matkhau = txtMK.getText();
@@ -430,7 +380,7 @@ public class Login extends javax.swing.JFrame {
         txtMK.setEchoChar((char) 0); // Đặt echoChar thành 0 để hiển thị mật khẩu
     } else {
         // Ẩn mật khẩu
-        txtMK.setEchoChar('*'); // Đặt echoChar lại là dấu '*' để ẩn mật khẩu
+        txtMK.setEchoChar('•'); // Đặt echoChar lại là dấu '*' để ẩn mật khẩu
     }
     }//GEN-LAST:event_chkShowPasswordActionPerformed
 
