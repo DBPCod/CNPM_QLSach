@@ -5,6 +5,7 @@
 package QL.ThongKeGUI;
 
 import Client.Client;
+import Customize.TimKiem;
 import DTO.ChiTietHoaDonDTO;
 import DTO.HoaDonDTO;
 import DTO.SanPhamDTO;
@@ -31,6 +32,8 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
      * Creates new form tonKhoGUI
      */
     private Client client1;
+    private static TimKiem timkiem = new TimKiem();
+    
     public tonKhoGUI(Client client) {
         initComponents();
         this.setBorder(javax.swing.BorderFactory.createEmptyBorder(0,0,0,0));
@@ -38,6 +41,8 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         bui.setNorthPane(null);
         client1=client;
         getSLSP();
+        timkiem.setPlaceholder(timKiemField, "Tìm kiếm theo mã hoặc tên...");
+        timkiem.setUpSearchListener(timKiemField, this::timKiem);
     }
 
     /**
@@ -50,13 +55,16 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        timKiemField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtable = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        timkiembutton = new javax.swing.JButton();
+        timkiembutton1 = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTextField1.setText("Tìm kiếm....");
+        timKiemField.setText("Tìm kiếm....");
 
         jtable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -74,7 +82,29 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jtable);
+
+        jButton1.setText("Làm mới");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        timkiembutton.setText("Tìm kiếm");
+        timkiembutton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timkiembuttonMouseClicked(evt);
+            }
+        });
+
+        timkiembutton1.setText("Tìm kiếm");
+        timkiembutton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timkiembutton1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,18 +113,36 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(76, 76, 76)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 813, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(timkiembutton1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 813, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(60, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(433, 433, 433)
+                    .addComponent(timkiembutton)
+                    .addContainerGap(433, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(timKiemField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timkiembutton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGap(246, 246, 246)
+                    .addComponent(timkiembutton)
+                    .addContainerGap(247, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -111,19 +159,42 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        lamMoiTable(); 
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void timkiembuttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiembuttonMouseClicked
+        // TODO add your handling code here:
+        timKiem();
+    }//GEN-LAST:event_timkiembuttonMouseClicked
+
+    private void timkiembutton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiembutton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_timkiembutton1MouseClicked
+
     private void getSLSP()
     {
         ArrayList<SanPhamDTO> list = getListSP("ListSanPham");
+        ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
         ArrayList<Object[]> list1 = new ArrayList<Object[]>();
         for(SanPhamDTO x : list)
         {
             int soluong = 0;
             for(ChiTietHoaDonDTO cthd : getListCTHD("ListCTHD"))
             {
-                if(x.getMaSP().equals(cthd.getMaSP()))
+                for(HoaDonDTO hd : listHD)
                 {
-                    soluong+=cthd.getSoLuong();
+                   
+                    if(x.getMaSP().equals(cthd.getMaSP()) && hd.getTrangThai()!=0 && hd.getMaHD().equals(cthd.getMaCTHD()))
+                    {
+                        soluong+=cthd.getSoLuong();
+                    }
                 }
+//                if(x.getMaSP().equals(cthd.getMaSP()))
+//                {
+//                    soluong+=cthd.getSoLuong();
+//                }
             }
             list1.add(new Object[] {x.getMaSP(),soluong});
         }
@@ -163,6 +234,30 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         }
         
         
+    }
+
+        private void timKiem() {        
+        String searchText = timkiem.KhongLayDau(timKiemField.getText().trim().toLowerCase());
+        DefaultTableModel model = (DefaultTableModel) jtable.getModel();
+        model.setRowCount(0); // Xóa tất cả các dòng trong bảng
+
+        ArrayList<SanPhamDTO> listSP = getListSP("ListSanPham");
+
+        for (SanPhamDTO sp : listSP) {
+            if (sp.getTrangThai() == 1) { // Điều kiện hiển thị (nếu cần)
+                String maSP = timkiem.KhongLayDau(sp.getMaSP().toLowerCase());
+                String tenSP = timkiem.KhongLayDau(sp.getTenSP().toLowerCase());
+
+                if (maSP.contains(searchText) || tenSP.contains(searchText)) {
+                    model.addRow(new Object[]{sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(), /* thêm dữ liệu khác nếu cần */});
+                }
+            }
+        }
+
+        if (model.getRowCount() == 0 && !searchText.isEmpty()) {
+            // Hiển thị thông báo nếu không tìm thấy kết quả
+            javax.swing.JOptionPane.showMessageDialog(this, "Không tìm thấy kết quả nào!", "Thông báo", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
      // ham lay danh sach
@@ -232,6 +327,12 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
         return new ArrayList<>();
     }
     
+    private void lamMoiTable() {
+        DefaultTableModel model = (DefaultTableModel) jtable.getModel();
+        model.setRowCount(0); // Xóa tất cả các dòng trong bảng
+        getSLSP(); // Lấy lại dữ liệu và cập nhật bảng
+    }
+    
     //ham lay danh sach
     private ArrayList<SanPhamDTO> getListSP(String yeucau)
     {
@@ -263,9 +364,12 @@ public class tonKhoGUI extends javax.swing.JInternalFrame {
                    return new ArrayList<>();
         }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable jtable;
+    private javax.swing.JTextField timKiemField;
+    private javax.swing.JButton timkiembutton;
+    private javax.swing.JButton timkiembutton1;
     // End of variables declaration//GEN-END:variables
 }

@@ -53,12 +53,25 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
 
             
        ArrayList<ChiTietHoaDonDTO> list = getListCTHD("ListCTHD");
+       ArrayList<ChiTietHoaDonDTO> listCTHD = new ArrayList<ChiTietHoaDonDTO>();
+       ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
         ArrayList<Object[]> list1 = new ArrayList<Object[]>();
         Map<String, Double> mapTong = new HashMap<>(); // Lưu tổng theo mã sản phẩm
 
-        for (int i = 0; i < list.size(); i++) {
-            String MaSP = list.get(i).getMaSP();
-            double soluong = list.get(i).getSoLuong();
+        for(ChiTietHoaDonDTO cthd : list)
+        {
+            for(HoaDonDTO x : listHD)
+            {
+                if(x.getTrangThai()!=0 && cthd.getMaCTHD().equals(x.getMaHD()))
+                {
+                    listCTHD.add(cthd);
+                }
+            }
+        }
+        
+        for (int i = 0; i < listCTHD.size(); i++) {
+            String MaSP = listCTHD.get(i).getMaSP();
+            double soluong = listCTHD.get(i).getSoLuong();
 
             // Nếu sản phẩm chưa có trong Map, thêm vào và khởi tạo tổng giá trị
             mapTong.put(MaSP, mapTong.getOrDefault(MaSP, 0.0) + soluong);
@@ -81,6 +94,7 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
                 }
             }
         }
+        
         JFreeChart pieChart = ChartFactory.createPieChart(
             "Sản phẩm bán chạy", 
             dataset, 
@@ -305,49 +319,45 @@ public class sanPhamBanChayGUI extends javax.swing.JInternalFrame {
 
     private void getHD(int year)
     {
-        ArrayList<HoaDonDTO> list = new ArrayList<HoaDonDTO>();
-        for(HoaDonDTO x : getListHD("ListHoaDon"))
+
+        ArrayList<ChiTietHoaDonDTO> list = getListCTHD("ListCTHD");
+       ArrayList<ChiTietHoaDonDTO> listCTHD = new ArrayList<ChiTietHoaDonDTO>();
+       ArrayList<HoaDonDTO> listHD = getListHD("ListHoaDon");
+        ArrayList<Object[]> list1 = new ArrayList<Object[]>();
+        Map<String, Double> mapTong = new HashMap<>(); // Lưu tổng theo mã sản phẩm
+
+        for(ChiTietHoaDonDTO cthd : list)
+        {
+            for(HoaDonDTO x : listHD)
             {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(x.getNgayLapHoaDon());
-                if(calendar.get(Calendar.YEAR) == year)
+                if(x.getTrangThai()!=0 && cthd.getMaCTHD().equals(x.getMaHD()) && calendar.get(Calendar.YEAR) == year)
                 {
-                    list.add(x);
+                    listCTHD.add(cthd);
                 }
             }
-        ArrayList<ChiTietHoaDonDTO> list1 = new ArrayList<ChiTietHoaDonDTO>();
-        for(HoaDonDTO x : list)
-        {
-            for(ChiTietHoaDonDTO a: getListCTHD("ListCTHD"))
-            {
-                if(x.getMaHD().equals(a.getMaCTHD()))
-                {
-                    list1.add(a);
-                }
-            } 
         }
         
-        ArrayList<Object[]> list2 = new ArrayList<Object[]>();
-        Map<String, Double> mapTong = new HashMap<>(); // Lưu tổng theo mã sản phẩm
-
-        for (int i = 0; i < list.size(); i++) {
-            String MaSP = list1.get(i).getMaSP();
-            double soluong = list1.get(i).getSoLuong();
+        for (int i = 0; i < listCTHD.size(); i++) {
+            String MaSP = listCTHD.get(i).getMaSP();
+            double soluong = listCTHD.get(i).getSoLuong();
 
             // Nếu sản phẩm chưa có trong Map, thêm vào và khởi tạo tổng giá trị
             mapTong.put(MaSP, mapTong.getOrDefault(MaSP, 0.0) + soluong);
         }
 
         for (Map.Entry<String, Double> entry : mapTong.entrySet()) {
-            list2.add(new Object[]{entry.getKey(), String.valueOf(entry.getValue())});
+            list1.add(new Object[]{entry.getKey(), String.valueOf(entry.getValue())});
         }
-
 
         DefaultPieDataset dataset = new DefaultPieDataset();
 
-        for (Object[] x : list2) {
+        for (Object[] x : list1) {
             for(SanPhamDTO sp : getListSP("ListSanPham"))
-            {  
+            {
+            
+                
                 if(sp.getMaSP().equals(String.valueOf(x[0])))
                 {
                     dataset.setValue(sp.getTenSP(), Double.parseDouble(String.valueOf(x[1])));
