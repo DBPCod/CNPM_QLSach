@@ -10,6 +10,7 @@ import QL.HoaDonGUI.panelHoaDon;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,15 +65,23 @@ public class quyGUI extends javax.swing.JInternalFrame {
     private void setUp(int year)
     { 
         ArrayList<Double> list = tinhQuy(String.valueOf(year));
-//        for(double x : list)
-//        {System.out.println(x);
-//            
-//        }
+
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-            dataset.addValue(list.get(0), "Doanh số", "Quý 1");
-            dataset.addValue(list.get(1), "Doanh số", "Quý 2");
-            dataset.addValue(list.get(2), "Doanh số", "Quý 3");
-            dataset.addValue(list.get(3), "Doanh số", "Quý 4");
+            if(list.get(0) ==0 && list.get(1) ==0 && list.get(2) ==0 && list.get(3) ==0)
+            {
+                dataset.addValue(0, "Doanh số (Triệu)", "Quý 1");
+                dataset.addValue(0, "Doanh số (Triệu)", "Quý 2");
+                dataset.addValue(0, "Doanh số (Triệu)", "Quý 3");
+                dataset.addValue(0, "Doanh số (Triệu)", "Quý 4");
+            }
+            else
+            {
+                dataset.addValue(list.get(0), "Doanh số (Triệu)", "Quý 1");
+                dataset.addValue(list.get(1), "Doanh số (Triệu)", "Quý 2");
+                dataset.addValue(list.get(2), "Doanh số (Triệu)", "Quý 3");
+                dataset.addValue(list.get(3), "Doanh số (Triệu)", "Quý 4");
+            }
+       
 
         
         JFreeChart barChart = ChartFactory.createBarChart("Doanh số theo quý","Quý","Doanh số (Triệu)",dataset);
@@ -108,15 +117,21 @@ public class quyGUI extends javax.swing.JInternalFrame {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(x.getNgayLapHoaDon());
                 int month = calendar.get(Calendar.MONTH) + 1; // Tháng được tính từ 0 (0 = Tháng 1, 11 = Tháng 12)
-                if(calendar.get(Calendar.YEAR) == Integer.parseInt(nam))
+                if(calendar.get(Calendar.YEAR) == Integer.parseInt(nam) && x.getTrangThai()!=0)
                 {
                     if(month==(checkThang+1) || month == (checkThang+2)|| month == (checkThang+3))
                     {
                         tong+=x.getThanhTien();
                     }
+                    
                 }
+                else
+                {
+                    tong+=0;
+                }     
+                
             }
-            list.add(tong);
+            list.add(tong / 1000000);
             checkThang+=3;
         }
 

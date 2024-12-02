@@ -14,6 +14,7 @@ import QL.HoaDonGUI.panelHoaDon;
 import QL.NhanVienGUI.panelNhanVien;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -222,7 +223,7 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(x.getNgayLapHoaDon());
             int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
+            int month = calendar.get(Calendar.MONTH) +1;
             if(year==nambd && thang == month)
             {
                 tong+=x.getThanhTien();
@@ -240,7 +241,7 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(x.getNgayNhap());
             int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
+            int month = calendar.get(Calendar.MONTH)+1;
             if(year==nambd && month == thang)
             {
                 tong+=x.getThanhTien();
@@ -430,20 +431,27 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
         model.setRowCount(0);
             for(int i=1;i<=12;i++)
             {   
-                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i,listPN),"Vốn",String.valueOf(nambd));
-                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i,listHD),"Doanh thu",String.valueOf(nambd));
+                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i,listPN) /1000000,"Vốn (Triệu)",String.valueOf(i));
+                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i,listHD)/1000000,"Doanh thu (Triệu)",String.valueOf(i));
                 double loilo=0;
                 if(getTongTienPN(Integer.parseInt(nambd), i,listPN) > getTongTienHD(Integer.parseInt(nambd),i,listHD))
                 {
                     loilo =getTongTienPN(Integer.parseInt(nambd), i,listPN) - getTongTienHD(Integer.parseInt(nambd),i,listHD);
-                    dataset.addValue(loilo ,"Lỗ",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(Integer.parseInt(nambd), i,listPN)),String.valueOf(getTongTienHD(Integer.parseInt(nambd),i,listHD)),0,loilo});
+                    
+                    dataset.addValue(loilo/1000000 ,"Lỗ",String.valueOf(i));
+                    String tienPN = swapTien(getTongTienPN(Integer.parseInt(nambd), i,listPN));
+                    String tienHD = swapTien(getTongTienHD(Integer.parseInt(nambd), i,listHD));
+                    String tienLoiLo = swapTien(loilo);
+                    model.addRow(new Object[]{String.valueOf(i),tienPN,tienHD,0,tienLoiLo});
                 }
                 else
                 {
+                    String tienPN = swapTien(getTongTienPN(Integer.parseInt(nambd), i,listPN));
+                    String tienHD = swapTien(getTongTienHD(Integer.parseInt(nambd), i,listHD));
                     loilo =getTongTienHD(Integer.parseInt(nambd), i,listHD) - getTongTienPN(Integer.parseInt(nambd),i,listPN);
-                    dataset.addValue(loilo ,"Lời",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienHD(Integer.parseInt(nambd), i,listHD)),String.valueOf(getTongTienPN(Integer.parseInt(nambd),i,listPN)),loilo,0});
+                    String tienLoiLo = swapTien(loilo);
+                    dataset.addValue(loilo/1000000 ,"Lời",String.valueOf(i));
+                    model.addRow(new Object[]{String.valueOf(i),tienHD,tienPN,tienLoiLo,0});
                 }
                 
                 
@@ -451,12 +459,30 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
             setUp(dataset);
     }//GEN-LAST:event_jButton1MouseClicked
 
+    private String swapTien(Double thanhTien1)
+    {
+        if(thanhTien1 >= 1000000 && thanhTien1 < 1000000000)
+        {
+//            thanhTien.setText(formattedMoney+" triệu");
+            return String.valueOf(thanhTien1 / 1000000)+" triệu";
+        }
+        else if(thanhTien1 >= 1000000000)
+        {
+            return String.valueOf(thanhTien1 / 1000000000)+" tỷ";
+        }
+        else
+        {
+            DecimalFormat df = new DecimalFormat("#,###");
+            String formattedMoney = df.format(thanhTien1);
+            return formattedMoney+" ngàn";
+        }
+    }
     private void setUp(CategoryDataset dataset1)
     {
         CategoryDataset dataset = dataset1;
         JFreeChart chart = ChartFactory.createBarChart("Thống kê lợi nhuận","Year","Số tiền",dataset,PlotOrientation.VERTICAL,true,true,false);
         ChartPanel panel = new ChartPanel(chart);
-        panel.setPreferredSize(new Dimension(814, 250));
+        panel.setPreferredSize(new Dimension(830, 250));
         //set panel
 
         mainLNTN.setLayout(new BorderLayout());
@@ -476,22 +502,43 @@ public class loiNhuanTheoThangTrongNamGUI extends javax.swing.JInternalFrame {
         ArrayList<PhieuNhapDTO> listPN = getListPN("ListPhieuNhap");
             for(int i=1;i<=12;i++)
             {   
-                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i,listPN),"Vốn",String.valueOf(nambd));
-                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i,listHD),"Doanh thu",String.valueOf(nambd));
+//                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i,listPN),"Vốn",String.valueOf(nambd));
+//                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i,listHD),"Doanh thu",String.valueOf(nambd));
+//                double loilo=0;
+//                if(getTongTienPN(Integer.parseInt(nambd), i,listPN) > getTongTienHD(Integer.parseInt(nambd),i,listHD))
+//                {
+//                    loilo =getTongTienPN(Integer.parseInt(nambd), i,listPN) - getTongTienHD(Integer.parseInt(nambd),i,listHD);
+//                    dataset.addValue(loilo ,"Lỗ",String.valueOf(i));
+//                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(Integer.parseInt(nambd), i,listPN)),String.valueOf(getTongTienHD(Integer.parseInt(nambd),i,listHD)),0,loilo});
+//                }
+//                else
+//                {
+//                    loilo =getTongTienHD(Integer.parseInt(nambd), i,listHD) - getTongTienPN(Integer.parseInt(nambd),i,listPN);
+//                    dataset.addValue(loilo ,"Lời",String.valueOf(i));
+//                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienHD(Integer.parseInt(nambd), i,listHD)),String.valueOf(getTongTienPN(Integer.parseInt(nambd),i,listPN)),loilo,0});
+//                }
+                dataset.addValue(getTongTienPN(Integer.parseInt(nambd), i,listPN) /1000000,"Vốn (Triệu)",String.valueOf(i));
+                dataset.addValue(getTongTienHD(Integer.parseInt(nambd),i,listHD)/1000000,"Doanh thu (Triệu)",String.valueOf(i));
                 double loilo=0;
                 if(getTongTienPN(Integer.parseInt(nambd), i,listPN) > getTongTienHD(Integer.parseInt(nambd),i,listHD))
                 {
                     loilo =getTongTienPN(Integer.parseInt(nambd), i,listPN) - getTongTienHD(Integer.parseInt(nambd),i,listHD);
-                    dataset.addValue(loilo ,"Lỗ",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienPN(Integer.parseInt(nambd), i,listPN)),String.valueOf(getTongTienHD(Integer.parseInt(nambd),i,listHD)),0,loilo});
+                    
+                    dataset.addValue(loilo/1000000 ,"Lỗ",String.valueOf(i));
+                    String tienPN = swapTien(getTongTienPN(Integer.parseInt(nambd), i,listPN));
+                    String tienHD = swapTien(getTongTienHD(Integer.parseInt(nambd), i,listHD));
+                    String tienLoiLo = swapTien(loilo);
+                    model.addRow(new Object[]{String.valueOf(i),tienPN,tienHD,0,tienLoiLo});
                 }
                 else
                 {
+                    String tienPN = swapTien(getTongTienPN(Integer.parseInt(nambd), i,listPN));
+                    String tienHD = swapTien(getTongTienHD(Integer.parseInt(nambd), i,listHD));
                     loilo =getTongTienHD(Integer.parseInt(nambd), i,listHD) - getTongTienPN(Integer.parseInt(nambd),i,listPN);
-                    dataset.addValue(loilo ,"Lời",String.valueOf(i));
-                    model.addRow(new Object[]{String.valueOf(i),String.valueOf(getTongTienHD(Integer.parseInt(nambd), i,listHD)),String.valueOf(getTongTienPN(Integer.parseInt(nambd),i,listPN)),loilo,0});
+                    String tienLoiLo = swapTien(loilo);
+                    dataset.addValue(loilo/1000000 ,"Lời",String.valueOf(i));
+                    model.addRow(new Object[]{String.valueOf(i),tienHD,tienPN,tienLoiLo,0});
                 }
-                
                 
             }
             setUp(dataset);
