@@ -91,7 +91,7 @@ public class NhanVienDAO {
     public String suaNV(NhanVienDTO nv) 
     {
         java.sql.Connection conn;
-        String query = "update nhanvien set Hovaten=?,NgaySinh=?,GioiTinh=?,Sodienthoai=?,Email=?,DiaChi=?,MaTK=?,MaVT=? WHERE MaNV=?";
+        String query = "update nhanvien set Hovaten=?,NgaySinh=?,GioiTinh=?,Sodienthoai=?,Email=?,DiaChi=?,MaTK=?,MaVT=?,Trangthai=? WHERE MaNV=?";
         conn = database.connect();
         try {
             PreparedStatement pstmt = conn.prepareStatement(query);
@@ -107,8 +107,8 @@ public class NhanVienDAO {
             pstmt.setString(6, nv.getDiaChi());
             pstmt.setString(7, nv.getMaTK());
             pstmt.setString(8, nv.getMaVT());
-            pstmt.setString(9, nv.getMaNV());
-
+            pstmt.setString(10, nv.getMaNV());
+            pstmt.setInt(9, nv.getTrangThai());
             if (pstmt.executeUpdate() > 0)
             {
                 return "true";

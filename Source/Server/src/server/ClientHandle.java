@@ -472,6 +472,7 @@ public class ClientHandle implements Runnable{
                         java.util.Date parsedDate = dateFormat1.parse(ngaySinhStr);
                         Date ngaySinh = new Date(parsedDate.getTime()); // Chuyển đổi sang java.sql.Date
         
+                        
                         NhanVienDTO nvDTO = new NhanVienDTO(
                             json.getString("MaNV"), 
                             json.getString("Hovaten"), 
@@ -481,7 +482,7 @@ public class ClientHandle implements Runnable{
                             json.getString("Email"), 
                             json.getString("DiaChi"), 
                             json.getString("MaTK"), 
-                            json.getString("MaVT"), 1
+                            json.getString("MaVT"), json.getInt("TrangThai")
                         );
                         sendMessage(String.valueOf(nvBLL4.suaNV(nvDTO))); 
                         break;

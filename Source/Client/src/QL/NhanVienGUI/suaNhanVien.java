@@ -51,7 +51,22 @@ public class suaNhanVien extends javax.swing.JFrame {
         Email.setText(json.getString("Email"));
         DiaChi.setText(json.getString("DiaChi"));
         MaTK.setText(json.getString("MaTK"));
-        MaVT.setSelectedItem(json.getString("MaVT"));
+        String maVT = json.getString("MaVT");
+        switch (maVT) {
+            case "VT_1":
+                MaVT.setSelectedIndex(0);
+                break;
+            case "VT_2":
+                MaVT.setSelectedIndex(1);
+                break;
+            case "VT_3":
+                MaVT.setSelectedIndex(2);
+                break;
+            default:
+                MaVT.setSelectedItem("Không xác định");
+                break;
+        }
+//        MaVT.setSelectedItem(json.getString("MaVT"));
     }
     
     /**
@@ -344,7 +359,21 @@ public class suaNhanVien extends javax.swing.JFrame {
         json.put("DiaChi", diaChiNV);
         json.put("MaTK", maTK);
         json.put("MaVT", getMaVT(vaitro));
-        
+        switch (getMaVT(vaitro)) {
+            case "VT_1":
+                json.put("TrangThai", 2);
+                
+                break;
+            case "VT_2":
+                json.put("TrangThai", 1);
+                break;
+            case "VT_3":
+                json.put("TrangThai", 1);
+                break;
+            default:
+                MaVT.setSelectedItem("Không xác định");
+                break;
+        }
         //tao json de lay ket qua xu li cap nhat doi tuong
         JSONObject json1 = new JSONObject(client1.suaDT(json.toString()));
         if(json1.getString("ketqua").equals("true"))
