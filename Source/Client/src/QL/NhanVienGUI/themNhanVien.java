@@ -189,11 +189,6 @@ public class themNhanVien extends javax.swing.JFrame {
         nutThem.setText("Thêm");
         nutThem.setBorder(null);
         nutThem.setBorderPainted(false);
-        nutThem.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nutThemMouseClicked(evt);
-            }
-        });
         nutThem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nutThemActionPerformed(evt);
@@ -332,11 +327,6 @@ public class themNhanVien extends javax.swing.JFrame {
     private void HoVaTenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HoVaTenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_HoVaTenActionPerformed
-
-    private void nutThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nutThemMouseClicked
-        // TODO add your handling code here:
-    
-    }//GEN-LAST:event_nutThemMouseClicked
 
     private String getMaVT(String tenVT)
     {

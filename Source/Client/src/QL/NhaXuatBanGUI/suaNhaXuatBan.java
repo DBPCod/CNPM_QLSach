@@ -105,6 +105,7 @@ public class suaNhaXuatBan extends javax.swing.JFrame {
         jLabel5.setText("Tên nhà xuất bản");
 
         TenNXB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        TenNXB.setEnabled(false);
 
         SdtNXB.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 

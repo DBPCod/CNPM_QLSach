@@ -93,7 +93,7 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
         for(NhanVienDTO nhanvien : getList("ListNhanVien"))
         {
             //them tung doi tuong vao bang
-            if(nhanvien.getTrangThai()==1)
+            if(nhanvien.getTrangThai()==1 && nhanvien.getTrangThai()!=2)
             {
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String ngaySinh = formatter.format(nhanvien.getNgaySinh());
@@ -453,7 +453,6 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
 
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
-        System.out.println("A");
         themNhanVien tnv = new themNhanVien(client1, this);
         tnv.setDefaultCloseOperation(tnv.DISPOSE_ON_CLOSE);
         tnv.setVisible(true);
@@ -461,7 +460,6 @@ public class panelNhanVien extends javax.swing.JInternalFrame {
 
     private void SuaButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SuaButtonMouseClicked
         // TODO add your handling code here:
-        System.out.println("B");
         try {
             if (MaDT.equals("0")) {
                 JOptionPane.showMessageDialog(null, "Chưa chọn đối tượng!", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
