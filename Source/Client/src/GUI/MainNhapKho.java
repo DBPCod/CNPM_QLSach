@@ -34,6 +34,7 @@ Color customColor = Color.decode("#C2F2E9");
         client1=client;
         setBorder();
         start();
+        panel10.setVisible(false);
     }
 
     /**
