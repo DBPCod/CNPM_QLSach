@@ -34,6 +34,7 @@ public class MainBanHang extends javax.swing.JFrame {
         client1=client;
         start();
         setBorder();
+        panel10.setVisible(false);
     }
 
     /**
@@ -58,10 +59,10 @@ public class MainBanHang extends javax.swing.JFrame {
         panel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
         panel10 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        jPanel15 = new javax.swing.JPanel();
         panel11 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
@@ -193,6 +194,8 @@ public class MainBanHang extends javax.swing.JFrame {
 
         jPanel4.add(panel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 46, 195, -1));
 
+        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
+
         panel10.setBackground(new java.awt.Color(255, 255, 255));
         panel10.setPreferredSize(new java.awt.Dimension(195, 46));
         panel10.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -228,22 +231,23 @@ public class MainBanHang extends javax.swing.JFrame {
                 .addContainerGap(10, Short.MAX_VALUE))
         );
 
-        jPanel4.add(panel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 136, 195, 50));
-
-        jPanel15.setBackground(new java.awt.Color(255, 255, 255));
-
         javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
         jPanel15.setLayout(jPanel15Layout);
         jPanel15Layout.setHorizontalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
+                .addComponent(panel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
             jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 320, Short.MAX_VALUE)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
-        jPanel4.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 186, 195, 320));
+        jPanel4.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 136, 195, 370));
 
         panel11.setBackground(new java.awt.Color(255, 255, 255));
         panel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
