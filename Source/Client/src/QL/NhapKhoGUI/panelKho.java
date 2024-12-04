@@ -655,24 +655,13 @@ public class panelKho extends javax.swing.JInternalFrame {
         locNV.removeAllItems(); // Xóa các item cũ
         locNV.addItem("Tất cả"); // Thêm tùy chọn mặc định
         for (NhanVienDTO nv : getListNV("ListNhanVien")) {
-            if (nv.getTrangThai() == 1 && 
+            if (nv.getTrangThai() != 0 && 
                (nv.getMaVT().equals("VT_1") || nv.getMaVT().equals("VT_2"))) {
                 locNV.addItem(nv.getHoVaTen());
             }
         }
     }
 
-    
-//    private void setUpComboBoxNXB() 
-//    {
-//        locNV.removeAllItems(); // Xóa các item cũ
-//        locNV.addItem("Tất cả"); // Thêm tùy chọn mặc định
-//        for (NhaXuatBanDTO nxb : getListNXB("ListNhaXuatBan")) {
-//            if (nxb.getTrangThai() == 1) {
-//                locNV.addItem(nxb.getTenNXB());
-//            }
-//        }
-//    }
     
     private void jPanel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel7MouseClicked
         // TODO add your handling code here:
