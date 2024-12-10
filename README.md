@@ -97,5 +97,7 @@ Nếu bạn có bất kỳ câu hỏi hoặc gặp phải vấn đề trong quá
 
 **Email hỗ trợ**: [dinhbaphong123@gmail.com](mailto:dinhbaphong123@gmail.com)
 
+**Email hỗ trợ**: [khoavu1831@gmail.com](mailto:khoavu1831@gmail.com)
+
 
 Chúng tôi luôn sẵn sàng giúp đỡ bạn! 🙌
