@@ -93,7 +93,9 @@ Chúng tôi tin rằng **Quản Lý Sách** sẽ là công cụ đắc lực gi�
 
 Nếu bạn có bất kỳ câu hỏi hoặc gặp phải vấn đề trong quá trình sử dụng phần mềm, vui lòng liên hệ với chúng tôi qua email:
 
-**Email hỗ trợ**: [doanphongluu082@gmail.com](doanphongluu082@gmail.com)
-**Email hỗ trợ**: [dinhbaphong123@gmail.com](dinhbaphong123@gmail.com)
+**Email hỗ trợ**: [doanphongluu082@gmail.com](mailto:doanphongluu082@gmail.com).
+
+**Email hỗ trợ**: [dinhbaphong123@gmail.com](mailto:dinhbaphong123@gmail.com).
+
 
 Chúng tôi luôn sẵn sàng giúp đỡ bạn! 🙌
