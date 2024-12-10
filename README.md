@@ -16,7 +16,7 @@ Trước khi bắt đầu, hãy đảm bảo bạn đã cài đặt các công c
 ### 2. **NetBeans** (IDE phát triển)
 - **Dùng để phát triển hoặc chạy phần mềm.**
 - Tải tại: [https://netbeans.apache.org](https://netbeans.apache.org)
-- Phiên bản khuyến nghị: **NetBeans 16** hoặc mới hơn.
+- Phiên bản khuyến nghị: **NetBeans 21** hoặc mới hơn.
 - **Lưu ý:** Cài đặt **JDK** (Java Development Kit) trước khi cài đặt NetBeans.
 
 ---
@@ -93,9 +93,9 @@ Chúng tôi tin rằng **Quản Lý Sách** sẽ là công cụ đắc lực gi�
 
 Nếu bạn có bất kỳ câu hỏi hoặc gặp phải vấn đề trong quá trình sử dụng phần mềm, vui lòng liên hệ với chúng tôi qua email:
 
-**Email hỗ trợ**: [doanphongluu082@gmail.com](mailto:doanphongluu082@gmail.com).
+**Email hỗ trợ**: [doanphongluu082@gmail.com](mailto:doanphongluu082@gmail.com)
 
-**Email hỗ trợ**: [dinhbaphong123@gmail.com](mailto:dinhbaphong123@gmail.com).
+**Email hỗ trợ**: [dinhbaphong123@gmail.com](mailto:dinhbaphong123@gmail.com)
 
 
 Chúng tôi luôn sẵn sàng giúp đỡ bạn! 🙌
